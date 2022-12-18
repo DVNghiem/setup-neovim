@@ -1,0 +1,15 @@
+{
+  "coc.preferences.formatOnSave": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "javascriptreact",
+    "typescript.tsx",
+    "graphql",
+    "rust",
+    "python"
+  ],
+  "rust-analyzer.server.path":"~/.local/bin/rust-analyzer",
+  "python.linting.flake8Enabled": true
+}
