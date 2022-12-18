@@ -9,6 +9,7 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 ```bash
 :CocInstall coc-pyright
 :CocInstall coc-rust-analyzer
+:CocInstall coc-prettier
 sudo npm i -g pyright
 sudo npm i -q typescript-language-server
 sudo npm i -g vim-language-server
