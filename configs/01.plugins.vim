@@ -28,14 +28,12 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 Plug 'tpope/vim-surround'
-Plug 'ap/vim-css-color'
-Plug 'ryanoasis/vim-devicons'
+Plug 'gko/vim-coloresque'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'nvim-tree/nvim-tree.lua'
 
 "snippets
-"Plug 'honza/vim-snippets'
-"Plug 'SirVer/ultisnips'
-Plug 'tpope/vim-fugitive' "git
 Plug 'majutsushi/tagbar'
 
 Plug 'ekalinin/dockerfile.vim'
@@ -43,3 +41,5 @@ Plug 'ekalinin/dockerfile.vim'
 call plug#end()
 
 :luafile ~/.config/nvim/configs/tree-sitter.lua
+:luafile ~/.config/nvim/configs/nvim-tree.lua
+:luafile ~/.config/nvim/configs/devicon.lua

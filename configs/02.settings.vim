@@ -43,6 +43,7 @@ set smarttab
 set softtabstop=4
 
 
+
 syntax enable
 filetype plugin indent on
 
@@ -77,5 +78,7 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
-"set guifont=DroidSansMono\ Nerd\ Font:h11
+
 let g:deoplete#enable_at_startup = 1
+
+highlight! link NERDTreeFlags NERDTreeDir
