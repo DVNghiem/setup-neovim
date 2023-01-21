@@ -36,7 +36,7 @@ Plug 'nvim-tree/nvim-tree.lua'
 "snippets
 Plug 'majutsushi/tagbar'
 
-Plug 'ekalinin/dockerfile.vim'
+Plug 'docker/docker'
 
 call plug#end()
 
