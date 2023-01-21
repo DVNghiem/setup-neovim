@@ -7,7 +7,8 @@ require("nvim-tree").setup({
   open_on_setup = true,
   ignore_buffer_on_setup = true,
   filters = {
-    dotfiles = true,
+    dotfiles = false,
+    custom = { '^.git$' }
   },
   view = {
     adaptive_size = true,
