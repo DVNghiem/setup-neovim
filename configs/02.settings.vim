@@ -36,6 +36,11 @@ set shiftwidth=4
 set encoding=UTF-8
 set mouse=a
 set number
+set relativenumber
+
+noremap <Up> 5k
+noremap <Down> 5j
+
 
 
 set tabstop=4

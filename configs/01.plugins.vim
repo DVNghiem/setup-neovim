@@ -32,6 +32,7 @@ Plug 'gko/vim-coloresque'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
 
 "snippets
 Plug 'majutsushi/tagbar'
