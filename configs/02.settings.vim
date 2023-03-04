@@ -5,9 +5,9 @@ nnoremap <C-b> :NERDTreeToggle<CR>
 nnoremap <C-f> :NERDTreeFind<CR>
 nnoremap <leader>fr :RustFmt<CR>
 
-
-nnoremap <C-Left> :tabn<CR>
-nnoremap <C-Right> :tabp<CR>
+nnoremap <leader>q :bp<cr>:bd #<cr>
+nnoremap <C-Left> :bn<CR>
+nnoremap <C-Right> :bp<CR>
 
 inoremap <C-Z> <C-O>u
 inoremap <C-Y> <C-O><C-R>
@@ -77,8 +77,9 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#ale#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_show = 0
 "}}
+
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}

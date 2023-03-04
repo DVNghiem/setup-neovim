@@ -33,6 +33,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm install' }
+Plug 'glepnir/lspsaga.nvim'
+
 
 "snippets
 Plug 'majutsushi/tagbar'
@@ -44,3 +46,4 @@ call plug#end()
 :luafile ~/.config/nvim/configs/tree-sitter.lua
 :luafile ~/.config/nvim/configs/nvim-tree.lua
 :luafile ~/.config/nvim/configs/devicon.lua
+:luafile ~/.config/nvim/configs/lspsaga.lua
