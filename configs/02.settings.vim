@@ -6,8 +6,8 @@ nnoremap <C-f> :NERDTreeFind<CR>
 nnoremap <leader>fr :RustFmt<CR>
 
 nnoremap <leader>q :bp<cr>:bd #<cr>
-nnoremap <C-Left> :bn<CR>
-nnoremap <C-Right> :bp<CR>
+nnoremap <C-Left> :bp<CR>
+nnoremap <C-Right> :bn<CR>
 
 inoremap <C-Z> <C-O>u
 inoremap <C-Y> <C-O><C-R>
