@@ -43,7 +43,9 @@ vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
-vim.keymap.set('i', '<c-l>', '<c-\\><c-o>w', { noremap = true })
-vim.keymap.set("i", "<C-CR>", "<Esc>o", { noremap = true })
+-- go to each character
+vim.keymap.set('i', '<c-l>', '<Esc>la', { noremap = true })
+vim.keymap.set('i', '<c-h>', '<Esc>ha', { noremap = true })
 
-vim.keymap.set('n', '<C-d>', '<Plug>MC_SELECT_WORDS', {noremap = true})
+-- new line
+vim.keymap.set('i', '<c-n>', '<Esc>o', { noremap = true })
