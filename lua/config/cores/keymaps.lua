@@ -45,3 +45,5 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 vim.keymap.set('i', '<c-l>', '<c-\\><c-o>w', { noremap = true })
 vim.keymap.set("i", "<C-CR>", "<Esc>o", { noremap = true })
+
+vim.keymap.set('n', '<C-d>', '<Plug>MC_SELECT_WORDS', {noremap = true})
