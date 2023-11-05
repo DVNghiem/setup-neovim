@@ -49,3 +49,6 @@ vim.keymap.set('i', '<c-h>', '<Esc>ha', { noremap = true })
 
 -- new line
 vim.keymap.set('i', '<c-n>', '<Esc>o', { noremap = true })
+
+
+vim.api.nvim_set_keymap('i', '<C-_>', '<Esc><Plug>NERDCommenterComment<Esc>a', {noremap = true})
