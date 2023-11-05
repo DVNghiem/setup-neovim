@@ -1,6 +1,6 @@
 return {
     "preservim/nerdcommenter",
-    lazy = true,
+    lazy = false,
     dependencies = {
 
     },
