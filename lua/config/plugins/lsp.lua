@@ -3,7 +3,7 @@ return {
     dependencies = {
         "glepnir/lspsaga.nvim",
     },
-    lazy = true,
+    event = "VeryLazy",
     config = function()
         local status, saga = pcall(require, "lspsaga")
         if (not status) then return end
@@ -18,12 +18,6 @@ return {
         })
 
         local opts = { noremap = true, silent = true }
-        vim.keymap.set('n', 'gl', '<Cmd>Lspsaga show_diagnostic<CR>', opts)
-        vim.keymap.set('n', 'K', '<Cmd>Lspsaga hover_doc<CR>', opts)
-        vim.keymap.set('n', 'gd', '<Cmd>Lspsaga lsp_finder<CR>', opts)
-        vim.keymap.set('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-        vim.keymap.set('n', 'gp', '<Cmd>Lspsaga peek_definition<CR>', opts)
-        vim.keymap.set('n', 'gr', '<Cmd>Lspsaga rename<CR>', opts)
 
         -- code action
         local codeaction = require("lspsaga.codeaction")
@@ -32,5 +26,33 @@ return {
             vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, false, true))
             codeaction:range_code_action()
         end, { silent = true })
+
+        local nvim_lsp = require 'lspconfig'
+
+        local on_attach = function(client)
+            require 'completion'.on_attach(client)
+        end
+
+        nvim_lsp.rust_analyzer.setup({
+            on_attach = on_attach,
+            settings = {
+                ["rust-analyzer"] = {
+                    imports = {
+                        granularity = {
+                            group = "module",
+                        },
+                        prefix = "self",
+                    },
+                    cargo = {
+                        buildScripts = {
+                            enable = true,
+                        },
+                    },
+                    procMacro = {
+                        enable = true
+                    },
+                }
+            }
+        })
     end,
 }

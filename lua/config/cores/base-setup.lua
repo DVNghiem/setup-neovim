@@ -1,5 +1,7 @@
 vim.api.nvim_command("syntax enable")
 vim.api.nvim_command('filetype plugin indent on')
+vim.api.nvim_command("set modifiable")
+
 local set = vim.opt
 
 set.scroll=5
