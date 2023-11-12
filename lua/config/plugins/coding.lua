@@ -64,7 +64,7 @@ return {
                         i = function(fallback)
                             fallback()
                         end,
-                      }),
+                    }),
                 }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },
@@ -73,6 +73,15 @@ return {
                 }, {
                     { name = "buffer" },
                 }),
+                formatting = {
+                    format = function(_, item)
+                        local icons = require("config.cores.icon").kinds
+                        if icons[item.kind] then
+                            item.kind = icons[item.kind] .. item.kind
+                        end
+                        return item
+                    end,
+                },
                 experimental = {
                     ghost_text = {
                         hl_group = "CmpGhostText",
@@ -123,7 +132,7 @@ return {
             options = {
                 custom_commentstring = function()
                     return require("ts_context_commentstring.internal").calculate_commentstring() or vim.bo
-                    .commentstring
+                        .commentstring
                 end,
             },
         },

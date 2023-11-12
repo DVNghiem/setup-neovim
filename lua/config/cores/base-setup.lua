@@ -28,3 +28,5 @@ set.splitright = true
 set.splitbelow = true
 vim.opt.swapfile = false
 vim.opt.clipboard:append { 'unnamedplus' }
+
+vim.opt.guifont = "Hack Nerd Font:h13"
