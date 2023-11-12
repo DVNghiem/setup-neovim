@@ -61,31 +61,9 @@ return {
                         fallback()
                     end,
                     ["<Tab>"] = cmp.mapping({
-                        c = function()
-                          if cmp.visible() then
-                            cmp.select_next_item()
-                          else
-                            completeAndInsertFirstMatch()
-                          end
-                        end,
                         i = function(fallback)
-                          if cmp.visible() then
-                            cmp.select_next_item()
-                          else
                             fallback()
-                          end
                         end,
-                        s = function(fallback)
-                          if cmp.visible() then
-                            cmp.select_next_item()
-                          elseif require('luasnip').expand_or_jumpable() then
-                            require('luasnip').expand_or_jump()
-                          elseif has_words_before() then
-                            completeAndInsertFirstMatch()
-                          else
-                            fallback()
-                          end
-                        end
                       }),
                 }),
                 sources = cmp.config.sources({
