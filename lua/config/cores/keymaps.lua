@@ -52,3 +52,6 @@ vim.keymap.set('i', '<c-n>', '<Esc>o', { noremap = true })
 
 
 vim.api.nvim_set_keymap('i', '<C-_>', '<Esc><Plug>NERDCommenterComment<Esc>a', {noremap = true})
+
+vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true })
+vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
