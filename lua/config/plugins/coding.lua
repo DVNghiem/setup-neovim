@@ -14,20 +14,6 @@ return {
             history = true,
             delete_check_events = "TextChanged",
         },
-        -- stylua: ignore
-        keys = {
-            {
-                "<tab>",
-                function()
-                    return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-                end,
-                expr = true,
-                silent = true,
-                mode = "i",
-            },
-            { "<tab>",   function() require("luasnip").jump(1) end,  mode = "s" },
-            { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
-        },
     },
     {
         "rafamadriz/friendly-snippets",
@@ -74,6 +60,33 @@ return {
                         cmp.abort()
                         fallback()
                     end,
+                    ["<Tab>"] = cmp.mapping({
+                        c = function()
+                          if cmp.visible() then
+                            cmp.select_next_item()
+                          else
+                            completeAndInsertFirstMatch()
+                          end
+                        end,
+                        i = function(fallback)
+                          if cmp.visible() then
+                            cmp.select_next_item()
+                          else
+                            fallback()
+                          end
+                        end,
+                        s = function(fallback)
+                          if cmp.visible() then
+                            cmp.select_next_item()
+                          elseif require('luasnip').expand_or_jumpable() then
+                            require('luasnip').expand_or_jump()
+                          elseif has_words_before() then
+                            completeAndInsertFirstMatch()
+                          else
+                            fallback()
+                          end
+                        end
+                      }),
                 }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },

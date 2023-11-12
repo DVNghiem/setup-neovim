@@ -27,3 +27,4 @@ set.signcolumn = "yes"
 set.splitright = true
 set.splitbelow = true
 vim.opt.swapfile = false
+vim.opt.clipboard:append { 'unnamedplus' }
