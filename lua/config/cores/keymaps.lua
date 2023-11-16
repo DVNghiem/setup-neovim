@@ -25,7 +25,8 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" })
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
-keymap.set("n", "<C-s>", ":w<cr>", { desc = "Save" })
+keymap.set("n", "<c-s>", ":w<cr>", { desc = "Save" })
+keymap.set("n", "<leader>q", ":q<cr>", { desc = "Exit" })
 
 -- go to end line
 vim.api.nvim_set_keymap('n', '<Left>', [[col('.') == 1 ? '<Esc>k<S-a><Esc>' : '<Left>']], {expr = true})
@@ -57,5 +58,11 @@ vim.keymap.set('i', '<c-n>', '<Esc>o', { noremap = true })
 
 vim.api.nvim_set_keymap('i', '<C-_>', '<Esc><Plug>NERDCommenterComment<Esc>a', {noremap = true})
 
+-- tab and shift tab 
 vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
+
+-- comment code
+vim.api.nvim_set_keymap('i', '<c-/>', '<Esc><leader>cci', {noremap=true})
+vim.api.nvim_set_keymap('n', '<c-/>', '<Esc><leader>cci', {noremap=true})
+
