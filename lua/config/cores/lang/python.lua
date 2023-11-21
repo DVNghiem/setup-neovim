@@ -4,5 +4,14 @@ lspconfig.pyright.setup({
     filetypes = { "python" },
     before_init = function(_, config)
         config.settings.python.pythonPath = "./venv/bin/python"
-    end
+    end,
+    settings={
+        python = {
+          analysis = {
+            autoSearchPaths = true,
+            diagnosticMode = "openFilesOnly",
+            useLibraryCodeForTypes = true
+          }
+        }
+      }
 })

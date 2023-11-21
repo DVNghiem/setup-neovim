@@ -30,8 +30,10 @@ return {
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
             "saadparwaiz1/cmp_luasnip",
+            "onsails/lspkind.nvim",
         },
         opts = function()
+            local lspkind = require("lspkind")
             vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
             local cmp = require("cmp")
             local defaults = require("cmp.config.default")()
@@ -76,24 +78,20 @@ return {
                     { name = "nvim_lsp" },
                     { name = "luasnip" },
                     { name = "path" },
-                }, {
                     { name = "buffer" },
                 }),
                 formatting = {
-                    format = function(_, item)
-                        local icons = require("config.cores.icon").kinds
-                        if icons[item.kind] then
-                            item.kind = icons[item.kind] .. item.kind
-                        end
-                        return item
-                    end,
+                    format = lspkind.cmp_format({
+                        maxwidth = 50,
+                        ellipsis_char = "...",
+                    }),
                 },
                 -- Hint
-                -- experimental = {
-                --     ghost_text = {
-                --         hl_group = "CmpGhostText",
-                --     },
-                -- },
+                experimental = {
+                     ghost_text = {
+                         hl_group = "CmpGhostText",
+                     },
+                },
                 sorting = {
                     comparators = {
                         cmp.config.compare.score,
@@ -107,7 +105,6 @@ return {
                 }
             }
         end,
-        ---@param opts cmp.ConfigSchema
         config = function(_, opts)
             for _, source in ipairs(opts.sources) do
                 source.group_index = source.group_index or 1
@@ -133,5 +130,20 @@ return {
                 end,
             },
         },
-    }
+    },
+    -- {
+    --     'codota/tabnine-nvim',
+    --     build = "./dl_binaries.sh",
+    --     config = function()
+    --         require('tabnine').setup({
+    --             disable_auto_comment = true,
+    --             accept_keymap = "<Tab>",
+    --             dismiss_keymap = "<C-]>",
+    --             debounce_ms = 800,
+    --             suggestion_color = { gui = "#808080", cterm = 244 },
+    --             exclude_filetypes = { "TelescopePrompt", "NvimTree" },
+    --             log_file_path = nil,
+    --         })
+    --     end
+    -- }
 }

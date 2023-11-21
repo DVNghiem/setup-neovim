@@ -62,7 +62,3 @@ vim.api.nvim_set_keymap('i', '<C-_>', '<Esc><Plug>NERDCommenterComment<Esc>a', {
 vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
 
--- comment code
-vim.api.nvim_set_keymap('i', '<c-/>', '<Esc><leader>cci', {noremap=true})
-vim.api.nvim_set_keymap('n', '<c-/>', '<Esc><leader>cci', {noremap=true})
-
