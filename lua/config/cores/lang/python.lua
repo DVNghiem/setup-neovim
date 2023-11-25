@@ -3,7 +3,7 @@ lspconfig.pyright.setup({
     cmd = { "pyright-langserver", "--stdio" },
     filetypes = { "python" },
     before_init = function(_, config)
-        config.settings.python.pythonPath = "./venv/bin/python"
+        -- config.settings.python.pythonPath = "./venv/bin/python"
     end,
     settings={
         python = {

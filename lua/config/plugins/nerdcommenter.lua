@@ -1,9 +1,20 @@
 return {
-    "preservim/nerdcommenter",
-    lazy = false,
-    dependencies = {
+    -- {
+    --     "preservim/nerdcommenter",
+    --     lazy = false,
+    --     dependencies = {
 
+    --     },
+    --     config = function()
+    --     end,
+    -- },
+    {
+        "tpope/vim-commentary",
+        lazy = false,
+        dependencies = {
+
+        },
+        config = function()
+        end,
     },
-    config = function()
-    end,
 }
