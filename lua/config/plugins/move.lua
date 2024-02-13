@@ -1,5 +1,5 @@
 return {
-    'matze/vim-move',
+    'rvmelkonian/move.vim',
     lazy = false,
     dependencies = {
 

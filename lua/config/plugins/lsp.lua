@@ -2,7 +2,7 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            "glepnir/lspsaga.nvim",
+            "nvimdev/lspsaga.nvim",
             { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
             "mason.nvim",
             "hrsh7th/cmp-nvim-lsp",
