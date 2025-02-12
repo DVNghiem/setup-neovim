@@ -56,9 +56,15 @@ vim.keymap.set('i', '<c-h>', '<Esc>ha', { noremap = true })
 vim.keymap.set('i', '<c-n>', '<Esc>o', { noremap = true })
 
 
-vim.api.nvim_set_keymap('i', '<C-_>', '<Esc><Plug>NERDCommenterComment<Esc>a', {noremap = true})
-
 -- tab and shift tab 
 vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
+
+-- bufferline
+vim.api.nvim_set_keymap('n', '<leader>bd', ':bd | bnext<CR>', { noremap = true, silent = true })
+
+-- neo tree toggle
+-- open/close neo tree
+vim.api.nvim_set_keymap('n', '<leader>nt', ':Neotree toggle<CR>', { noremap = true, silent = true })
+
 

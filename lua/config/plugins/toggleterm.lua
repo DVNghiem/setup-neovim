@@ -1,3 +1,4 @@
+-- setup terminal here
 return {
     "akinsho/toggleterm.nvim",
     branch = "main",

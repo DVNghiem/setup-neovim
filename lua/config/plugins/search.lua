@@ -71,11 +71,14 @@ return {
         lazy = true,
         tag = "0.1.4",
         dependencies = {
-            'nvim-lua/plenary.nvim'
+			'nvim-lua/popup.nvim',
+            'nvim-lua/plenary.nvim',
+			'nvim-telescope/telescope-media-files.nvim'
         },
         config = function()
             local telescope = require("telescope")
             local actions = require("telescope.actions")
+			telescope.load_extension("media_files")
 
             telescope.setup({
                 defaults = {
@@ -88,6 +91,14 @@ return {
                         },
                     },
                 },
+				extensions = {
+					media_files = {
+						-- filetypes whitelist
+						-- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
+						filetypes = {"png", "webp", "jpg", "jpeg", "mp4", "webm", "pdf", "epub"},
+						find_cmd = "rg" -- find command (defaults to `fd`)
+					}
+				}
             })
         end,
     },

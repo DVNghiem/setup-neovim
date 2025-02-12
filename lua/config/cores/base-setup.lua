@@ -5,6 +5,7 @@ vim.api.nvim_command("set modifiable")
 local set = vim.opt
 
 set.scroll=5
+set.scrolloff=5
 set.tabstop=4
 set.softtabstop=0
 set.shiftwidth=4
@@ -29,7 +30,7 @@ set.splitbelow = true
 vim.opt.swapfile = false
 vim.opt.clipboard:append { 'unnamedplus' }
 
-vim.opt.guifont = "Hack Nerd Font:h13"
+vim.opt.guifont = "FiraCode Nerd Font:h13"
 -- search settings
 set.ignorecase = true -- ignore case when searching
 set.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
