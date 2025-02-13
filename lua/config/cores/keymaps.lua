@@ -27,6 +27,7 @@ keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" })
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" })
 keymap.set("n", "<c-s>", ":w<cr>", { desc = "Save" })
 keymap.set("n", "<leader>q", ":q<cr>", { desc = "Exit" })
+keymap.set("n", "<leader>w", ":w<cr>", { desc = "Save" })
 
 -- go to end line
 vim.api.nvim_set_keymap('n', '<Left>', [[col('.') == 1 ? '<Esc>k<S-a><Esc>' : '<Left>']], {expr = true})

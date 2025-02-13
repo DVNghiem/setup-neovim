@@ -17,7 +17,10 @@ vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.cmd [[
     silent! colorscheme *
-    hi Normal guibg=#fff
+    " hi Normal guibg=#fff
+	autocmd ColorScheme * hi Normal guibg=NONE guifg=#row_color
+    autocmd ColorScheme * hi NonText guibg=NONE guifg=#row_color
+    autocmd ColorScheme * hi LineNr guibg=NONE guifg=#row_color
 ]]
 set.ai=true
 set.si=true
