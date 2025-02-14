@@ -17,10 +17,15 @@ vim.o.termguicolors = true
 vim.o.background = "dark"
 vim.cmd [[
     silent! colorscheme *
-    " hi Normal guibg=#fff
+    hi Normal guibg=#fff
 	autocmd ColorScheme * hi Normal guibg=NONE guifg=#row_color
     autocmd ColorScheme * hi NonText guibg=NONE guifg=#row_color
     autocmd ColorScheme * hi LineNr guibg=NONE guifg=#row_color
+    highlight iCursor guifg=white guibg=steelblue
+    set guicursor=n-v-c:block-Cursor
+    set guicursor+=i:ver100-iCursor
+    set guicursor+=n-v-c:blinkon0
+    set guicursor+=i:blinkwait10
 ]]
 set.ai=true
 set.si=true
@@ -41,12 +46,3 @@ set.smartcase = true -- if you include mixed case in your search, assumes you wa
 -- backspace
 set.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
--- set cursor color 
--- vim.cmd[[
---     highlight Cursor guifg=white guibg=black
---     highlight iCursor guifg=white guibg=steelblue
---     set guicursor=n-v-c:block-Cursor
---     set guicursor+=i:ver100-iCursor
---     set guicursor+=n-v-c:blinkon0
---     set guicursor+=i:blinkwait10
--- ]]

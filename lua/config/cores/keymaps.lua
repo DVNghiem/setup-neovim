@@ -7,6 +7,12 @@ local opts = { noremap = true, silent = true }
 keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 keymap.set("i", "JK", "<ESC>", { desc = "Exit insert mode with jk" })
 
+
+-- move up down with ctrl + j/k
+keymap.set('n', '<C-S-j>', '5j', { noremap = true, silent = true })
+keymap.set('n', '<C-S-k>', '5k', { noremap = true, silent = true })
+
+
 -- clear search highlights
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 
