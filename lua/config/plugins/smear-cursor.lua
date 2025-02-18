@@ -25,7 +25,7 @@ return {
 		cursor_color = "#d3cdc3",
 
 		stiffness = 0.6,
-		trailing_stiffness = 0.2,
+		trailing_stiffness = 0.5,
 		trailing_exponent = 5,
 		hide_target_hack = true,
 		gamma = 1,
