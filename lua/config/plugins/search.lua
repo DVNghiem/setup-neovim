@@ -242,6 +242,7 @@ return {
 			local telescope = require("telescope")
 			local actions = require("telescope.actions")
 			telescope.load_extension("media_files")
+			telescope.load_extension('lazygit')
 
 			telescope.setup({
 				defaults = {
