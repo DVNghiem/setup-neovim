@@ -59,9 +59,6 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 vim.keymap.set('i', '<c-l>', '<Esc>la', { noremap = true })
 vim.keymap.set('i', '<c-h>', '<Esc>ha', { noremap = true })
 
--- new line
-vim.keymap.set('i', '<c-n>', '<Esc>o', { noremap = true })
-
 
 -- tab and shift tab 
 vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true })
@@ -89,6 +86,11 @@ vim.keymap.set( "n", "<leader>rI", ":Refactor inline_func")
 vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
 vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
 
+-- twilight toggle
+vim.keymap.set('n', '<leader>tw', ':Twilight<CR>', { noremap = true, silent = true })
+
+-- zen mode
+vim.keymap.set('n', '<leader>z', ':ZenMode<CR>', { noremap = true, silent = true })
 
 
 
