@@ -69,7 +69,7 @@ vim.api.nvim_set_keymap('n', '<leader>bd', ':bd | bnext<CR>', { noremap = true, 
 
 -- neo tree toggle
 -- open/close neo tree
-vim.api.nvim_set_keymap('n', '<leader>nt', ':Neotree toggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true })
 
 -- Quick find and replace in current file
 vim.keymap.set("n", "<leader>rr", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>",

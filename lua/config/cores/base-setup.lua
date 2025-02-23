@@ -1,6 +1,19 @@
 vim.api.nvim_command("syntax enable")
 vim.api.nvim_command('filetype plugin indent on')
-vim.api.nvim_command("set modifiable")
+
+vim.opt.modifiable = true
+vim.api.nvim_create_autocmd({"BufEnter"}, {
+    pattern = "*",
+    callback = function()
+        if not vim.o.modifiable then
+            -- Don't set modifiable for special buffers
+            local ft = vim.bo.filetype
+            if ft ~= "neo-tree" and ft ~= "quickfix" and ft ~= "help" then
+                vim.opt.modifiable = true
+            end
+        end
+    end
+})
 
 local set = vim.opt
 
@@ -45,4 +58,7 @@ set.smartcase = true -- if you include mixed case in your search, assumes you wa
 
 -- backspace
 set.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+
+-- Event global
+_G.BufEvent = { "BufReadPost", "BufNewFile", "BufWritePre" }
 
