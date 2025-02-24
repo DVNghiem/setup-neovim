@@ -92,5 +92,6 @@ vim.keymap.set('n', '<leader>tw', ':Twilight<CR>', { noremap = true, silent = tr
 -- zen mode
 vim.keymap.set('n', '<leader>z', ':ZenMode<CR>', { noremap = true, silent = true })
 
-
+-- back to normal mode with jk
+vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
 
