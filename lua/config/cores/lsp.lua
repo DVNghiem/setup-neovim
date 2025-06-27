@@ -9,8 +9,8 @@ keymap.set('n', '[d', vim.diagnostic.goto_prev)
 keymap.set('n', ']d', vim.diagnostic.goto_next)
 -- keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
-vim.o.updatetime = 250
-vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+vim.o.updatetime = 1000  -- Even slower update to prevent any interference with j/k keys
+-- Removed problematic CursorHold autocmd that was causing j/k key freezes
 
 -- hidden error inline
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(

@@ -1,7 +1,7 @@
 return {
     "stevearc/conform.nvim",
     lazy = true,
-    event = { "BufReadPre", "BufNewFile" }, -- to disable, comment this out
+    event = { "BufWritePre" }, -- Changed to only load when saving for faster file opening
     config = function()
       local conform = require("conform")
   

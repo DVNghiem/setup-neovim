@@ -44,8 +44,8 @@ return {
 		require("neo-tree").setup({
 			close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
 			popup_border_style = "rounded",
-			enable_git_status = true,
-			enable_diagnostics = true,
+			enable_git_status = false, -- Disable git status for better performance
+			enable_diagnostics = false, -- Disable diagnostics for better performance
 			neo_tree_popup_input_ready = false, -- Enable normal mode for input dialogs.
 			open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
 			sort_case_insensitive = false, -- used when sorting files and directories in the tree
@@ -117,6 +117,19 @@ return {
 					["o"] = "open",
 					["<esc>"] = "cancel", -- close preview or floating neo-tree window
 					["t"] = "open_tabnew",
+					["<CR>"] = function(state) -- Custom optimized file opening
+						local node = state.tree:get_node()
+						if node.type == "file" then
+							-- Disable heavy features during file opening
+							vim.cmd("set lazyredraw")
+							require("neo-tree.sources.filesystem.commands").open(state)
+							vim.defer_fn(function()
+								vim.cmd("set nolazyredraw")
+							end, 100)
+						else
+							require("neo-tree.sources.filesystem.commands").open(state)
+						end
+					end,
 					["a"] = {
 						"add",
 						config = {
@@ -174,7 +187,7 @@ return {
 				},
 				group_empty_dirs = false, -- when true, empty folders will be grouped together
 				hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
-				use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
+				use_libuv_file_watcher = false, -- Disabled for better performance
 				window = {
 					mappings = {
 						["<bs>"] = "navigate_up",
