@@ -28,20 +28,23 @@ This isn't just another Neovim config - it's a comprehensive development environ
 - **Context-Aware Suggestions**: AI that understands your long coding sessions
 
 ### 🎨 Smooth UI & Visual Enhancements
+- **Fluid Tab Styling**: Smooth sloped tab borders instead of rigid edges
+- **Rounded Borders**: Beautiful rounded corners throughout the interface
 - **Smooth Scrolling**: Buttery-smooth scrolling animations with neoscroll.nvim
 - **Cursor Animations**: Smooth cursor movement with smear effects
 - **Enhanced Titlebar**: Beautiful file info display with breadcrumb navigation
-- **Elegant Tab Borders**: Smooth, professional tab styling with padded slants
-- **Transparent Theme**: Beautiful transparency throughout the interface
+- **Transparent Elements**: Adjustable transparency for windows and popups (15% blend)
+- **Fluid Popup Menus**: Rounded borders and smooth animations for all menus
 - **Enhanced Which-Key**: Modern popup menus with smooth animations
 - **Smooth Notifications**: Elegant notification system with fade animations
-- **Enhanced Floating Windows**: Beautiful borders and transparency
+- **Enhanced Floating Windows**: Beautiful rounded borders and transparency
 - **Smooth Indent Guides**: Subtle indent lines that don't distract
 - **Window Animations**: Smooth window resizing and movement
-- **Enhanced Bufferline**: Smooth tab switching with hover effects and professional styling
+- **Fluid Completion**: Rounded completion menus with smooth styling
 - **Highlighted Yanks**: Visual feedback for copy operations
 - **File Context Display**: Smart breadcrumb navigation showing file structure
 - **Git & Diagnostic Info**: Visual indicators for git changes and code issues
+- **Smooth Separators**: Elegant Unicode borders and separators throughout
 
 ## 🚀 Latest Enhancements: Smooth UI Experience
 
@@ -131,6 +134,10 @@ Your Neovim configuration now includes **cutting-edge smooth UI enhancements** f
 - `<leader>tt` - Toggle transparency
 - `<leader>tb` - Toggle breadcrumb navigation bar
 - `<leader>ti` - Toggle file info titlebar
+- `<leader>ub` - Toggle window transparency/blend
+- `<leader>us` - Toggle smooth scrolling
+- `<leader>uc` - Toggle cursor line
+- `<leader>bb` - Cycle buffer border styles (slope/slant/padded/thick/thin)
 - `gb` - Quick buffer picker (smooth animation)
 - `<S-h>`/`<S-l>` - Smooth buffer navigation
 - `<leader>bn`/`<leader>bp` - Enhanced buffer navigation

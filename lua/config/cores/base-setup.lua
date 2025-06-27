@@ -238,3 +238,65 @@ vim.api.nvim_create_autocmd("VimEnter", {
     callback = start_break_reminders
 })
 
+-- Smooth UI and fluid interface settings
+vim.opt.pumblend = 15 -- Transparency for popup menus
+vim.opt.winblend = 15 -- Transparency for floating windows
+
+-- Enhanced smooth scrolling
+vim.opt.smoothscroll = true
+vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
+
+-- Fluid cursor and visual settings
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "both"
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+
+-- Smooth window borders and separators
+vim.opt.fillchars = {
+  horiz = '━',
+  horizup = '┻', 
+  horizdown = '┳',
+  vert = '┃',
+  vertleft = '┫',
+  vertright = '┣',
+  verthoriz = '╋',
+  fold = '·',
+  eob = ' ', -- suppress ~ at EndOfBuffer
+  diff = '╱', -- alternatives = ⣿ ░ ─
+  msgsep = '━', -- alternatives = ‾ ─
+  foldopen = '▾',
+  foldsep = '│',
+  foldclose = '▸'
+}
+
+-- Enhanced list characters for smoother appearance
+vim.opt.listchars = {
+  tab = '→ ',
+  trail = '·',
+  nbsp = '␣',
+  extends = '▶',
+  precedes = '◀'
+}
+
+-- Smooth visual enhancements
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = 'n'
+
+-- Enhanced completion menu styling
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.shortmess:append "c"
+
+-- Smooth fold styling
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true
+
+-- Enhanced diff styling
+vim.opt.diffopt:append("linematch:60")
+
+-- Smooth terminal colors
+vim.opt.termguicolors = true
+

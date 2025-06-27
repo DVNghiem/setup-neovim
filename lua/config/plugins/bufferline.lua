@@ -58,7 +58,7 @@ return {
       show_tab_indicators = true,
       show_duplicate_prefix = true,
       persist_buffer_sort = true,
-      separator_style = "padded_slant", -- Smoother, more elegant separator
+      separator_style = "slope", -- Smooth sloped edges instead of rigid
       enforce_regular_tabs = true, -- More uniform appearance
       always_show_bufferline = true, -- Always show for consistency
       hover = {
@@ -95,78 +95,99 @@ return {
     -- highlights will be handled by the theme automatically
   },
   config = function(_, opts)
-    -- Enhanced highlights for smoother appearance
+    -- Enhanced highlights for fluid, smooth appearance
     local highlights = {
-      -- Active tab styling
+      -- Active tab styling with smooth curves
       buffer_selected = {
         fg = "#c3ccdc",
-        bg = "#1e2030",
+        bg = "#364A82", -- Smoother blue background
         bold = true,
         italic = false,
       },
-      -- Inactive tab styling  
+      -- Inactive tab styling with softer edges
       buffer_visible = {
-        fg = "#565f89",
-        bg = "#16161e",
+        fg = "#7aa2f7",
+        bg = "#2a2b3a", -- Softer background
       },
       buffer = {
         fg = "#565f89", 
-        bg = "#16161e",
+        bg = "#1e2030", -- Smoother dark background
       },
-      -- Separators for smooth borders
+      -- Smooth curved separators
       separator_selected = {
+        fg = "#364A82",
+        bg = "#364A82",
+      },
+      separator_visible = {
+        fg = "#2a2b3a",
+        bg = "#2a2b3a", 
+      },
+      separator = {
         fg = "#1e2030",
         bg = "#1e2030",
       },
-      separator_visible = {
-        fg = "#16161e",
-        bg = "#16161e", 
-      },
-      separator = {
-        fg = "#16161e",
-        bg = "#16161e",
-      },
-      -- Tab close styling
+      -- Smooth tab close styling
       close_button = {
-        fg = "#565f89",
-        bg = "#16161e",
+        fg = "#7aa2f7",
+        bg = "#1e2030",
       },
       close_button_visible = {
-        fg = "#565f89", 
-        bg = "#16161e",
+        fg = "#7aa2f7", 
+        bg = "#2a2b3a",
       },
       close_button_selected = {
         fg = "#c3ccdc",
-        bg = "#1e2030",
+        bg = "#364A82",
       },
-      -- Modified indicator
+      -- Smooth modified indicator
       modified = {
-        fg = "#ff9e3b",
-        bg = "#16161e",
+        fg = "#e0af68", -- Warmer orange
+        bg = "#1e2030",
       },
       modified_visible = {
-        fg = "#ff9e3b",
-        bg = "#16161e", 
+        fg = "#e0af68",
+        bg = "#2a2b3a", 
       },
       modified_selected = {
-        fg = "#ff9e3b",
-        bg = "#1e2030",
+        fg = "#e0af68",
+        bg = "#364A82",
       },
-      -- Duplicate name styling
+      -- Smooth duplicate name styling
       duplicate_selected = {
         fg = "#c3ccdc",
-        bg = "#1e2030",
+        bg = "#364A82",
         italic = true,
       },
       duplicate_visible = {
-        fg = "#565f89",
-        bg = "#16161e",
+        fg = "#7aa2f7",
+        bg = "#2a2b3a",
         italic = true,
       },
       duplicate = {
         fg = "#565f89",
-        bg = "#16161e", 
+        bg = "#1e2030", 
         italic = true,
+      },
+      -- Smooth indicator styling
+      indicator_selected = {
+        fg = "#7aa2f7",
+        bg = "#364A82",
+      },
+      -- Smooth pick styling
+      pick_selected = {
+        fg = "#f7768e",
+        bg = "#364A82",
+        bold = true,
+      },
+      pick_visible = {
+        fg = "#f7768e",
+        bg = "#2a2b3a",
+        bold = true,
+      },
+      pick = {
+        fg = "#f7768e",
+        bg = "#1e2030",
+        bold = true,
       },
     }
     

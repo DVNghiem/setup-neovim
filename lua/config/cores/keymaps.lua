@@ -222,3 +222,37 @@ vim.keymap.set("n", "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev
 vim.keymap.set("n", "<leader>bd", "<cmd>BufferLinePickClose<cr>", { desc = "Pick close buffer" })
 vim.keymap.set("n", "<leader>bD", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
 
+-- Smooth interface controls
+vim.keymap.set("n", "<leader>ub", function()
+  vim.o.winblend = vim.o.winblend == 0 and 15 or 0
+  vim.o.pumblend = vim.o.pumblend == 0 and 15 or 0
+  print("🌊 Window transparency: " .. (vim.o.winblend == 0 and "OFF" or "ON"))
+end, { desc = "Toggle window transparency", silent = true })
+
+vim.keymap.set("n", "<leader>us", function()
+  vim.o.smoothscroll = not vim.o.smoothscroll
+  print("🌊 Smooth scrolling: " .. (vim.o.smoothscroll and "ON" or "OFF"))
+end, { desc = "Toggle smooth scrolling", silent = true })
+
+vim.keymap.set("n", "<leader>uc", function()
+  vim.o.cursorline = not vim.o.cursorline
+  print("🌊 Cursor line: " .. (vim.o.cursorline and "ON" or "OFF"))
+end, { desc = "Toggle cursor line", silent = true })
+
+-- Smooth buffer border styling
+vim.keymap.set("n", "<leader>bb", function()
+  local bufferline = require("bufferline")
+  local current_style = bufferline.get_config().options.separator_style
+  local styles = { "slope", "slant", "padded_slant", "thick", "thin" }
+  local current_index = 1
+  for i, style in ipairs(styles) do
+    if style == current_style then
+      current_index = i
+      break
+    end
+  end
+  local next_style = styles[(current_index % #styles) + 1]
+  bufferline.setup({ options = { separator_style = next_style } })
+  print("🎨 Buffer style: " .. next_style)
+end, { desc = "Cycle buffer border styles", silent = true })
+

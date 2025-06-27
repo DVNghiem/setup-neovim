@@ -36,41 +36,56 @@ return {
         end,
         
         on_highlights = function(highlights, colors)
-          -- Smooth transparency and borders throughout
+          -- Smooth transparency and rounded borders throughout
           highlights.Normal = { bg = colors.none }
           highlights.NormalFloat = { bg = colors.none }
-          highlights.FloatBorder = { bg = colors.none, fg = colors.border }
+          highlights.FloatBorder = { bg = colors.none, fg = "#7aa2f7" } -- Soft blue borders
           highlights.NeoTreeNormal = { bg = colors.none }
           highlights.NeoTreeNormalNC = { bg = colors.none }
           
-          -- Enhanced visual elements with smooth borders
-          highlights.CursorLine = { bg = colors.bg_highlight }
+          -- Enhanced visual elements with smooth, rounded appearance
+          highlights.CursorLine = { bg = "#2a2b3a" } -- Softer highlight
           highlights.ColorColumn = { bg = "#2a2b3a" }
           highlights.Visual = { bg = "#364A82" }
           highlights.Search = { bg = "#ff9e3b", fg = colors.bg }
           highlights.IncSearch = { bg = "#f7768e", fg = colors.bg }
           
-          -- Smooth completion menu with enhanced borders
-          highlights.Pmenu = { bg = "#1e2030", fg = colors.fg, blend = 10 }
+          -- Smooth completion menu with rounded feel
+          highlights.Pmenu = { bg = "#1e2030", fg = colors.fg, blend = 15 }
           highlights.PmenuSel = { bg = "#364A82", fg = colors.fg, bold = true }
           highlights.PmenuSbar = { bg = "#1e2030" }
-          highlights.PmenuThumb = { bg = colors.fg_gutter }
-          highlights.PmenuBorder = { bg = colors.none, fg = colors.border }
+          highlights.PmenuThumb = { bg = "#7aa2f7" } -- Smooth scrollbar
+          highlights.PmenuBorder = { bg = colors.none, fg = "#7aa2f7" }
           
-          -- Enhanced window separators and borders
+          -- Enhanced window separators with softer appearance
           highlights.WinSeparator = { fg = "#3b4261", bg = colors.none }
           highlights.VertSplit = { fg = "#3b4261", bg = colors.none }
           highlights.StatusLine = { bg = colors.none, fg = colors.fg }
           highlights.StatusLineNC = { bg = colors.none, fg = colors.comment }
           
-          -- Smooth tab line integration
+          -- Smooth tab line integration with fluid borders
           highlights.TabLine = { bg = colors.none, fg = colors.comment }
           highlights.TabLineFill = { bg = colors.none }
-          highlights.TabLineSel = { bg = colors.bg_highlight, fg = colors.fg, bold = true }
+          highlights.TabLineSel = { bg = "#364A82", fg = colors.fg, bold = true }
           
-          -- Enhanced title bar highlights
+          -- Enhanced title bar highlights with smooth styling
           highlights.WinBar = { bg = colors.none, fg = colors.fg, bold = true }
           highlights.WinBarNC = { bg = colors.none, fg = colors.comment }
+          
+          -- Smooth diagnostic highlights
+          highlights.DiagnosticError = { fg = "#f7768e" }
+          highlights.DiagnosticWarn = { fg = "#e0af68" }
+          highlights.DiagnosticInfo = { fg = "#7aa2f7" }
+          highlights.DiagnosticHint = { fg = "#1abc9c" }
+          
+          -- Rounded floating window styles
+          highlights.NormalFloat = { bg = "#1e2030", fg = colors.fg }
+          highlights.FloatTitle = { bg = "#7aa2f7", fg = "#1a1b26", bold = true }
+          
+          -- Smooth selection and cursor styling
+          highlights.Cursor = { bg = "#c0caf5", fg = "#1a1b26" }
+          highlights.lCursor = { bg = "#c0caf5", fg = "#1a1b26" }
+          highlights.CursorIM = { bg = "#c0caf5", fg = "#1a1b26" }
         end,
       })
       
