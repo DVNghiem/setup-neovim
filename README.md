@@ -27,13 +27,63 @@ This isn't just another Neovim config - it's a comprehensive development environ
 - **Smart Code Generation**: AI-powered documentation, tests, and code improvements
 - **Context-Aware Suggestions**: AI that understands your long coding sessions
 
-### 🎨 Eye-Friendly Themes
-- **Auto Theme Switching**: Automatically adjusts based on time of day
-- **Multiple Theme Options**: Tokyo Night, Catppuccin, and more
-- **Reduced Eye Strain**: Carefully selected colors for long sessions
-- **Zen Mode**: Distraction-free coding environment
+### 🎨 Smooth UI & Visual Enhancements
+- **Smooth Scrolling**: Buttery-smooth scrolling animations with neoscroll.nvim
+- **Cursor Animations**: Smooth cursor movement with smear effects
+- **Enhanced Titlebar**: Beautiful file info display with breadcrumb navigation
+- **Elegant Tab Borders**: Smooth, professional tab styling with padded slants
+- **Transparent Theme**: Beautiful transparency throughout the interface
+- **Enhanced Which-Key**: Modern popup menus with smooth animations
+- **Smooth Notifications**: Elegant notification system with fade animations
+- **Enhanced Floating Windows**: Beautiful borders and transparency
+- **Smooth Indent Guides**: Subtle indent lines that don't distract
+- **Window Animations**: Smooth window resizing and movement
+- **Enhanced Bufferline**: Smooth tab switching with hover effects and professional styling
+- **Highlighted Yanks**: Visual feedback for copy operations
+- **File Context Display**: Smart breadcrumb navigation showing file structure
+- **Git & Diagnostic Info**: Visual indicators for git changes and code issues
 
-### 🔍 Enhanced Navigation & Search
+## 🚀 Latest Enhancements: Smooth UI Experience
+
+Your Neovim configuration now includes **cutting-edge smooth UI enhancements** for an incredibly polished experience:
+
+### ✨ **New Smooth UI Features**
+
+#### 🌊 **Fluid Animations**
+- **Smooth Scrolling**: Buttery-smooth page scrolling with customizable easing
+- **Cursor Smearing**: Elegant cursor trail effects during movement
+- **Window Animations**: Smooth window resizing and focus transitions
+- **Buffer Transitions**: Seamless tab switching with hover previews
+
+#### 🎨 **Enhanced Visual Design**
+- **Full Transparency**: Beautiful see-through interface throughout
+- **Modern Borders**: Rounded corners and elegant floating windows
+- **Enhanced Which-Key**: Modern popup menus with smooth fade animations
+- **Smooth Notifications**: Elegant toast notifications with slide effects
+
+#### 🔄 **Performance Optimizations**
+- **Smart Loading**: All animations are performance-optimized
+- **Mouse Scroll Detection**: Disables animations during mouse scrolling for performance
+- **Lazy Loading**: UI enhancements load only when needed
+
+#### 🎯 **Usability Improvements**
+- **Enhanced Buffer Management**: Visual buffer picker with smooth animations
+- **Better Visual Feedback**: Smooth highlighting for yanked text
+- **Improved Completion Menus**: Beautiful popup menus with transparency
+- **Smart Indent Guides**: Subtle visual guides that don't distract
+
+### 🎮 **New UI Keybindings**
+- `gb` - **Quick Buffer Picker** (with smooth animation)
+- `<leader>tt` - **Toggle Transparency** (switch between transparent/solid)
+- `<S-h>`/`<S-l>` - **Smooth Buffer Navigation** (with preview)
+- Enhanced `<C-u>`/`<C-d>` - **Smooth Scrolling** (with easing)
+
+### 🎨 **Visual Themes Enhanced**
+- **Tokyo Night**: Now with full transparency and smooth transitions
+- **Catppuccin**: Enhanced with modern animations support
+- **Transparent Mode**: Beautiful see-through interface option
+
+## 🔍 Enhanced Navigation & Search
 - **Leap Motion**: Jump anywhere in your code with 2 keystrokes
 - **Project-wide Search**: Advanced find and replace with Spectre
 - **Smart File Management**: Oil.nvim for intuitive file operations
@@ -74,10 +124,18 @@ This isn't just another Neovim config - it's a comprehensive development environ
 - `<F1>` or `<leader>?` - Complete cheatsheet
 - `<leader>help` - Emergency quick help
 
-### Theme Switching 🎨
+### Theme & UI Switching 🎨
 - `<leader>td` - Day theme (easier on eyes in daylight)
 - `<leader>tn` - Night theme (reduced eye strain)
 - `<leader>z` - Toggle zen mode
+- `<leader>tt` - Toggle transparency
+- `<leader>tb` - Toggle breadcrumb navigation bar
+- `<leader>ti` - Toggle file info titlebar
+- `gb` - Quick buffer picker (smooth animation)
+- `<S-h>`/`<S-l>` - Smooth buffer navigation
+- `<leader>bn`/`<leader>bp` - Enhanced buffer navigation
+- `<leader>bd` - Pick close buffer (visual picker)
+- `<leader>bD` - Close other buffers
 
 ## 📋 Daily Workflow Recommendations
 
@@ -139,6 +197,16 @@ Your work is automatically saved when you leave insert mode or lose focus - no m
 
 ### ✅ Recently Fixed Issues
 
+- **✅ RESOLVED**: **Barbecue UI Callback Error** - Fixed titlebar component configuration
+  - **Root Cause**: Barbecue was expecting a function for the modified field but received a string
+  - **Solution**: Simplified barbecue configuration and disabled problematic modified display
+  - **Additional Fixes**: Removed BufModifiedSet autocmd that was causing conflicts
+  - **Result**: ⚡ **Smooth titlebar navigation** with breadcrumb display working perfectly
+- **✅ RESOLVED**: **Bufferline Catppuccin Integration Error** - Fixed module loading conflict
+  - **Root Cause**: Bufferline was trying to load Catppuccin highlights before theme was available
+  - **Solution**: Added safer theme integration with fallback to default highlights
+  - **Additional Fixes**: Added mini.bufremove dependency for enhanced buffer management
+  - **Result**: ⚡ **Smooth buffer management** with enhanced tab switching and animations
 - **✅ RESOLVED**: **"You pressed the j key too soon!" Warning** - Completely eliminated hardtime.nvim plugin
   - **Root Cause**: hardtime.nvim plugin was still installed and triggering navigation warnings
   - **Solution**: Completely removed hardtime.nvim from configuration, lock file, and plugin directory

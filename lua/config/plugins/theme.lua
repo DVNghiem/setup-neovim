@@ -1,5 +1,5 @@
 return {
-  -- Primary theme optimized for long coding sessions
+  -- Primary theme optimized for long coding sessions with smooth animations
   {
     "folke/tokyonight.nvim",
     lazy = false,
@@ -8,45 +8,69 @@ return {
       require("tokyonight").setup({
         style = "night", -- storm, moon, night, day
         light_style = "day",
-        transparent = false,
+        transparent = true, -- Enhanced transparency for smoother feel
         terminal_colors = true,
         styles = {
           comments = { italic = true },
           keywords = { italic = true },
           functions = {},
           variables = {},
-          sidebars = "dark",
-          floats = "dark",
+          sidebars = "transparent", -- Transparent sidebars for seamless look
+          floats = "transparent", -- Transparent floating windows
         },
         sidebars = { "qf", "help", "neo-tree" },
         day_brightness = 0.3,
         hide_inactive_statusline = false,
-        dim_inactive = true, -- Better focus on active window
+        dim_inactive = false, -- Disabled for smoother visual experience
         lualine_bold = false,
         
-        --- You can override specific color groups to use other groups or a hex color
+        --- Enhanced colors for smooth UI experience
         on_colors = function(colors)
-          -- Reduce eye strain with warmer colors
-          colors.bg = "#1a1b26"
-          colors.bg_dark = "#16161e"
-          colors.bg_float = "#1a1b26"
-          colors.bg_sidebar = "#1a1b26"
+          -- Warmer, eye-friendly colors for long sessions
+          colors.bg = "NONE" -- Full transparency
+          colors.bg_dark = "NONE"
+          colors.bg_float = "NONE"
+          colors.bg_sidebar = "NONE"
           colors.comment = "#565f89"
+          colors.border = "#565f89"
         end,
         
         on_highlights = function(highlights, colors)
-          -- Better visual hierarchy and reduced eye strain
+          -- Smooth transparency and borders throughout
+          highlights.Normal = { bg = colors.none }
+          highlights.NormalFloat = { bg = colors.none }
+          highlights.FloatBorder = { bg = colors.none, fg = colors.border }
+          highlights.NeoTreeNormal = { bg = colors.none }
+          highlights.NeoTreeNormalNC = { bg = colors.none }
+          
+          -- Enhanced visual elements with smooth borders
           highlights.CursorLine = { bg = colors.bg_highlight }
           highlights.ColorColumn = { bg = "#2a2b3a" }
           highlights.Visual = { bg = "#364A82" }
           highlights.Search = { bg = "#ff9e3b", fg = colors.bg }
           highlights.IncSearch = { bg = "#f7768e", fg = colors.bg }
           
-          -- Better completion menu
-          highlights.Pmenu = { bg = colors.bg_float, fg = colors.fg }
-          highlights.PmenuSel = { bg = colors.bg_visual, fg = colors.fg }
-          highlights.PmenuSbar = { bg = colors.bg_float }
+          -- Smooth completion menu with enhanced borders
+          highlights.Pmenu = { bg = "#1e2030", fg = colors.fg, blend = 10 }
+          highlights.PmenuSel = { bg = "#364A82", fg = colors.fg, bold = true }
+          highlights.PmenuSbar = { bg = "#1e2030" }
           highlights.PmenuThumb = { bg = colors.fg_gutter }
+          highlights.PmenuBorder = { bg = colors.none, fg = colors.border }
+          
+          -- Enhanced window separators and borders
+          highlights.WinSeparator = { fg = "#3b4261", bg = colors.none }
+          highlights.VertSplit = { fg = "#3b4261", bg = colors.none }
+          highlights.StatusLine = { bg = colors.none, fg = colors.fg }
+          highlights.StatusLineNC = { bg = colors.none, fg = colors.comment }
+          
+          -- Smooth tab line integration
+          highlights.TabLine = { bg = colors.none, fg = colors.comment }
+          highlights.TabLineFill = { bg = colors.none }
+          highlights.TabLineSel = { bg = colors.bg_highlight, fg = colors.fg, bold = true }
+          
+          -- Enhanced title bar highlights
+          highlights.WinBar = { bg = colors.none, fg = colors.fg, bold = true }
+          highlights.WinBarNC = { bg = colors.none, fg = colors.comment }
         end,
       })
       

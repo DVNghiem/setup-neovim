@@ -189,3 +189,36 @@ vim.keymap.set('n', '<leader>tw', ':Twilight<CR>', { noremap = true, silent = tr
 -- zen mode
 vim.keymap.set('n', '<leader>z', ':ZenMode<CR>', { noremap = true, silent = true })
 
+-- Smooth UI and transparency controls
+vim.keymap.set("n", "<leader>tt", function()
+  require("transparent").toggle()
+  print("🎨 Transparency toggled!")
+end, { desc = "Toggle transparency", silent = true })
+
+vim.keymap.set("n", "<leader>tc", function()
+  require("transparent").clear_prefix("BufferLine")
+  require("transparent").clear_prefix("NeoTree")
+  print("🎨 UI transparency cleared!")
+end, { desc = "Clear UI transparency", silent = true })
+
+-- Enhanced smooth scrolling keymaps (already handled by neoscroll)
+-- vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
+-- vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
+
+-- Enhanced title bar and navigation
+vim.keymap.set("n", "<leader>tb", function()
+  require("barbecue.ui").toggle()
+  print("🍖 Breadcrumb navigation toggled!")
+end, { desc = "Toggle breadcrumb bar", silent = true })
+
+vim.keymap.set("n", "<leader>ti", function()
+  require("incline").toggle()
+  print("📊 File info bar toggled!")
+end, { desc = "Toggle file info bar", silent = true })
+
+-- Enhanced buffer navigation with smooth animations
+vim.keymap.set("n", "<leader>bn", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer (smooth)" })
+vim.keymap.set("n", "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer (smooth)" })
+vim.keymap.set("n", "<leader>bd", "<cmd>BufferLinePickClose<cr>", { desc = "Pick close buffer" })
+vim.keymap.set("n", "<leader>bD", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
+
