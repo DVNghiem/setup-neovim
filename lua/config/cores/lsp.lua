@@ -12,10 +12,18 @@ keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.o.updatetime = 1000  -- Even slower update to prevent any interference with j/k keys
 -- Removed problematic CursorHold autocmd that was causing j/k key freezes
 
--- hidden error inline
+-- Show error messages inline
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = false
+        virtual_text = {
+            source = "if_many",
+            spacing = 4,
+            prefix = "●",
+        },
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
     }
 )
 vim.lsp.inlay_hint.enable(true)
