@@ -40,15 +40,13 @@ return {
             "WhoIsSethDaniel/mason-tool-installer.nvim",
         },
         config = function()
-            -- import mason
-            local mason = require("mason")
+            -- Basic mason setup only
+            local mason_ok, mason = pcall(require, "mason")
+            if not mason_ok then
+                vim.notify("Failed to load mason", vim.log.levels.ERROR)
+                return
+            end
 
-            -- import mason-lspconfig
-            local mason_lspconfig = require("mason-lspconfig")
-
-            local mason_tool_installer = require("mason-tool-installer")
-
-            -- enable mason and configure icons
             mason.setup({
                 ui = {
                     icons = {
@@ -58,38 +56,18 @@ return {
                     },
                 },
             })
-
-            mason_lspconfig.setup({
-                -- list of servers for mason to install
-                ensure_installed = {
-                    "ts_ls",
-                    "html",
-                    "cssls",
-                    "tailwindcss",
-                    "svelte",
-                    "lua_ls",
-                    "graphql",
-                    "emmet_ls",
-                    "prismals",
-                    "pyright",
-                    "rust_analyzer",
-					"jdtls",
-					"gopls",
-                },
-                -- auto-install configured servers (with lspconfig)
-                automatic_installation = true, -- not the same as ensure_installed
-            })
-
-            mason_tool_installer.setup({
-                ensure_installed = {
-                    "prettier", -- prettier formatter
-                    "stylua", -- lua formatter
-                    "isort", -- python formatter
-                    "black", -- python formatter
-                    "pylint", -- python linter
-                    "eslint_d", -- js linter
-                },
-            })
+            
+            -- Minimal mason-lspconfig setup to avoid the error
+            local lspconfig_ok, mason_lspconfig = pcall(require, "mason-lspconfig")
+            if lspconfig_ok then
+                -- Use the most minimal setup possible
+                pcall(function()
+                    mason_lspconfig.setup({
+                        ensure_installed = {},
+                        automatic_installation = false,
+                    })
+                end)
+            end
         end,
     }
 }

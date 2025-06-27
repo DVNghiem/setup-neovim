@@ -1,6 +1,6 @@
 return {
     "numToStr/Comment.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" }, -- Changed from BufReadPre for faster file opening
     dependencies = {
     },
     config = function()
