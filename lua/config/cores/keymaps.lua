@@ -70,6 +70,15 @@ keymap.set("n", "<c-s>", ":w<cr>", { desc = "Save file" })
 keymap.set("i", "<c-s>", "<ESC>:w<cr>", { desc = "Save file from insert mode" })
 keymap.set("n", "<leader>w", ":w<cr>", { desc = "Save file" })
 keymap.set("n", "<leader>wa", ":wa<cr>", { desc = "Save all files" })
+
+-- Ctrl+W save functionality (with timeout to preserve window management)
+-- In normal mode: Ctrl+W followed by 's' saves, otherwise falls back to window commands
+keymap.set("n", "<C-w>s", ":w<cr>", { desc = "Save file (Ctrl+W+S)" })
+-- Alternative: Double Ctrl+W to save (preserves single Ctrl+W for window management)
+keymap.set("n", "<C-w><C-w>", ":w<cr>", { desc = "Save file (Double Ctrl+W)" })
+-- In insert mode: Ctrl+W saves immediately
+keymap.set("i", "<C-w>", "<ESC>:w<cr>a", { desc = "Save file from insert mode and continue editing" })
+
 keymap.set("n", "<leader>q", ":q<cr>", { desc = "Quit" })
 keymap.set("n", "<leader>qa", ":qa<cr>", { desc = "Quit all" })
 keymap.set("n", "<leader>wq", ":wq<cr>", { desc = "Save and quit" })
