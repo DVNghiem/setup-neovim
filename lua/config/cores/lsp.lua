@@ -1,88 +1,146 @@
-local keymap = vim.keymap -- for conciseness
+-- LSP Configuration Module
+-- Optimized for performance and maintainability
 
-local opts = { noremap = true, silent = true }
+local M = {}
 
--- Global mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-keymap.set('n', '<space>d', vim.diagnostic.open_float)
-keymap.set('n', '[d', vim.diagnostic.goto_prev)
-keymap.set('n', ']d', vim.diagnostic.goto_next)
--- keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+-- Cache frequently used vim APIs for better performance
+local keymap = vim.keymap
+local diagnostic = vim.diagnostic
+local lsp = vim.lsp
+local api = vim.api
 
-vim.o.updatetime = 1000  -- Even slower update to prevent any interference with j/k keys
--- Removed problematic CursorHold autocmd that was causing j/k key freezes
+-- Configuration constants
+local UPDATETIME = 1000
+local DIAGNOSTIC_SIGNS = {
+  Error = "󰅚 ",
+  Warn = "󰀪 ",
+  Hint = "󰌶 ",
+  Info = " "
+}
 
--- Show error messages inline
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-        virtual_text = {
-            source = "if_many",
-            spacing = 4,
-            prefix = "●",
-        },
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-        severity_sort = true,
-    }
-)
-vim.lsp.inlay_hint.enable(true)
+-- Keymap definitions for better organization
+local LSP_KEYMAPS = {
+  { "n", "gr", "<cmd>Telescope lsp_references<CR>", "Show LSP references" },
+  { "n", "gD", vim.lsp.buf.declaration, "Go to declaration" },
+  { "n", "gd", "<cmd>Telescope lsp_definitions<CR>", "Show LSP definitions" },
+  { "n", "gi", "<cmd>Telescope lsp_implementations<CR>", "Show LSP implementations" },
+  { "n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", "Show LSP type definitions" },
+  { { "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "See available code actions" },
+  { "n", "<leader>rn", vim.lsp.buf.rename, "Smart rename" },
+  { "n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", "Show buffer diagnostics" },
+  { "n", "<leader>d", vim.diagnostic.open_float, "Show line diagnostics" },
+  { "n", "[d", vim.diagnostic.goto_prev, "Go to previous diagnostic" },
+  { "n", "]d", vim.diagnostic.goto_next, "Go to next diagnostic" },
+  { "n", "K", vim.lsp.buf.hover, "Show documentation for what is under cursor" },
+  { "n", "<leader>rs", ":LspRestart<CR>", "Restart LSP" },
+}
 
-local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+-- Global diagnostic configuration
+local function setup_diagnostics()
+  -- Configure diagnostic display with improved settings
+  diagnostic.config({
+    virtual_text = {
+      source = "if_many",
+      spacing = 4,
+      prefix = "●",
+    },
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+    float = {
+      focusable = false,
+      close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+      border = "rounded",
+      source = "always",
+      prefix = " ",
+    },
+  })
+
+  -- Setup diagnostic signs
+  for type, icon in pairs(DIAGNOSTIC_SIGNS) do
+    local hl = "DiagnosticSign" .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+  end
 end
 
+-- Global LSP settings
+local function setup_global_settings()
+  vim.o.updatetime = UPDATETIME
+  
+  -- Enable inlay hints globally (with version check)
+  if lsp.inlay_hint and lsp.inlay_hint.enable then
+    lsp.inlay_hint.enable(true)
+  end
+end
 
--- after the language server attaches to the current buffer
-vim.api.nvim_create_autocmd('LspAttach', {
-    
-    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+-- Global diagnostic keymaps (available everywhere)
+local function setup_global_keymaps()
+  local opts = { noremap = true, silent = true }
+  
+  keymap.set('n', '<space>d', diagnostic.open_float, opts)
+  keymap.set('n', '[d', diagnostic.goto_prev, opts)
+  keymap.set('n', ']d', diagnostic.goto_next, opts)
+end
+
+-- Optimized keymap setup function
+local function setup_buffer_keymaps(bufnr)
+  local opts = { buffer = bufnr, noremap = true, silent = true }
+  
+  -- Set up all LSP keymaps efficiently
+  for _, keymap_config in ipairs(LSP_KEYMAPS) do
+    local modes, key, command, desc = keymap_config[1], keymap_config[2], keymap_config[3], keymap_config[4]
+    opts.desc = desc
+    keymap.set(modes, key, command, opts)
+  end
+end
+
+-- Enhanced LspAttach autocmd with better error handling
+local function setup_lsp_attach()
+  api.nvim_create_autocmd('LspAttach', {
+    group = api.nvim_create_augroup('UserLspConfig', { clear = true }),
     callback = function(ev)
-        -- Enable completion triggered by <c-x><c-o>
-        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-        -- Buffer local mappings.
-        local opts = { buffer = ev.buf }
-        -- set keybinds
-        opts.desc = "Show LSP references"
-        keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
-
-        opts.desc = "Go to declaration"
-        keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
-
-        opts.desc = "Show LSP definitions"
-        keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
-
-        opts.desc = "Show LSP implementations"
-        keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
-
-        opts.desc = "Show LSP type definitions"
-        keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
-
-        opts.desc = "See available code actions"
-        keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts) -- see available code actions, in visual mode will apply to selection
-
-        opts.desc = "Smart rename"
-        keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
-
-        opts.desc = "Show buffer diagnostics"
-        keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
-
-        opts.desc = "Show line diagnostics"
-        keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
-
-        opts.desc = "Go to previous diagnostic"
-        keymap.set("n", "[d", vim.diagnostic.goto_prev, opts) -- jump to previous diagnostic in buffer
-
-        opts.desc = "Go to next diagnostic"
-        keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
-
-        opts.desc = "Show documentation for what is under cursor"
-        keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
-
-        opts.desc = "Restart LSP"
-        keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
+      local bufnr = ev.buf
+      local client = lsp.get_client_by_id(ev.data.client_id)
+      
+      if not client then
+        return
+      end
+      
+      -- Enable completion triggered by <c-x><c-o>
+      vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
+      
+      -- Setup buffer-local keymaps
+      setup_buffer_keymaps(bufnr)
+      
+      -- Client-specific optimizations
+      if client.server_capabilities.documentFormattingProvider then
+        -- Add format on save if supported
+        api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.buf.format({ bufnr = bufnr })
+          end,
+        })
+      end
+      
+      -- Enable inlay hints for this buffer if supported
+      if client.server_capabilities.inlayHintProvider and lsp.inlay_hint then
+        lsp.inlay_hint.enable(true, { bufnr = bufnr })
+      end
     end,
-})
+  })
+end
+
+-- Main setup function
+function M.setup()
+  setup_global_settings()
+  setup_diagnostics()
+  setup_global_keymaps()
+  setup_lsp_attach()
+end
+
+-- Initialize if called directly
+M.setup()
+
+return M
