@@ -83,67 +83,9 @@ set.redrawtime = 1500        -- Faster syntax highlighting timeout
 set.regexpengine = 1         -- Use old regex engine (sometimes faster)
 set.ttyfast = true           -- Faster terminal connection
 
--- Enhanced Auto-save functionality (optimized for backend development)
--- Auto-save on focus lost and buffer leave
-vim.api.nvim_create_autocmd({"FocusLost", "BufLeave"}, {
-    pattern = "*",
-    callback = function()
-        if vim.bo.modifiable and not vim.bo.readonly and vim.fn.expand("%") ~= "" then
-            vim.cmd("silent! write")
-        end
-    end,
-    desc = "Auto-save on focus lost or buffer change"
-})
-
--- Auto-save on cursor hold (after 3 seconds of inactivity)
-vim.api.nvim_create_autocmd({"CursorHold", "CursorHoldI"}, {
-    pattern = "*",
-    callback = function()
-        if vim.bo.modifiable and not vim.bo.readonly and vim.fn.expand("%") ~= "" and vim.bo.modified then
-            vim.cmd("silent! write")
-            -- Show subtle notification for auto-save
-            vim.defer_fn(function()
-                if vim.fn.mode() == 'n' then
-                    local file = vim.fn.expand("%:t")
-                    vim.notify("📄 " .. file .. " auto-saved", vim.log.levels.INFO, {
-                        title = "Auto-save",
-                        timeout = 1000,
-                    })
-                end
-            end, 100)
-        end
-    end,
-    desc = "Auto-save after 3 seconds of inactivity"
-})
-
--- Enhanced auto-save with safety checks
-local function safe_auto_save()
-    local buf = vim.api.nvim_get_current_buf()
-    local buftype = vim.api.nvim_buf_get_option(buf, 'buftype')
-    local filetype = vim.api.nvim_buf_get_option(buf, 'filetype')
-    
-    -- Skip special buffers
-    local skip_filetypes = {'neo-tree', 'dashboard', 'alpha', 'lazy', 'mason', 'toggleterm', 'help', 'qf'}
-    
-    if buftype == '' and vim.tbl_contains(skip_filetypes, filetype) == false and
-       vim.bo.modifiable and not vim.bo.readonly and vim.fn.expand("%") ~= "" and vim.bo.modified then
-        vim.cmd("silent! write")
-        return true
-    end
-    return false
-end
-
--- Auto-save timer (every 30 seconds for active files)
-local auto_save_timer = vim.loop.new_timer()
-auto_save_timer:start(30000, 30000, vim.schedule_wrap(function()
-    if safe_auto_save() then
-        local file = vim.fn.expand("%:t")
-        vim.notify("💾 " .. file .. " saved automatically", vim.log.levels.INFO, {
-            title = "Auto-save",
-            timeout = 500,
-        })
-    end
-end))
+-- Auto-save disabled per user preference
+-- Manual save shortcuts are still available:
+-- <Ctrl+S>, <Leader>w, <Ctrl+W><Ctrl+W>, <Ctrl+W>s
 
 -- Large file optimizations (prevents lag when opening big files)
 vim.api.nvim_create_autocmd("BufReadPre", {
