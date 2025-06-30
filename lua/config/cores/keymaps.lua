@@ -33,9 +33,21 @@ keymap.set('n', 'N', 'Nzz', { desc = "Previous search result (centered)" })
 
 -- Search and replace (enhanced)
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
-keymap.set("n", "<leader>/", ":/", { desc = "Search" })
-keymap.set("n", "<leader>rw", ":%s/<C-r><C-w>//g<Left><Left>", { desc = "Replace word under cursor" })
+keymap.set("n", "<leader>/", function()
+	require('telescope').extensions.live_grep_args.live_grep_args()
+end, { desc = "🔍 Advanced search" })
+keymap.set("n", "<leader>rw", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word under cursor" })
 keymap.set("v", "<leader>r", ":s/", { desc = "Replace in selection" })
+
+-- Advanced search patterns
+keymap.set("n", "<leader>sc", "/\\c", { desc = "Case insensitive search" })
+keymap.set("n", "<leader>sC", "/\\C", { desc = "Case sensitive search" })
+keymap.set("n", "<leader>sw", "/\\<\\><Left><Left>", { desc = "Whole word search" })
+
+-- Search utilities
+keymap.set("n", "<leader>sl", ":set list!<CR>", { desc = "Toggle whitespace visibility" })
+keymap.set("n", "<leader>sn", ":set number!<CR>", { desc = "Toggle line numbers" })
+keymap.set("n", "<leader>sr", ":set relativenumber!<CR>", { desc = "Toggle relative numbers" })
 
 -- Quick increment/decrement
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" })
@@ -154,12 +166,54 @@ keymap.set('t', '<C-w>j', '<C-\\><C-n><C-w>j', { desc = "Terminal down window" }
 keymap.set('t', '<C-w>k', '<C-\\><C-n><C-w>k', { desc = "Terminal up window" })
 keymap.set('t', '<C-w>l', '<C-\\><C-n><C-w>l', { desc = "Terminal right window" })
 
--- telescope
+-- telescope - Enhanced search functionality
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+
+-- Core search functions
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "🔍 Find files" })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "🔍 Live grep" })
+vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = "🔍 Find buffers" })
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = "🔍 Help tags" })
+
+-- Advanced search functions
+vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = "🔍 Find word under cursor" })
+vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = "🔍 Find recent files" })
+vim.keymap.set('n', '<leader>fc', builtin.commands, { desc = "🔍 Find commands" })
+vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = "🔍 Find keymaps" })
+vim.keymap.set('n', '<leader>fr', builtin.registers, { desc = "🔍 Find registers" })
+vim.keymap.set('n', '<leader>ft', builtin.tags, { desc = "🔍 Find tags" })
+vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = "🔍 Find quickfix" })
+vim.keymap.set('n', '<leader>fl', builtin.loclist, { desc = "🔍 Find loclist" })
+
+-- Git search
+vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = "🔍 Find git files" })
+vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = "🔍 Git commits" })
+vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = "🔍 Git branches" })
+vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = "🔍 Git status" })
+
+-- LSP search
+vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions, { desc = "🔍 LSP definitions" })
+vim.keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = "🔍 LSP references" })
+vim.keymap.set('n', '<leader>li', builtin.lsp_implementations, { desc = "🔍 LSP implementations" })
+vim.keymap.set('n', '<leader>ls', builtin.lsp_document_symbols, { desc = "🔍 Document symbols" })
+vim.keymap.set('n', '<leader>lw', builtin.lsp_workspace_symbols, { desc = "🔍 Workspace symbols" })
+
+-- File browser
+vim.keymap.set('n', '<leader>fe', ':Telescope file_browser<CR>', { desc = "🔍 File browser" })
+vim.keymap.set('n', '<leader>fE', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { desc = "🔍 File browser (current dir)" })
+
+-- Live grep with args (VS Code-like search)
+vim.keymap.set('n', '<leader>/', ':Telescope live_grep_args<CR>', { desc = "🔍 Advanced live grep" })
+vim.keymap.set('v', '<leader>/', function()
+	local text = vim.getVisualSelection()
+	require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text })
+end, { desc = "🔍 Search selected text" })
+
+-- Search in current buffer
+vim.keymap.set('n', '<leader>s/', builtin.current_buffer_fuzzy_find, { desc = "🔍 Search in current buffer" })
+
+-- Resume last search
+vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = "🔍 Resume last search" })
 
 -- go to each character
 vim.keymap.set('i', '<c-l>', '<Esc>la', { noremap = true })
@@ -264,4 +318,53 @@ vim.keymap.set("n", "<leader>bb", function()
   bufferline.setup({ options = { separator_style = next_style } })
   print("🎨 Buffer style: " .. next_style)
 end, { desc = "Cycle buffer border styles", silent = true })
+
+-- Enhanced search utilities (VS Code-like)
+local search_utils = require('config.utils.search-utils')
+
+-- Search option toggles
+keymap.set("n", "<leader>stc", search_utils.toggle_case_sensitive, { desc = "🔍 Toggle case sensitive" })
+keymap.set("n", "<leader>stw", search_utils.toggle_whole_word, { desc = "🔍 Toggle whole word" })
+keymap.set("n", "<leader>str", search_utils.toggle_regex, { desc = "🔍 Toggle regex" })
+keymap.set("n", "<leader>sth", search_utils.toggle_hidden, { desc = "🔍 Toggle hidden files" })
+keymap.set("n", "<leader>sti", search_utils.toggle_gitignore, { desc = "🔍 Toggle gitignore" })
+keymap.set("n", "<leader>sts", search_utils.show_search_status, { desc = "🔍 Show search status" })
+
+-- Enhanced search functions
+keymap.set("n", "<leader>sg", search_utils.live_grep_with_options, { desc = "🔍 Live grep (with options)" })
+keymap.set("n", "<leader>sG", search_utils.grep_string_with_options, { desc = "🔍 Grep string (with options)" })
+
+-- File type specific searches
+keymap.set("n", "<leader>sfl", function() search_utils.search_in_filetype("lua") end, { desc = "🔍 Search Lua files" })
+keymap.set("n", "<leader>sfp", function() search_utils.search_in_filetype("python") end, { desc = "🔍 Search Python files" })
+keymap.set("n", "<leader>sfj", function() search_utils.search_in_filetype("javascript") end, { desc = "🔍 Search JS/TS files" })
+keymap.set("n", "<leader>sfg", function() search_utils.search_in_filetype("go") end, { desc = "🔍 Search Go files" })
+keymap.set("n", "<leader>sfr", function() search_utils.search_in_filetype("rust") end, { desc = "🔍 Search Rust files" })
+keymap.set("n", "<leader>sfc", function() search_utils.search_in_filetype("cpp") end, { desc = "🔍 Search C/C++ files" })
+keymap.set("n", "<leader>sfh", function() search_utils.search_in_filetype("html") end, { desc = "🔍 Search HTML files" })
+keymap.set("n", "<leader>sfs", function() search_utils.search_in_filetype("css") end, { desc = "🔍 Search CSS files" })
+keymap.set("n", "<leader>sfm", function() search_utils.search_in_filetype("markdown") end, { desc = "🔍 Search Markdown files" })
+
+-- Exclude common directories from search
+keymap.set("n", "<leader>sx", function() 
+	search_utils.search_with_exclude({"node_modules/*", ".git/*", "dist/*", "build/*", "*.log", "*.cache"})
+end, { desc = "🔍 Search (exclude common dirs)" })
+
+-- Search shortcuts that mimic VS Code
+keymap.set("n", "<C-f>", function()
+	vim.cmd("normal! /")
+end, { desc = "🔍 Search in buffer" })
+
+keymap.set("n", "<C-S-f>", function()
+	search_utils.live_grep_with_options()
+end, { desc = "🔍 Search in workspace" })
+
+keymap.set("n", "<C-h>", function()
+	vim.cmd(":%s//")
+	vim.cmd("startinsert")
+end, { desc = "🔄 Find and replace in buffer" })
+
+keymap.set("n", "<C-S-h>", function()
+	require("spectre").open()
+end, { desc = "🔄 Find and replace in workspace" })
 

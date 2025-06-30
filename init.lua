@@ -21,3 +21,4 @@ setup_early_notify()
 
 require("config.lazy")
 require("config.cores")
+require("config.utils").setup()
