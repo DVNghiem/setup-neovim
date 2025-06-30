@@ -7,102 +7,57 @@ return {
       vim.o.timeout = true
       vim.o.timeoutlen = 300
     end,
-    config = function()
-      local wk = require("which-key")
-      wk.setup({
-        plugins = {
-          marks = true,
-          registers = true,
-          spelling = {
-            enabled = true,
-            suggestions = 20,
-          },
-          presets = {
-            operators = true,
-            motions = true,
-            text_objects = true,
-            windows = true,
-            nav = true,
-            z = true,
-            g = true,
-          },
+    opts = {
+      preset = "modern",
+      plugins = {
+        marks = true,
+        registers = true,
+        spelling = {
+          enabled = true,
+          suggestions = 20,
         },
-        operators = { gc = "Comments" },
-        key_labels = {
-          ["<space>"] = "SPC",
-          ["<cr>"] = "RET",
-          ["<tab>"] = "TAB",
+        presets = {
+          operators = true,
+          motions = true,
+          text_objects = true,
+          windows = true,
+          nav = true,
+          z = true,
+          g = true,
         },
-        icons = {
-          breadcrumb = "»",
-          separator = "➜",
-          group = "+",
-        },
-        popup_mappings = {
-          scroll_down = "<c-d>",
-          scroll_up = "<c-u>",
-        },
-        window = {
-          border = "rounded",
-          position = "bottom",
-          margin = { 1, 0, 1, 0 },
-          padding = { 2, 2, 2, 2 },
-          winblend = 0,
-        },
-        layout = {
-          height = { min = 4, max = 25 },
-          width = { min = 20, max = 50 },
-          spacing = 3,
-          align = "left",
-        },
-        ignore_missing = true,
-        hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " },
-        show_help = true,
-        show_keys = true,
-        triggers = "auto",
-        triggers_blacklist = {
-          i = { "j", "k" },
-          v = { "j", "k" },
-        },
-        triggers_nowait = {
-          "`",
-          "'",
-          "g`",
-          "g'",
-          '"',
-          "<c-r>",
-          "z=",
-        },
-        disable = {
-          buftypes = {},
-          filetypes = { "TelescopePrompt" },
-        },
-      })
-      
-      -- Register group names for better organization
-      wk.register({
-        ["<leader>"] = {
-          b = { name = "Buffers" },
-          c = { name = "Code" },
-          d = { name = "Debug" },
-          f = { name = "File/Find" },
-          g = { name = "Git" },
-          h = { name = "Help/Harpoon" },
-          l = { name = "LSP" },
-          n = { name = "Neotree/Notes" },
-          p = { name = "Project" },
-          q = { name = "Quit/Quickfix" },
-          r = { name = "Replace/Refactor" },
-          s = { name = "Search/Session" },
-          t = { name = "Terminal/Toggle" },
-          u = { name = "UI/Undo" },
-          v = { name = "Vim" },
-          w = { name = "Window/Workspace" },
-          x = { name = "Diagnostics/Trouble" },
-          z = { name = "Zen/Focus" },
-        },
-      })
-    end,
+      },
+      win = {
+        border = "rounded",
+        padding = { 1, 2 },
+      },
+      layout = {
+        spacing = 3,
+        align = "left",
+      },
+      -- Use spec instead of register - modern API
+      spec = {
+        { "<leader>b", group = "Buffers" },
+        { "<leader>c", group = "Code" },
+        { "<leader>d", group = "Debug" },
+        { "<leader>f", group = "File/Find" },
+        { "<leader>g", group = "Git" },
+        { "<leader>h", group = "Help/Harpoon" },
+        { "<leader>l", group = "LSP" },
+        { "<leader>n", group = "Neotree/Notes" },
+        { "<leader>p", group = "Project" },
+        { "<leader>q", group = "Quit/Quickfix" },
+        { "<leader>r", group = "Replace/Refactor" },
+        { "<leader>s", group = "Search/Session" },
+        { "<leader>t", group = "Terminal/Toggle" },
+        { "<leader>u", group = "UI/Undo" },
+        { "<leader>v", group = "Vim" },
+        { "<leader>w", group = "Window/Workspace" },
+        { "<leader>x", group = "Diagnostics/Quickfix" },
+        { "<leader>z", group = "Zen/Focus" },
+        { "gl", group = "Leap motions" },
+        { "gs", group = "Flash motions" },
+      },
+    },
   },
   
   -- Better navigation with leap
@@ -111,7 +66,14 @@ return {
     event = "VeryLazy",
     dependencies = { "tpope/vim-repeat" },
     config = function()
-      require('leap').create_default_mappings()
+      -- Use safe setup to avoid keymap conflicts
+      local leap = require('leap')
+      
+      -- Set up custom keymaps instead of default ones to avoid conflicts
+      vim.keymap.set({'n', 'x', 'o'}, 'gl', '<Plug>(leap-forward)', { desc = "Leap forward" })
+      vim.keymap.set({'n', 'x', 'o'}, 'gL', '<Plug>(leap-backward)', { desc = "Leap backward" })
+      vim.keymap.set({'n', 'x', 'o'}, 'gx', '<Plug>(leap-from-window)', { desc = "Leap from window" })
+      
       -- Set leap highlight groups
       vim.api.nvim_set_hl(0, 'LeapBackdrop', { link = 'Comment' })
       vim.api.nvim_set_hl(0, 'LeapMatch', {
@@ -121,7 +83,7 @@ return {
       })
       
       -- Make leap labels more visible
-      require('leap').opts.highlight_unlabeled_phase_one_targets = true
+      leap.opts.highlight_unlabeled_phase_one_targets = true
     end,
   },
   

@@ -17,26 +17,12 @@ return {
         post_hook = nil,             -- Function to run after the scrolling animation ends
         performance_mode = false,    -- Disable "Performance Mode" on all buffers.
       })
-      
-      -- Custom smooth scrolling for specific movements
-      local t = {}
-      t['<C-u>'] = {'scroll', {'-vim.wo.scroll', 'true', '250'}}
-      t['<C-d>'] = {'scroll', { 'vim.wo.scroll', 'true', '250'}}
-      t['<C-b>'] = {'scroll', {'-vim.api.nvim_win_get_height(0)', 'true', '450'}}
-      t['<C-f>'] = {'scroll', { 'vim.api.nvim_win_get_height(0)', 'true', '450'}}
-      t['<C-y>'] = {'scroll', {'-0.10', 'false', '100'}}
-      t['<C-e>'] = {'scroll', { '0.10', 'false', '100'}}
-      t['zt']    = {'zt', {'250'}}
-      t['zz']    = {'zz', {'250'}}
-      t['zb']    = {'zb', {'250'}}
-      
-      require('neoscroll.config').set_mappings(t)
     end
   },
 
   -- Smooth cursor animations
   {
-    "sphjas/smear-cursor.nvim",
+    "sphamba/smear-cursor.nvim",
     event = "VeryLazy",
     opts = {
       -- Cursor color. Defaults to Cursor gui color
@@ -60,71 +46,7 @@ return {
     },
   },
 
-  -- Enhanced which-key with smooth animations
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      preset = "modern",
-      delay = 300,
-      plugins = {
-        marks = true,     -- shows a list of your marks on ' and `
-        registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
-        spelling = {
-          enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
-          suggestions = 20, -- how many suggestions should be shown in the list?
-        },
-        presets = {
-          operators = true,    -- adds help for operators like d, y, ...
-          motions = true,      -- adds help for motions
-          text_objects = true, -- help for text objects triggered after entering an operator
-          windows = true,      -- default bindings on <c-w>
-          nav = true,          -- misc bindings to work with windows
-          z = true,            -- bindings for folds, spelling and others prefixed with z
-          g = true,            -- bindings for prefixed with g
-        },
-      },
-      win = {
-        border = "rounded",
-        padding = { 1, 2 },
-        wo = {
-          winblend = 10,
-        },
-      },
-      layout = {
-        height = { min = 4, max = 25 },
-        width = { min = 20, max = 50 },
-        spacing = 3,
-        align = "left",
-      },
-      show_help = true,
-      show_keys = true,
-      triggers = {
-        { "<auto>", mode = "nixsotc" },
-        { "<leader>", mode = { "n", "v" } },
-      },
-    },
-    config = function(_, opts)
-      local wk = require("which-key")
-      wk.setup(opts)
-      
-      -- Add your custom keybindings here
-      wk.add({
-        { "<leader>h", group = "Health & Wellness" },
-        { "<leader>p", group = "Performance" },
-        { "<leader>c", group = "Code & AI" },
-        { "<leader>cc", group = "Copilot Chat" },
-        { "<leader>t", group = "Theme & UI" },
-        { "<leader>s", group = "Session & Search" },
-        { "<leader>f", group = "File Operations" },
-        { "<leader>g", group = "Git" },
-        { "<leader>l", group = "LSP" },
-        { "<leader>d", group = "Debug" },
-        { "<leader>w", group = "Window" },
-        { "<leader>b", group = "Buffer" },
-      })
-    end,
-  },
+  -- Note: which-key configuration moved to navigation.lua to avoid conflicts and deprecation warnings
 
   -- Smooth notifications with animations
   {

@@ -1,3 +1,7 @@
+-- Set leader key early to avoid warnings
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
 -- Early notification setup to prevent compatibility issues
 local function setup_early_notify()
   -- Temporary safe notify function until nvim-notify loads

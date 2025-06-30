@@ -190,7 +190,8 @@ return {
 				use_libuv_file_watcher = false, -- Disabled for better performance
 				window = {
 					mappings = {
-						["<bs>"] = "navigate_up",
+						-- ["<bs>"] = "navigate_up", -- Disabled to prevent accidental parent navigation
+						["<leader>u"] = "navigate_up", -- Use leader+u instead for intentional navigation
 						["."] = "set_root",
 						["H"] = "toggle_hidden",
 						["/"] = "fuzzy_finder",
@@ -221,7 +222,8 @@ return {
 				window = {
 					mappings = {
 						["bd"] = "buffer_delete",
-						["<bs>"] = "navigate_up",
+						-- ["<bs>"] = "navigate_up", -- Disabled to prevent accidental parent navigation  
+						["<leader>u"] = "navigate_up", -- Use leader+u instead for intentional navigation
 						["."] = "set_root",
 					},
 				},

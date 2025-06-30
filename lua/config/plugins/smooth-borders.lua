@@ -27,10 +27,70 @@ return {
           },
           view = "mini",
         },
+        -- Hide search count messages
+        {
+          filter = {
+            event = "msg_show",
+            kind = "search_count",
+          },
+          opts = { skip = true },
+        },
+        -- Minimize cmdline messages
+        {
+          filter = {
+            event = "msg_showmode",
+          },
+          view = "mini",
+        },
+        -- Hide command echo messages
+        {
+          filter = {
+            event = "msg_show",
+            find = "^:",
+          },
+          opts = { skip = true },
+        },
+        -- Hide written messages
+        {
+          filter = {
+            event = "msg_show",
+            find = " written$",
+          },
+          opts = { skip = true },
+        },
+        -- Hide recording messages
+        {
+          filter = {
+            event = "msg_show",
+            find = "^recording",
+          },
+          opts = { skip = true },
+        },
+        -- Hide completion messages
+        {
+          filter = {
+            event = "msg_show",
+            find = "completion",
+          },
+          opts = { skip = true },
+        },
+      },
+      cmdline = {
+        enabled = true,
+        view = "cmdline_popup", -- Use popup instead of cmdline
+        opts = {},
+        format = {
+          cmdline = { pattern = "^:", icon = "", lang = "vim" },
+          search_down = { kind = "search", pattern = "^/", icon = "", lang = "regex" },
+          search_up = { kind = "search", pattern = "^%?", icon = "", lang = "regex" },
+          filter = { pattern = "^:%s*!", icon = "", lang = "bash" },
+          lua = { pattern = "^:%s*lua%s+", icon = "", lang = "lua" },
+          help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
+        },
       },
       presets = {
-        bottom_search = true,
-        command_palette = true,
+        bottom_search = false, -- Don't use bottom search, use popup
+        command_palette = false, -- Don't use command palette preset
         long_message_to_split = true,
         inc_rename = false,
         lsp_doc_border = true, -- Rounded borders for LSP docs
@@ -38,39 +98,41 @@ return {
       views = {
         cmdline_popup = {
           position = {
-            row = 5,
-            col = "50%",
+            row = "30%", -- Center of screen vertically
+            col = "50%", -- Center of screen horizontally
           },
           size = {
-            width = 60,
+            min_width = 40,
+            width = "auto",
             height = "auto",
           },
           border = {
-            style = "rounded", -- Smooth rounded borders
-            padding = { 1, 2 },
+            style = "rounded", -- Use rounded border so it's visible
+            padding = { 0, 1 },
           },
-          filter_options = {},
           win_options = {
-            winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-            winblend = 10,
+            winhighlight = "NormalFloat:Normal,FloatBorder:FloatBorder",
+            winblend = 10, -- Less transparent so it's more visible
           },
         },
         popupmenu = {
           relative = "editor",
           position = {
-            row = 8,
+            row = "55%", -- Position slightly below the cmdline
             col = "50%",
           },
           size = {
-            width = 60,
-            height = 10,
+            width = "auto",
+            height = 8,
+            max_height = 8,
+            min_width = 40,
           },
           border = {
-            style = "rounded", -- Smooth rounded borders
-            padding = { 1, 2 },
+            style = "rounded",
+            padding = { 0, 1 },
           },
           win_options = {
-            winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+            winhighlight = { Normal = "Normal", FloatBorder = "FloatBorder" },
             winblend = 10,
           },
         },
@@ -131,12 +193,14 @@ return {
         enabled = true,
         backend = { "telescope", "fzf_lua", "fzf", "builtin", "nui" },
         trim_prompt = true,
-        telescope = require("telescope.themes").get_ivy({
-          winblend = 15,
-          layout_config = {
-            height = 0.4,
-          },
-        }),
+        telescope = function()
+          return require("telescope.themes").get_ivy({
+            winblend = 15,
+            layout_config = {
+              height = 0.4,
+            },
+          })
+        end,
         fzf = {
           window = {
             width = 0.5,

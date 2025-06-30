@@ -244,7 +244,58 @@ return {
 			for _, source in ipairs(opts.sources) do
 				source.group_index = source.group_index or 1
 			end
-			require("cmp").setup(opts)
+			local cmp = require("cmp")
+			cmp.setup(opts)
+			
+			-- Ultra-compact cmdline setup for commands
+			cmp.setup.cmdline(':', {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = 'path', max_item_count = 5 }
+				}, {
+					{ name = 'cmdline', max_item_count = 8 }
+				}),
+				window = {
+					completion = {
+						border = "none",
+						winblend = 30,
+						max_height = 3,
+						max_width = 25,
+					},
+				},
+				formatting = {
+					fields = { "abbr" }, -- Minimal formatting, no icons
+					format = function(entry, vim_item)
+						vim_item.menu = nil -- Remove menu text
+						vim_item.kind = nil -- Remove kind text
+						return vim_item
+					end,
+				},
+			})
+			
+			-- Ultra-compact cmdline setup for search
+			cmp.setup.cmdline({ '/', '?' }, {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = 'buffer', max_item_count = 5 }
+				},
+				window = {
+					completion = {
+						border = "none",
+						winblend = 30,
+						max_height = 3,
+						max_width = 20,
+					},
+				},
+				formatting = {
+					fields = { "abbr" }, -- Minimal formatting, no icons
+					format = function(entry, vim_item)
+						vim_item.menu = nil -- Remove menu text
+						vim_item.kind = nil -- Remove kind text
+						return vim_item
+					end,
+				},
+			})
 		end,
 	},
 }

@@ -29,10 +29,11 @@ return {
   -- Enhanced Copilot chat for better AI assistance
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
+    branch = "main",
     dependencies = {
-      { "github/copilot.vim" },
+      { "zbirenbaum/copilot.lua" }, -- use zbirenbaum/copilot.lua
       { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope.nvim" }, -- for integration
     },
     event = "VeryLazy",
     config = function()
@@ -69,6 +70,7 @@ Consider the developer might be tired, so provide clear, well-structured respons
         history_path = vim.fn.stdpath("data") .. "/copilotchat_history",
         callback = nil,
         
+        -- Updated selection configuration
         selection = function(source)
           local select_ok, select = pcall(require, "CopilotChat.select")
           if select_ok then
@@ -153,11 +155,11 @@ Consider the developer might be tired, so provide clear, well-structured respons
           show_diff = {
             normal = "gd"
           },
-          show_system_prompt = {
-            normal = "gp"
+          show_info = {
+            normal = "gi"
           },
-          show_user_selection = {
-            normal = "gs"
+          show_context = {
+            normal = "gc"
           },
         },
       })

@@ -294,3 +294,19 @@ vim.opt.diffopt:append("linematch:60")
 -- Smooth terminal colors
 vim.opt.termguicolors = true
 
+-- Enhanced cmdline options for minimal interface
+-- Note: cmdheight managed by noice.nvim for popup display
+-- vim.opt.cmdheight = 0 -- Commented out to allow noice.nvim popup
+vim.opt.showcmd = false -- Don't show partial commands
+vim.opt.showmode = false -- Don't show mode (handled by lualine)
+vim.opt.ruler = false -- Don't show ruler (handled by lualine)
+vim.opt.shortmess:append("c") -- Don't show completion messages
+vim.opt.shortmess:append("S") -- Don't show search count
+
+-- Better command completion (ultra-minimal)
+vim.opt.wildmenu = true
+vim.opt.wildmode = "longest:full,full"
+vim.opt.wildoptions = "pum" -- Use popup menu for completion
+vim.opt.pumheight = 8 -- Smaller popup menu height
+vim.opt.pumwidth = 25 -- Smaller popup menu width
+

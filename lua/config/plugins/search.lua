@@ -187,8 +187,8 @@ return {
 		opts = {},
         -- stylua: ignore
         keys = {
-            { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-            { "S",     mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+            { "gs",    mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash Jump" },
+            { "gS",    mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
             { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
             { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
             { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
@@ -197,10 +197,8 @@ return {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		opts_extend = { "spec" },
 		opts = {
 			preset = "helix",
-			defaults = {},
 			spec = {
 				mode = { "n", "v" },
 				{ "g", group = "goto" },
@@ -220,14 +218,6 @@ return {
 				{ "<leader>x", group = "diagnostics/quickfix" },
 			},
 		},
-		config = function(_, opts)
-			local wk = require("which-key")
-			wk.setup(opts)
-			if not vim.tbl_isempty(opts.defaults) then
-				LazyVim.warn("which-key: opts.defaults is deprecated. Please use opts.spec instead.")
-				wk.register(opts.defaults)
-			end
-		end,
 	},
 	{
 		"nvim-telescope/telescope.nvim",

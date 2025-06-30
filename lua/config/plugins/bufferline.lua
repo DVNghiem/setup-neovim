@@ -21,7 +21,7 @@ return {
     { "<leader>ts", "<CMD>BufferLinePickClose<CR>", desc = "Pick close buffer" },
     { "]B", "<CMD>BufferLineMoveNext<CR>", desc = "Move buffer next" },
     { "[B", "<CMD>BufferLineMovePrev<CR>", desc = "Move buffer prev" },
-    { "gs", "<CMD>BufferLineSortByDirectory<CR>", desc = "Sort buffers by directory" },
+    { "<leader>bs", "<CMD>BufferLineSortByDirectory<CR>", desc = "Sort buffers by directory" },
   },
   opts = {
     options = {

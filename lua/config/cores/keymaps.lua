@@ -265,3 +265,130 @@ vim.keymap.set("n", "<leader>bb", function()
   print("🎨 Buffer style: " .. next_style)
 end, { desc = "Cycle buffer border styles", silent = true })
 
+-- Ultimate IDE Feature Keymaps
+keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (Trouble)" })
+keymap.set("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer Diagnostics (Trouble)" })
+keymap.set("n", "<leader>cs", "<cmd>Trouble symbols toggle focus=false<cr>", { desc = "Symbols (Trouble)" })
+keymap.set("n", "<leader>cl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", { desc = "LSP Definitions / references / ... (Trouble)" })
+keymap.set("n", "<leader>xL", "<cmd>Trouble loclist toggle<cr>", { desc = "Location List (Trouble)" })
+keymap.set("n", "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix List (Trouble)" })
+
+-- Enhanced LSP Keymaps for Ultimate IDE Experience
+keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
+keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
+keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation" })
+keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Show references" })
+keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "Go to type definition" })
+keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show hover information" })
+keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
+
+-- Code Actions and Refactoring
+keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "See available code actions" })
+keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Smart rename" })
+keymap.set("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format code" })
+
+-- Diagnostics Navigation
+keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
+keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+
+-- Symbols Outline
+keymap.set("n", "<leader>so", "<cmd>SymbolsOutline<cr>", { desc = "Toggle symbols outline" })
+
+-- Git Workflow Enhancement
+keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", { desc = "Open Neogit" })
+keymap.set("n", "<leader>gc", "<cmd>Neogit commit<cr>", { desc = "Git commit" })
+keymap.set("n", "<leader>gp", "<cmd>Neogit push<cr>", { desc = "Git push" })
+keymap.set("n", "<leader>gl", "<cmd>Neogit pull<cr>", { desc = "Git pull" })
+keymap.set("n", "<leader>gai", function() require("gp").generate_commit_message() end, { desc = "Generate AI commit message" })
+keymap.set("n", "<leader>gsc", function() require("gp").smart_commit() end, { desc = "Smart commit workflow" })
+
+-- Advanced Git Tools
+keymap.set("n", "<leader>gdo", "<cmd>DiffviewOpen<cr>", { desc = "Open Diffview" })
+keymap.set("n", "<leader>gdc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
+keymap.set("n", "<leader>gdh", "<cmd>DiffviewFileHistory<cr>", { desc = "File history" })
+
+-- Enhanced Buffer Management
+keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
+keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", { desc = "Close left buffers" })
+keymap.set("n", "<leader>br", "<cmd>BufferLineCloseRight<cr>", { desc = "Close right buffers" })
+keymap.set("n", "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
+keymap.set("n", "<leader>bp", "<cmd>BufferLineTogglePin<cr>", { desc = "Pin buffer" })
+keymap.set("n", "<leader>bP", "<cmd>BufferLineGroupClose ungrouped<cr>", { desc = "Close unpinned buffers" })
+keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
+keymap.set("n", "<leader>bD", "<cmd>bdelete!<cr>", { desc = "Delete buffer (force)" })
+
+-- Enhanced Terminal Management
+keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "Float terminal" })
+keymap.set("n", "<leader>th", "<cmd>ToggleTerm size=10 direction=horizontal<cr>", { desc = "Horizontal terminal" })
+keymap.set("n", "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", { desc = "Vertical terminal" })
+keymap.set("n", "<leader>tg", "<cmd>lua _lazygit_toggle()<CR>", { desc = "LazyGit terminal" })
+keymap.set("n", "<leader>tp", "<cmd>lua _python_toggle()<CR>", { desc = "Python terminal" })
+keymap.set("n", "<leader>tn", "<cmd>lua _node_toggle()<CR>", { desc = "Node terminal" })
+
+-- Enhanced Telescope for Ultimate IDE
+keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Find text" })
+keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find buffers" })
+keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Find help" })
+keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Find recent files" })
+keymap.set("n", "<leader>fc", "<cmd>Telescope colorscheme<cr>", { desc = "Find colorscheme" })
+keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Find keymaps" })
+keymap.set("n", "<leader>fs", "<cmd>Telescope symbols<cr>", { desc = "Find symbols" })
+keymap.set("n", "<leader>fp", "<cmd>Telescope project<cr>", { desc = "Find projects" })
+keymap.set("n", "<leader>fd", "<cmd>Telescope file_browser<cr>", { desc = "File browser" })
+keymap.set("n", "<leader>fw", "<cmd>Telescope grep_string<cr>", { desc = "Find word under cursor" })
+keymap.set("n", "<leader>ft", "<cmd>Telescope treesitter<cr>", { desc = "Find treesitter symbols" })
+keymap.set("n", "<leader>fm", "<cmd>Telescope marks<cr>", { desc = "Find marks" })
+keymap.set("n", "<leader>fj", "<cmd>Telescope jumplist<cr>", { desc = "Find jumplist" })
+keymap.set("n", "<leader>fl", "<cmd>Telescope loclist<cr>", { desc = "Find location list" })
+keymap.set("n", "<leader>fq", "<cmd>Telescope quickfix<cr>", { desc = "Find quickfix" })
+keymap.set("n", "<leader>fe", "<cmd>Telescope diagnostics<cr>", { desc = "Find diagnostics" })
+
+-- Quick access shortcuts
+keymap.set("n", "<C-p>", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
+keymap.set("n", "<C-f>", "<cmd>Telescope live_grep<cr>", { desc = "Find text" })
+
+-- Notification management
+keymap.set("n", "<leader>nd", function() require("notify").dismiss({ silent = true, pending = true }) end, { desc = "Dismiss notifications" })
+
+-- Workspace management
+keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add workspace folder" })
+keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove workspace folder" })
+keymap.set("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, { desc = "List workspace folders" })
+
+-- Enhanced editing commands for ultimate productivity
+keymap.set("n", "<leader>dup", "yyp", { desc = "Duplicate line" })
+keymap.set("v", "<leader>dup", "y`>p", { desc = "Duplicate selection" })
+keymap.set("n", "<leader>del", "dd", { desc = "Delete line" })
+keymap.set("n", "<leader>cls", "cc", { desc = "Clear line and enter insert" })
+
+-- Quick save and quit shortcuts
+keymap.set("n", "<C-s>", "<cmd>w<cr>", { desc = "Save file" })
+keymap.set("i", "<C-s>", "<esc><cmd>w<cr>", { desc = "Save file and exit insert" })
+keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
+keymap.set("n", "<leader>W", "<cmd>wa<cr>", { desc = "Save all files" })
+keymap.set("n", "<leader>Q", "<cmd>qa<cr>", { desc = "Quit all" })
+
+-- Enhanced visual mode shortcuts
+keymap.set("v", "<", "<gv", { desc = "Unindent and keep selection" })
+keymap.set("v", ">", ">gv", { desc = "Indent and keep selection" })
+keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+
+-- UI Toggle for minimal cmdline interface
+keymap.set("n", "<leader>uc", function()
+  local current_cmdheight = vim.o.cmdheight
+  if current_cmdheight == 0 then
+    vim.o.cmdheight = 1
+    print("Cmdline visible")
+  else
+    vim.o.cmdheight = 0
+    print("Cmdline minimal")
+  end
+end, { desc = "Toggle cmdline height (minimal/visible)" })
+
