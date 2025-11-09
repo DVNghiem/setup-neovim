@@ -16,7 +16,6 @@ return {
         event = "VeryLazy",
         config = function()
             -- Enhanced LSP Configuration
-            local lspconfig = require("lspconfig")
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
             
             -- Enhanced capabilities for better IDE experience
@@ -320,7 +319,8 @@ return {
             }
 
             for _, server in ipairs(servers) do
-                lspconfig[server].setup({
+                -- Setup the language server
+                vim.lsp.config(server, {
                     capabilities = capabilities,
                     on_attach = on_attach,
                 })
@@ -337,8 +337,8 @@ return {
                     source = "always",
                     border = "rounded",
                 },
-                signs = true,
-                underline = true,
+                signs = false,  -- Disabled to remove sign column highlights
+                underline = false,  -- Disabled to remove underline highlights
                 update_in_insert = false,
                 severity_sort = true,
             })

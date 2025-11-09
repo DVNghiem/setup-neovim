@@ -39,13 +39,16 @@ return {
           -- Smooth transparency and rounded borders throughout
           highlights.Normal = { bg = colors.none }
           highlights.NormalFloat = { bg = colors.none }
-          highlights.FloatBorder = { bg = colors.none, fg = "#7aa2f7" } -- Soft blue borders
+          highlights.FloatBorder = { bg = colors.none, fg = "#3b4261" } -- Subtle borders
           highlights.NeoTreeNormal = { bg = colors.none }
           highlights.NeoTreeNormalNC = { bg = colors.none }
+          highlights.NeoTreeEndOfBuffer = { bg = colors.none }
+          highlights.NeoTreeVertSplit = { bg = colors.none, fg = colors.none } -- Invisible separator
+          highlights.NeoTreeWinSeparator = { bg = colors.none, fg = colors.none } -- Invisible separator
           
           -- Enhanced visual elements with smooth, rounded appearance
           highlights.CursorLine = { bg = "#2a2b3a" } -- Softer highlight
-          highlights.ColorColumn = { bg = "#2a2b3a" }
+          highlights.ColorColumn = { bg = "NONE" } -- Remove column markers
           highlights.Visual = { bg = "#364A82" }
           highlights.Search = { bg = "#ff9e3b", fg = colors.bg }
           highlights.IncSearch = { bg = "#f7768e", fg = colors.bg }
@@ -57,9 +60,9 @@ return {
           highlights.PmenuThumb = { bg = "#7aa2f7" } -- Smooth scrollbar
           highlights.PmenuBorder = { bg = colors.none, fg = "#7aa2f7" }
           
-          -- Enhanced window separators with softer appearance
-          highlights.WinSeparator = { fg = "#3b4261", bg = colors.none }
-          highlights.VertSplit = { fg = "#3b4261", bg = colors.none }
+          -- Enhanced window separators - nearly invisible for clean look
+          highlights.WinSeparator = { fg = "#1e2030", bg = colors.none }
+          highlights.VertSplit = { fg = "#1e2030", bg = colors.none }
           highlights.StatusLine = { bg = colors.none, fg = colors.fg }
           highlights.StatusLineNC = { bg = colors.none, fg = colors.comment }
           

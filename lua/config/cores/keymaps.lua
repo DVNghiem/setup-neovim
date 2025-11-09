@@ -1,6 +1,6 @@
--- set leader key to space
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","  -- Local leader for specialized functions
+-- Leader keys are set in init.lua before lazy loads
+-- vim.g.mapleader = " "
+-- vim.g.maplocalleader = "\\"
 
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }

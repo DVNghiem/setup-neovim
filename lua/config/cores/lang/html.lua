@@ -3,7 +3,7 @@
 -- capabilities.textDocument.completion.completionItem.snippetSupport = true
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local capabilities = cmp_nvim_lsp.default_capabilities()
-
-require'lspconfig'.html.setup {
-  capabilities = capabilities,
-}
+vim.lsp.config('html', {
+    capabilities = capabilities,
+})
+vim.lsp.enable({ 'html' })

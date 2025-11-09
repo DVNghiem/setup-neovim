@@ -249,13 +249,8 @@ local function setup_diagnostics()
         return diagnostic.message
       end,
     },
-    signs = {
-      severity_sort = true,
-      priority = 10,
-    },
-    underline = {
-      severity_sort = true,
-    },
+    signs = false,  -- Disabled to remove sign column highlights
+    underline = false,  -- Disabled to remove underline highlights
     update_in_insert = false,
     severity_sort = true,
     float = {
@@ -321,7 +316,7 @@ local function setup_global_settings()
   
   -- Performance optimizations for large files
   vim.o.synmaxcol = 300  -- Limit syntax highlighting for long lines
-  vim.o.lazyredraw = true
+  -- vim.o.lazyredraw = true  -- Disabled: conflicts with noice.nvim
   
   -- Enable inlay hints globally with backend focus
   if lsp.inlay_hint and lsp.inlay_hint.enable then

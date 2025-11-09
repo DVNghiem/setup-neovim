@@ -4,13 +4,13 @@ local async = require("lspconfig.async")
 local mod_cache = nil
 local capabilities = cmp_nvim_lsp.default_capabilities()
 
-require("lspconfig").gopls.setup({
+vim.lsp.config('gopls', {
 	cmd = { "gopls" },
 	filetypes = { "go", "gomod", "gowork", "gotmpl" },
 	single_file_support = true,
 	capabilities = capabilities,
 	root_dir = function(fname)
-		-- see: https://github.com/neovim/nvim-lspconfig/issues/804
+		-- see: https://github.com/golang/go/issues/40010
 		if not mod_cache then
 			local result = async.run_command({ "go", "env", "GOMODCACHE" })
 			if result and result[1] then
@@ -28,3 +28,4 @@ require("lspconfig").gopls.setup({
 		return util.root_pattern("go.work", "go.mod", ".git")(fname)
 	end,
 })
+vim.lsp.enable({ 'gopls' })

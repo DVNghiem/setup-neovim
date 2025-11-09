@@ -1,10 +1,8 @@
-local lspconfig = require("lspconfig")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 local capabilities = cmp_nvim_lsp.default_capabilities()
 
-lspconfig.rust_analyzer.setup({
+vim.lsp.config('rust_analyzer', {
 	capabilities = capabilities,
-	on_attach = on_attach,
 	settings = {
 		["rust-analyzer"] = {
 			diagnostics = {
@@ -27,4 +25,4 @@ lspconfig.rust_analyzer.setup({
 		},
 	},
 })
-
+vim.lsp.enable({ 'rust_analyzer' })

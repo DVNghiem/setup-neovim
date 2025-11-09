@@ -56,18 +56,29 @@ return {
       lualine.setup({
         options = {
           theme = my_lualine_theme,
+          component_separators = { left = '', right = '' }, -- No separators
+          section_separators = { left = '', right = '' }, -- Clean look
+          globalstatus = true, -- Single statusline for all windows
+          refresh = {
+            statusline = 100,
+            tabline = 100,
+            winbar = 100,
+          },
         },
         sections = {
+          lualine_a = { { 'mode', fmt = function(str) return str:sub(1,1) end } }, -- Shortened mode
+          lualine_b = { 'branch', 'diff' },
+          lualine_c = { { 'filename', path = 1, shorting_target = 40 } },
           lualine_x = {
             {
               lazy_status.updates,
               cond = lazy_status.has_updates,
               color = { fg = "#ff9e64" },
             },
-            { "encoding" },
-            { "fileformat" },
-            { "filetype" },
+            { "filetype", icon_only = true },
           },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' },
         },
       })
     end,
