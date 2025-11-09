@@ -291,6 +291,22 @@ These are normal and don't affect functionality:
   - Manual health commands fully functional (`<leader>hd`, `<leader>hb`, etc.)
   - System prioritizes stability and compatibility over fancy UI
 
+## 📚 Documentation
+
+Comprehensive keymap documentation is available in the `docs/` directory:
+
+### Quick Links
+- **[Complete Keymap Reference](./docs/KEYMAPS.md)** - All keymaps organized by category
+- **[Quick Reference Card](./docs/KEYMAPS_QUICK.md)** - Essential commands cheat sheet
+- **[Workflow Guide](./docs/KEYMAPS_WORKFLOW.md)** - Learn effective development workflows
+- **[Printable Cheat Sheet](./docs/KEYMAPS_PRINTABLE.md)** - Print-friendly reference
+- **[Documentation Index](./docs/README.md)** - Complete documentation overview
+
+### Finding Keymaps
+- **In Neovim**: Press `<Space>fk` to search all keymaps interactively
+- **In Terminal**: `cat ~/.config/nvim/docs/KEYMAPS_QUICK.md`
+- **Print**: Generate PDF with `pandoc docs/KEYMAPS_PRINTABLE.md -o keymaps.pdf`
+
 ## 🌟 Philosophy
 
 This configuration is built on the principle that great code comes from great developers, and great developers take care of themselves. It's not just about writing code faster - it's about sustaining a long, healthy, and productive career in software development.
