@@ -2,7 +2,13 @@ return {
     "stevearc/conform.nvim",
     lazy = true,
     event = { "BufWritePre" }, -- Changed to only load when saving for faster file opening
+    dependencies = {
+        "zapling/mason-conform.nvim",
+    },
     config = function()
+      -- Setup mason-conform to auto-install formatters
+      require("mason-conform").setup()
+      
       local conform = require("conform")
   
       conform.setup({
