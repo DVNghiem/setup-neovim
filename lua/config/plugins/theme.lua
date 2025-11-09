@@ -170,35 +170,3 @@ return {
     end,
   },
 }
---   },
-  
---   -- Keep your original theme as backup
---   {
---     "DVNghiem/dracula-vim",
---     lazy = true,
---     config = function()
---       vim.cmd([[colorscheme dracula_pro]])
---       vim.o.background = "dark"
---       vim.o.termguicolors = true
---     end,
---   },
-  
---   -- High contrast theme for tired eyes
---   {
---     "Mofiqul/vscode.nvim",
---     lazy = true,
---     config = function()
---       require('vscode').setup({
---         transparent = false,
---         italic_comments = true,
---         disable_nvimtree_bg = true,
---         color_overrides = {
---           vscLineNumber = '#5A5A5A',
---         },
---         group_overrides = {
---           Cursor = { fg='#515052', bg='#AEAFAD', bold=true },
---         }
---       })
---     end,
---   },
--- }

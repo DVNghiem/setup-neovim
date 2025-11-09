@@ -1,5 +1,4 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+-- Leader keys are set in init.lua before lazy loads
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({

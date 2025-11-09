@@ -1,6 +1,4 @@
 -- Leader keys are set in init.lua before lazy loads
--- vim.g.mapleader = " "
--- vim.g.maplocalleader = "\\"
 
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
@@ -20,10 +18,6 @@ keymap.set('n', 'L', '$', { desc = "Go to end of line" })
 keymap.set('v', 'H', '^', { desc = "Go to beginning of line" })
 keymap.set('v', 'L', '$', { desc = "Go to end of line" })
 
--- Quick word movement
-keymap.set('n', '<S-h>', 'b', { desc = "Previous word" })
-keymap.set('n', '<S-l>', 'w', { desc = "Next word" })
-
 -- Better scrolling
 keymap.set('n', '<C-d>', '<C-d>zz', { desc = "Scroll down and center" })
 keymap.set('n', '<C-u>', '<C-u>zz', { desc = "Scroll up and center" })
@@ -34,8 +28,9 @@ keymap.set('n', 'N', 'Nzz', { desc = "Previous search result (centered)" })
 -- Search and replace (enhanced)
 keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 keymap.set("n", "<leader>/", ":/", { desc = "Search" })
-keymap.set("n", "<leader>rw", ":%s/<C-r><C-w>//g<Left><Left>", { desc = "Replace word under cursor" })
-keymap.set("v", "<leader>r", ":s/", { desc = "Replace in selection" })
+keymap.set("n", "<leader>rw", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word under cursor in file" })
+keymap.set("v", "<leader>rv", ":s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace in visual selection" })
+
 
 -- Quick increment/decrement
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" })
@@ -116,15 +111,9 @@ keymap.set('v', '<leader>d', 'y`>p', { desc = "Duplicate selection" })
 -- Better undo/redo
 keymap.set('n', 'U', '<C-r>', { desc = "Redo" })
 
--- Quick commenting (if you don't have a comment plugin)
+-- Quick commenting (uses comment plugin)
 keymap.set('n', '<leader>/', 'gcc', { desc = "Toggle comment", remap = true })
 keymap.set('v', '<leader>/', 'gc', { desc = "Toggle comment", remap = true })
-
--- Buffer management (essential for productivity)
-keymap.set('n', '<leader>bd', ':bdelete<CR>', { desc = "Delete buffer" })
-keymap.set('n', '<leader>bn', ':bnext<CR>', { desc = "Next buffer" })
-keymap.set('n', '<leader>bp', ':bprevious<CR>', { desc = "Previous buffer" })
-keymap.set('n', '<leader>ba', ':%bd|e#<CR>', { desc = "Delete all buffers except current" })
 
 -- Quick list navigation
 keymap.set('n', '[q', ':cprev<CR>', { desc = "Previous quickfix" })
@@ -143,9 +132,6 @@ keymap.set('n', '<leader>br', function()
     vim.notify("🧘 Take a deep breath! Stretch your fingers and neck.", vim.log.levels.INFO, { title = "Quick Break" })
 end, { desc = "Health break reminder" })
 
--- Focus mode toggle
-keymap.set('n', '<leader>z', ':ZenMode<CR>', { desc = "Toggle zen mode" })
-
 -- Terminal shortcuts
 keymap.set('n', '<leader>tt', ':ToggleTerm<CR>', { desc = "Toggle terminal" })
 keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = "Exit terminal mode" })
@@ -154,49 +140,25 @@ keymap.set('t', '<C-w>j', '<C-\\><C-n><C-w>j', { desc = "Terminal down window" }
 keymap.set('t', '<C-w>k', '<C-\\><C-n><C-w>k', { desc = "Terminal up window" })
 keymap.set('t', '<C-w>l', '<C-\\><C-n><C-w>l', { desc = "Terminal right window" })
 
--- telescope
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-
--- go to each character
-vim.keymap.set('i', '<c-l>', '<Esc>la', { noremap = true })
-vim.keymap.set('i', '<c-h>', '<Esc>ha', { noremap = true })
-
-
--- tab and shift tab 
-vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true })
-vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
-
--- bufferline
-vim.api.nvim_set_keymap('n', '<leader>bd', ':bd | bnext<CR>', { noremap = true, silent = true })
-
--- neo tree toggle
--- open/close neo tree
+-- Neo-tree toggle
 vim.api.nvim_set_keymap('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true })
 
--- Quick find and replace in current file
-vim.keymap.set("n", "<leader>rr", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>",
-  { desc = "Replace word under cursor in file" })
-vim.keymap.set("v", "<leader>rr", ":s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>",
-  { desc = "Replace selected text in selection" })
-
--- reafactor
+-- Refactor shortcuts
+-- Refactor shortcuts
 vim.keymap.set("x", "<leader>re", ":Refactor extract ")
 vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ")
 vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ")
 vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var")
-vim.keymap.set( "n", "<leader>rI", ":Refactor inline_func")
+vim.keymap.set("n", "<leader>rI", ":Refactor inline_func")
 vim.keymap.set("n", "<leader>rb", ":Refactor extract_block")
 vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file")
 
--- twilight toggle
-vim.keymap.set('n', '<leader>tw', ':Twilight<CR>', { noremap = true, silent = true })
-
--- zen mode
+-- Zen mode
 vim.keymap.set('n', '<leader>z', ':ZenMode<CR>', { noremap = true, silent = true })
+
+-- Tab and visual mode indentation
+vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true })
+vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
 
 -- Smooth UI and transparency controls
 vim.keymap.set("n", "<leader>tt", function()
@@ -226,10 +188,18 @@ vim.keymap.set("n", "<leader>ti", function()
 end, { desc = "Toggle file info bar", silent = true })
 
 -- Enhanced buffer navigation with smooth animations
-vim.keymap.set("n", "<leader>bn", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer (smooth)" })
-vim.keymap.set("n", "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer (smooth)" })
+vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
+vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>bn", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
 vim.keymap.set("n", "<leader>bd", "<cmd>BufferLinePickClose<cr>", { desc = "Pick close buffer" })
 vim.keymap.set("n", "<leader>bD", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
+vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", { desc = "Close left buffers" })
+vim.keymap.set("n", "<leader>br", "<cmd>BufferLineCloseRight<cr>", { desc = "Close right buffers" })
+vim.keymap.set("n", "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
+vim.keymap.set("n", "<leader>bP", "<cmd>BufferLineTogglePin<cr>", { desc = "Toggle pin buffer" })
 
 -- Smooth interface controls
 vim.keymap.set("n", "<leader>ub", function()
@@ -308,19 +278,6 @@ keymap.set("n", "<leader>gsc", function() require("gp").smart_commit() end, { de
 keymap.set("n", "<leader>gdo", "<cmd>DiffviewOpen<cr>", { desc = "Open Diffview" })
 keymap.set("n", "<leader>gdc", "<cmd>DiffviewClose<cr>", { desc = "Close Diffview" })
 keymap.set("n", "<leader>gdh", "<cmd>DiffviewFileHistory<cr>", { desc = "File history" })
-
--- Enhanced Buffer Management
-keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
-keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
-keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Prev buffer" })
-keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
-keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", { desc = "Close left buffers" })
-keymap.set("n", "<leader>br", "<cmd>BufferLineCloseRight<cr>", { desc = "Close right buffers" })
-keymap.set("n", "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
-keymap.set("n", "<leader>bp", "<cmd>BufferLineTogglePin<cr>", { desc = "Pin buffer" })
-keymap.set("n", "<leader>bP", "<cmd>BufferLineGroupClose ungrouped<cr>", { desc = "Close unpinned buffers" })
-keymap.set("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete buffer" })
-keymap.set("n", "<leader>bD", "<cmd>bdelete!<cr>", { desc = "Delete buffer (force)" })
 
 -- Enhanced Terminal Management
 keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", { desc = "Float terminal" })

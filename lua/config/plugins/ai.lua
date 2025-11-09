@@ -1,37 +1,10 @@
 return {
-  -- Enhanced AI assistance for long coding sessions
-  {
-    "github/copilot.vim",
-    event = "InsertEnter",
-    config = function()
-      -- Optimize Copilot for long sessions
-      vim.g.copilot_no_tab_map = true
-      vim.g.copilot_assume_mapped = true
-      vim.g.copilot_tab_fallback = ""
-      
-      -- Smart Copilot accept
-      vim.keymap.set("i", "<C-l>", 'copilot#Accept("\\<CR>")', {
-        expr = true,
-        replace_keycodes = false,
-        desc = "Accept Copilot suggestion"
-      })
-      
-      -- Copilot navigation
-      vim.keymap.set("i", "<C-j>", "<Plug>(copilot-next)", { desc = "Next Copilot suggestion" })
-      vim.keymap.set("i", "<C-k>", "<Plug>(copilot-previous)", { desc = "Previous Copilot suggestion" })
-      vim.keymap.set("i", "<C-\\>", "<Plug>(copilot-dismiss)", { desc = "Dismiss Copilot suggestion" })
-      
-      -- Copilot panel
-      vim.keymap.set("n", "<leader>cp", "<cmd>Copilot panel<cr>", { desc = "Open Copilot panel" })
-    end,
-  },
-  
   -- Enhanced Copilot chat for better AI assistance
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",
     dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- use zbirenbaum/copilot.lua
+      { "zbirenbaum/copilot.lua" },
       { "nvim-lua/plenary.nvim" },
       { "nvim-telescope/telescope.nvim" }, -- for integration
     },
