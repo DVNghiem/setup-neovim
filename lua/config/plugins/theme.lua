@@ -1,179 +1,204 @@
 return {
-  -- Primary theme optimized for long coding sessions with smooth animations
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("tokyonight").setup({
-        style = "night", -- storm, moon, night, day
-        light_style = "day",
-        transparent = true, -- Enhanced transparency for smoother feel
-        terminal_colors = true,
-        styles = {
-          comments = { italic = true },
-          keywords = { italic = true },
-          functions = {},
-          variables = {},
-          sidebars = "transparent", -- Transparent sidebars for seamless look
-          floats = "transparent", -- Transparent floating windows
-        },
-        sidebars = { "qf", "help", "neo-tree" },
-        day_brightness = 0.3,
-        hide_inactive_statusline = false,
-        dim_inactive = false, -- Disabled for smoother visual experience
-        lualine_bold = false,
-        
-        --- Enhanced colors for smooth UI experience
-        on_colors = function(colors)
-          -- Warmer, eye-friendly colors for long sessions
-          colors.bg = "NONE" -- Full transparency
-          colors.bg_dark = "NONE"
-          colors.bg_float = "NONE"
-          colors.bg_sidebar = "NONE"
-          colors.comment = "#565f89"
-          colors.border = "#565f89"
-        end,
-        
-        on_highlights = function(highlights, colors)
-          -- Smooth transparency and rounded borders throughout
-          highlights.Normal = { bg = colors.none }
-          highlights.NormalFloat = { bg = colors.none }
-          highlights.FloatBorder = { bg = colors.none, fg = "#3b4261" } -- Subtle borders
-          highlights.NeoTreeNormal = { bg = colors.none }
-          highlights.NeoTreeNormalNC = { bg = colors.none }
-          highlights.NeoTreeEndOfBuffer = { bg = colors.none }
-          highlights.NeoTreeVertSplit = { bg = colors.none, fg = colors.none } -- Invisible separator
-          highlights.NeoTreeWinSeparator = { bg = colors.none, fg = colors.none } -- Invisible separator
-          
-          -- Enhanced visual elements with smooth, rounded appearance
-          highlights.CursorLine = { bg = "#2a2b3a" } -- Softer highlight
-          highlights.ColorColumn = { bg = "NONE" } -- Remove column markers
-          highlights.Visual = { bg = "#364A82" }
-          highlights.Search = { bg = "#ff9e3b", fg = colors.bg }
-          highlights.IncSearch = { bg = "#f7768e", fg = colors.bg }
-          
-          -- Smooth completion menu with rounded feel
-          highlights.Pmenu = { bg = "#1e2030", fg = colors.fg, blend = 15 }
-          highlights.PmenuSel = { bg = "#364A82", fg = colors.fg, bold = true }
-          highlights.PmenuSbar = { bg = "#1e2030" }
-          highlights.PmenuThumb = { bg = "#7aa2f7" } -- Smooth scrollbar
-          highlights.PmenuBorder = { bg = colors.none, fg = "#7aa2f7" }
-          
-          -- Enhanced window separators - nearly invisible for clean look
-          highlights.WinSeparator = { fg = "#1e2030", bg = colors.none }
-          highlights.VertSplit = { fg = "#1e2030", bg = colors.none }
-          highlights.StatusLine = { bg = colors.none, fg = colors.fg }
-          highlights.StatusLineNC = { bg = colors.none, fg = colors.comment }
-          
-          -- Smooth tab line integration with fluid borders
-          highlights.TabLine = { bg = colors.none, fg = colors.comment }
-          highlights.TabLineFill = { bg = colors.none }
-          highlights.TabLineSel = { bg = "#364A82", fg = colors.fg, bold = true }
-          
-          -- Enhanced title bar highlights with smooth styling
-          highlights.WinBar = { bg = colors.none, fg = colors.fg, bold = true }
-          highlights.WinBarNC = { bg = colors.none, fg = colors.comment }
-          
-          -- Smooth diagnostic highlights
-          highlights.DiagnosticError = { fg = "#f7768e" }
-          highlights.DiagnosticWarn = { fg = "#e0af68" }
-          highlights.DiagnosticInfo = { fg = "#7aa2f7" }
-          highlights.DiagnosticHint = { fg = "#1abc9c" }
-          
-          -- Rounded floating window styles
-          highlights.NormalFloat = { bg = "#1e2030", fg = colors.fg }
-          highlights.FloatTitle = { bg = "#7aa2f7", fg = "#1a1b26", bold = true }
-          
-          -- Smooth selection and cursor styling
-          highlights.Cursor = { bg = "#c0caf5", fg = "#1a1b26" }
-          highlights.lCursor = { bg = "#c0caf5", fg = "#1a1b26" }
-          highlights.CursorIM = { bg = "#c0caf5", fg = "#1a1b26" }
-        end,
-      })
-      
-      vim.cmd([[colorscheme tokyonight-night]])
-    end,
-  },
-  
-  -- Alternative themes for variety
+  -- Modern catppuccin theme - beautiful, developer-friendly color palette
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    lazy = true,
-    opts = {
-      flavour = "mocha", -- latte, frappe, macchiato, mocha
-      background = {
-        light = "latte",
-        dark = "mocha",
-      },
-      transparent_background = false,
-      show_end_of_buffer = false,
-      term_colors = true,
-      dim_inactive = {
-        enabled = true,
-        shade = "dark",
-        percentage = 0.15,
-      },
-      styles = {
-        comments = { "italic" },
-        conditionals = { "italic" },
-        loops = {},
-        functions = {},
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-        operators = {},
-      },
-      color_overrides = {},
-      custom_highlights = {},
-      integrations = {
-        cmp = true,
-        gitsigns = true,
-        nvimtree = true,
-        treesitter = true,
-        notify = true,
-        mini = true,
-        telescope = true,
-        harpoon = true,
-        mason = true,
-        noice = true,
-        which_key = true,
-      },
-    },
-  },
-  
-  -- Keep your original theme as backup
-  {
-    "DVNghiem/dracula-vim",
-    lazy = true,
+    lazy = false,
+    priority = 1000,
     config = function()
-      vim.cmd([[colorscheme dracula_pro]])
-      vim.o.background = "dark"
-      vim.o.termguicolors = true
-    end,
-  },
-  
-  -- High contrast theme for tired eyes
-  {
-    "Mofiqul/vscode.nvim",
-    lazy = true,
-    config = function()
-      require('vscode').setup({
-        transparent = false,
-        italic_comments = true,
-        disable_nvimtree_bg = true,
-        color_overrides = {
-          vscLineNumber = '#5A5A5A',
+      require("catppuccin").setup({
+        flavour = "mocha", -- latte, frappe, macchiato, mocha (mocha is the darkest)
+        background = {
+          light = "latte",
+          dark = "mocha",
         },
-        group_overrides = {
-          Cursor = { fg='#515052', bg='#AEAFAD', bold=true },
-        }
+        transparent_background = true,
+        show_end_of_buffer = false,
+        term_colors = true,
+        dim_inactive = {
+          enabled = false,
+          shade = "dark",
+          percentage = 0.15,
+        },
+        no_italic = false,
+        no_bold = false,
+        no_underline = false,
+        styles = {
+          comments = { "italic" },
+          conditionals = { "italic" },
+          loops = {},
+          functions = { "bold" },
+          keywords = { "italic" },
+          strings = {},
+          variables = {},
+          numbers = {},
+          booleans = { "bold", "italic" },
+          properties = {},
+          types = { "bold" },
+          operators = {},
+        },
+        color_overrides = {
+          mocha = {
+            base = "#000000",
+            mantle = "#000000",
+            crust = "#000000",
+          },
+        },
+        custom_highlights = function(colors)
+          return {
+            -- Better transparency and modern look
+            Normal = { bg = colors.none },
+            NormalFloat = { bg = colors.none, fg = colors.text },
+            FloatBorder = { bg = colors.none, fg = colors.blue },
+            FloatTitle = { bg = colors.none, fg = colors.sapphire, style = { "bold" } },
+            
+            -- Neo-tree modern styling
+            NeoTreeNormal = { bg = colors.none },
+            NeoTreeNormalNC = { bg = colors.none },
+            NeoTreeEndOfBuffer = { bg = colors.none },
+            NeoTreeVertSplit = { bg = colors.none, fg = colors.none },
+            NeoTreeWinSeparator = { bg = colors.none, fg = colors.surface0 },
+            NeoTreeRootName = { fg = colors.blue, style = { "bold", "italic" } },
+            NeoTreeGitModified = { fg = colors.yellow },
+            NeoTreeGitAdded = { fg = colors.green },
+            NeoTreeGitDeleted = { fg = colors.red },
+            
+            -- Better cursor line
+            CursorLine = { bg = colors.surface0 },
+            CursorLineNr = { fg = colors.lavender, style = { "bold" } },
+            
+            -- Telescope modern UI
+            TelescopeBorder = { bg = colors.none, fg = colors.blue },
+            TelescopePromptBorder = { bg = colors.none, fg = colors.blue },
+            TelescopeResultsBorder = { bg = colors.none, fg = colors.blue },
+            TelescopePreviewBorder = { bg = colors.none, fg = colors.blue },
+            TelescopePromptTitle = { bg = colors.none, fg = colors.sapphire, style = { "bold" } },
+            TelescopeResultsTitle = { bg = colors.none, fg = colors.sapphire, style = { "bold" } },
+            TelescopePreviewTitle = { bg = colors.none, fg = colors.sapphire, style = { "bold" } },
+            
+            -- Better LSP highlights
+            DiagnosticVirtualTextError = { bg = colors.none, fg = colors.red },
+            DiagnosticVirtualTextWarn = { bg = colors.none, fg = colors.yellow },
+            DiagnosticVirtualTextInfo = { bg = colors.none, fg = colors.sky },
+            
+            -- Smooth completion menu
+            Pmenu = { bg = colors.surface0, fg = colors.text },
+            PmenuSel = { bg = colors.blue, fg = colors.base, style = { "bold" } },
+            PmenuSbar = { bg = colors.surface0 },
+            PmenuThumb = { bg = colors.overlay0 },
+            
+            -- Smooth window separators
+            WinSeparator = { fg = colors.surface0, bg = colors.none },
+            VertSplit = { fg = colors.surface0, bg = colors.none },
+            
+            -- Status and tab lines
+            StatusLine = { bg = colors.none, fg = colors.text },
+            StatusLineNC = { bg = colors.none, fg = colors.overlay0 },
+            TabLine = { bg = colors.none, fg = colors.overlay0 },
+            TabLineFill = { bg = colors.none },
+            TabLineSel = { bg = colors.surface0, fg = colors.text, style = { "bold" } },
+            
+            -- Enhanced winbar
+            WinBar = { bg = colors.none, fg = colors.text, style = { "bold" } },
+            WinBarNC = { bg = colors.none, fg = colors.overlay0 },
+            
+            -- Better visual and search
+            Visual = { bg = colors.surface1, style = { "bold" } },
+            Search = { bg = colors.yellow, fg = colors.base, style = { "bold" } },
+            IncSearch = { bg = colors.red, fg = colors.base, style = { "bold" } },
+            
+            -- Git signs
+            GitSignsAdd = { fg = colors.green },
+            GitSignsChange = { fg = colors.yellow },
+            GitSignsDelete = { fg = colors.red },
+          }
+        end,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          nvimtree = false,
+          neotree = true,
+          treesitter = true,
+          notify = true,
+          mini = {
+            enabled = true,
+            indentscope_color = "lavender",
+          },
+          native_lsp = {
+            enabled = true,
+            virtual_text = {
+              errors = { "italic" },
+              hints = { "italic" },
+              warnings = { "italic" },
+              information = { "italic" },
+            },
+            underlines = {
+              errors = { "underline" },
+              hints = { "underline" },
+              warnings = { "underline" },
+              information = { "underline" },
+            },
+            inlay_hints = {
+              background = true,
+            },
+          },
+          telescope = {
+            enabled = true,
+            style = "nvchad",
+          },
+          harpoon = true,
+          mason = true,
+          noice = true,
+          which_key = true,
+          barbecue = {
+            dim_dirname = true,
+            bold_basename = true,
+            dim_context = false,
+            alt_background = false,
+          },
+          indent_blankline = {
+            enabled = true,
+            scope_color = "lavender",
+            colored_indent_levels = true,
+          },
+          dashboard = true,
+          lsp_trouble = true,
+        },
       })
+      
+      vim.cmd.colorscheme("catppuccin")
     end,
   },
 }
+--   },
+  
+--   -- Keep your original theme as backup
+--   {
+--     "DVNghiem/dracula-vim",
+--     lazy = true,
+--     config = function()
+--       vim.cmd([[colorscheme dracula_pro]])
+--       vim.o.background = "dark"
+--       vim.o.termguicolors = true
+--     end,
+--   },
+  
+--   -- High contrast theme for tired eyes
+--   {
+--     "Mofiqul/vscode.nvim",
+--     lazy = true,
+--     config = function()
+--       require('vscode').setup({
+--         transparent = false,
+--         italic_comments = true,
+--         disable_nvimtree_bg = true,
+--         color_overrides = {
+--           vscLineNumber = '#5A5A5A',
+--         },
+--         group_overrides = {
+--           Cursor = { fg='#515052', bg='#AEAFAD', bold=true },
+--         }
+--       })
+--     end,
+--   },
+-- }
