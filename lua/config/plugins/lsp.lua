@@ -1,95 +1,151 @@
 return {
-    {
-        "neovim/nvim-lspconfig",
-        dependencies = {
-            "nvimdev/lspsaga.nvim",
-            { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
-            "mason.nvim",
-            "hrsh7th/cmp-nvim-lsp",
-            "williamboman/mason-lspconfig.nvim",
-            { "antosha417/nvim-lsp-file-operations", config = true },
-			{"j-hui/fidget.nvim", otp = {}},
+  -- MASON + TOOLS
+  {
+    "williamboman/mason.nvim",
+    cmd = "Mason",
+    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+    build = ":MasonUpdate",
+    opts = {
+      ui = {
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗"
         },
-        event = "VeryLazy",
-        config = function()
-            local status, saga = pcall(require, "lspsaga")
-            if (not status) then return end
-            saga.setup({
-                ui = {
-                    winblend = 10,
-                    border = 'rounded',
-                    colors = {
-                        normal_bg = '#002b36'
-                    }
-                }
-            })
-
-            -- code action
-            local codeaction = require("lspsaga.codeaction")
-            vim.keymap.set("n", "<leader>ca", function() codeaction:code_action() end, { silent = true })
-            vim.keymap.set("v", "<leader>ca", function()
-                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<C-U>", true, false, true))
-                codeaction:range_code_action()
-            end, { silent = true })
-        end,
+        border = "rounded",
+      }
     },
-    {
-        "williamboman/mason.nvim",
-        dependencies = {
-            "williamboman/mason-lspconfig.nvim",
-            "WhoIsSethDaniel/mason-tool-installer.nvim",
+  },
+
+  -- MASON + LSP BRIDGE
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "mason.nvim" },
+    opts = {
+      ensure_installed = {
+        "lua_ls", "pyright", "rust_analyzer", "gopls", "jdtls",
+        "ts_ls", "html", "cssls", "tailwindcss", "emmet_ls",
+      },
+      automatic_installation = true,
+    },
+  },
+
+  -- MASON + FORMATTER/LINTER
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "mason.nvim" },
+    opts = {
+      ensure_installed = {
+        "black", "isort", "pylint",
+        "prettier", "stylua", "eslint_d",
+        "ruff", "mypy", "flake8",
+      },
+      auto_update = true,
+      run_on_start = true,
+    },
+  },
+
+  -- FIDGET – LSP STATUS UI
+  {
+    "j-hui/fidget.nvim",
+    event = "LspAttach",
+    opts = {
+      notification = {
+        window = {
+          winblend = 0,
+          border = "rounded",
         },
-        config = function()
-            -- import mason
-            local mason = require("mason")
+      },
+    },
+  },
 
-            -- import mason-lspconfig
-            local mason_lspconfig = require("mason-lspconfig")
+  -- LSP SAGA – LSP UI + ACTIONS
+  {
+    "nvimdev/lspsaga.nvim",
+    event = "LspAttach",
+    opts = {
+      lightbulb = { enable = true, sign = true, virtual_text = false },
+      symbol_in_winbar = { enable = false },
+      code_action = {
+        num_shortcut = true,
+        show_server_name = true,
+        extend_gitsigns = true,
+        keys = { quit = "q", exec = "<CR>" },
+      },
+      rename = { quit = "<C-c>", exec = "<CR>", in_select = true },
+      ui = {
+        border = "rounded",
+        devicon = true,
+        title = true,
+        expand = "⊞",
+        collapse = "⊟",
+        code_action = "💡",
+        colors = {
+          normal_bg = "#1e1e2e",
+        },
+      },
+    },
+    keys = {
+      { "gd", "<cmd>Lspsaga goto_definition<CR>", desc = "Goto Definition" },
+      { "gr", "<cmd>Lspsaga finder<CR>", desc = "References + Definition" },
+      { "K", "<cmd>Lspsaga hover_doc<CR>", desc = "Hover Doc" },
+      { "<leader>ca", "<cmd>Lspsaga code_action<CR>", mode = { "n", "v" }, desc = "Code Action" },
+      { "<leader>rn", "<cmd>Lspsaga rename<CR>", desc = "Rename" },
+      { "<leader>pd", "<cmd>Lspsaga peek_definition<CR>", desc = "Peek Definition" },
+      { "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", desc = "Prev Diagnostic" },
+      { "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", desc = "Next Diagnostic" },
+    },
+  },
 
-            local mason_tool_installer = require("mason-tool-installer")
+  -- LSP CONFIG BASE SETUP
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "mason.nvim",
+      "mason-lspconfig.nvim",
+      "lspsaga.nvim",
+      "hrsh7th/cmp-nvim-lsp",
+      "folke/neoconf.nvim",
+    },
+    config = function()
+      local lspconfig = require("lspconfig")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-            -- enable mason and configure icons
-            mason.setup({
-                ui = {
-                    icons = {
-                        package_installed = "✓",
-                        package_pending = "➜",
-                        package_uninstalled = "✗",
-                    },
-                },
-            })
+      -- ICON DIAGNOSTIC
+      local signs = { Error = "✘", Warn = "▲", Hint = "💡", Info = "ℹ" }
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      end
 
-            mason_lspconfig.setup({
-                -- list of servers for mason to install
-                ensure_installed = {
-                    "ts_ls",
-                    "html",
-                    "cssls",
-                    "tailwindcss",
-                    "svelte",
-                    "lua_ls",
-                    "graphql",
-                    "emmet_ls",
-                    "prismals",
-                    "pyright",
-                    "rust_analyzer",
-					"jdtls",
-					"gopls",
-                },
-                -- auto-install configured servers (with lspconfig)
-                automatic_installation = true, -- not the same as ensure_installed
-            })
+      -- LSP ATTACH – KEYMAP KHI LSP KẾT NỐI
+      local on_attach = function(client, bufnr)
+        local opts = { buffer = bufnr, noremap = true, silent = true }
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+      end
 
-            mason_tool_installer.setup({
-                ensure_installed = {
-                    "prettier", -- prettier formatter
-                    "stylua", -- lua formatter
-                    "isort", -- python formatter
-                    "black", -- python formatter
-                    "pylint", -- python linter
-                    "eslint_d", -- js linter
-                },
-            })
-        end,
-    }
+      local servers = {
+        lua_ls = {
+          settings = { Lua = { diagnostics = { globals = { "vim" } } } }
+        },
+        pyright = {
+          settings = { python = { analysis = { typeCheckingMode = "basic" } } }
+        },
+        rust_analyzer = {},
+        gopls = {},
+        jdtls = {},
+        ts_ls = {},
+      }
+
+      for server, config in pairs(servers) do
+        lspconfig[server].setup(vim.tbl_deep_extend("force", {
+          capabilities = capabilities,
+          on_attach = on_attach,
+        }, config))
+      end
+    end,
+  },
 }

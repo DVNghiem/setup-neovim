@@ -1,56 +1,54 @@
 return {
-	"karb94/neoscroll.nvim",
-	opts = {},
-	config = function()
-		local neoscroll = require("neoscroll")
-		local keymap = {
-			["<C-u>"] = function()
-				neoscroll.ctrl_u({ duration = 250 })
-			end,
-			["<C-d>"] = function()
-				neoscroll.ctrl_d({ duration = 250 })
-			end,
-			["<C-b>"] = function()
-				neoscroll.ctrl_b({ duration = 450 })
-			end,
-			["<C-f>"] = function()
-				neoscroll.ctrl_f({ duration = 450 })
-			end,
-			["<C-y>"] = function()
-				neoscroll.scroll(-0.1, { move_cursor = false, duration = 100 })
-			end,
-			["<C-e>"] = function()
-				neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
-			end,
-			["zt"] = function()
-				neoscroll.zt({ half_win_duration = 250 })
-			end,
-			["zz"] = function()
-				neoscroll.zz({ half_win_duration = 250 })
-			end,
-			["zb"] = function()
-				neoscroll.zb({ half_win_duration = 250 })
-			end,
-		}
-		local modes = { "n", "v", "x" }
-		for key, func in pairs(keymap) do
-			vim.keymap.set(modes, key, func)
-		end
+  "karb94/neoscroll.nvim",
+  event = "VeryLazy",
+  keys = {
+    "<C-u>", "<C-d>", "<C-b>", "<C-f>",
+    "<C-y>", "<C-e>",
+    "zt", "zz", "zb",
+  },
+  config = function()
+    local neoscroll = require("neoscroll")
+    local cfg = require("neoscroll.config")
 
-		neoscroll.setup({
-			hide_cursor = true, -- Hide cursor while scrolling
-			stop_eof = true, -- Stop at <EOF> when scrolling downwards
-			respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-			cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-			duration_multiplier = 1.0, -- Global duration multiplier
-			easing = "linear", -- Default easing function
-			pre_hook = nil, -- Function to run before the scrolling animation starts
-			post_hook = nil, -- Function to run after the scrolling animation ends
-			performance_mode = false, -- Disable "Performance Mode" on all buffers.
-			ignored_events = { -- Events ignored while scrolling
-				"WinScrolled",
-				"CursorMoved",
-			},
-		})
-	end,
+    -- Easing function (sine + quadratic)
+    local ease = function(t)
+      return t < 0.5 and 2 * t * t or -1 + (4 - 2 * t) * t
+    end
+
+    -- KEYMAP
+    local map = {
+      ["<C-u>"] = function() neoscroll.ctrl_u({ duration = 160, easing = ease }) end,
+      ["<C-d>"] = function() neoscroll.ctrl_d({ duration = 160, easing = ease }) end,
+      ["<C-b>"] = function() neoscroll.ctrl_b({ duration = 300, easing = ease }) end,
+      ["<C-f>"] = function() neoscroll.ctrl_f({ duration = 300, easing = ease }) end,
+      ["<C-y>"] = function() neoscroll.scroll(-0.1, { move_cursor = false, duration = 50 }) end,
+      ["<C-e>"] = function() neoscroll.scroll( 0.1, { move_cursor = false, duration = 50 }) end,
+      ["zt"]    = function() neoscroll.zt({ half_win_duration = 150 }) end,
+      ["zz"]    = function() neoscroll.zz({ half_win_duration = 150 }) end,
+      ["zb"]    = function() neoscroll.zb({ half_win_duration = 150 }) end,
+    }
+
+    for key, func in pairs(map) do
+      vim.keymap.set({"n", "v"}, key, func, { silent = true })
+    end
+
+    neoscroll.setup({
+      hide_cursor = true,
+      stop_eof = true,
+      respect_scrolloff = true,
+      cursor_scrolls_alone = false,
+      easing = ease,
+      pre_hook = function()
+        vim.cmd("silent! nohlsearch")
+      end,
+      post_hook = nil,
+      performance_mode = false,
+      ignored_events = {
+        "WinScrolled", "CursorMoved", "CursorMovedI",
+      },
+    })
+	vim.api.nvim_set_hl(0, "Cursor", { fg = "#282A36", bg = "#8BE9FD", bold = true })
+	vim.api.nvim_set_hl(0, "CursorLine", { bg = "#44475A" })
+	vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FFB86C", bold = true })
+  end,
 }

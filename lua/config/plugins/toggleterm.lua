@@ -1,61 +1,83 @@
--- setup terminal here
 return {
-    "akinsho/toggleterm.nvim",
-    branch = "main",
-    config = function()
-        require("toggleterm").setup({
-            active = true,
-            on_config_done = nil,
-            -- size can be a number or function which is passed the current terminal
-            size = 20,
-            open_mapping = [[<c-\>]],
-            hide_numbers = true, -- hide the number column in toggleterm buffers
-            shade_filetypes = {},
-            shade_terminals = true,
-            shading_factor = 2, -- the degree by which to darken to terminal colour, default: 1 for dark backgrounds, 3 for light
-            start_in_insert = true,
-            insert_mappings = true, -- whether or not the open mapping applies in insert mode
-            persist_size = false,
-            -- direction = 'vertical' | 'horizontal' | 'window' | 'float',
-            direction = "float",
-            close_on_exit = true, -- close the terminal window when the process exits
-            shell = nil, -- change the default shell
-            -- This field is only relevant if direction is set to 'float'
-            float_opts = {
-              -- The border key is *almost* the same as 'nvim_win_open'
-              -- see :h nvim_win_open for details on borders however
-              -- the 'curved' border is a custom border type
-              -- not natively supported but implemented in this plugin.
-              -- border = 'single' | 'double' | 'shadow' | 'curved' | ... other options supported by win open
-              border = "curved",
-              -- width = <value>,
-              -- height = <value>,
-              winblend = 0,
-              highlights = {
-                border = "Normal",
-                background = "Normal",
-              },
-            },
-            -- Add executables on the config.lua
-            -- { cmd, keymap, description, direction, size }
-            -- lvim.builtin.terminal.execs = {...} to overwrite
-            -- lvim.builtin.terminal.execs[#lvim.builtin.terminal.execs+1] = {"gdb", "tg", "GNU Debugger"}
-            -- TODO: pls add mappings in which key and refactor this
-            execs = {
-              { nil, "<M-1>", "Horizontal Terminal", "horizontal", 0.3 },
-              { nil, "<M-2>", "Vertical Terminal", "vertical", 0.4 },
-              { nil, "<M-3>", "Float Terminal", "float", nil },
-            },
-          })
-    end,
-    cmd = {
-        "ToggleTerm",
-        "TermExec",
-        "ToggleTermToggleAll",
-        "ToggleTermSendCurrentLine",
-        "ToggleTermSendVisualLines",
-        "ToggleTermSendVisualSelection",
-    },
-    keys = [[<c-\>]],
-    enabled = true,
+  "akinsho/toggleterm.nvim",
+  version = "*",
+  event = "VeryLazy",
+  keys = {
+    { "<C-\\>", mode = {"n", "t"}, desc = "Toggle Terminal" },
+    { "<leader>gg", "<cmd>TermExec cmd='lazygit'<CR>", desc = "Lazygit" },
+    { "<leader>tp", "<cmd>TermExec cmd='python %'<CR>", desc = "Run Python File" },
+    { "<leader>tn", "<cmd>TermExec cmd='node %'<CR>", desc = "Run Node.js File" },
+    { "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", desc = "Float Terminal" },
+    { "<leader>th", "<cmd>ToggleTerm size=20 direction=horizontal<CR>", desc = "Horizontal" },
+    { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<CR>", desc = "Vertical" },
+  },
+  config = function()
+    local toggleterm = require("toggleterm")
+    
+    toggleterm.setup({
+      size = function(term)
+        if term.direction == "horizontal" then
+          return vim.o.lines * 0.3
+        elseif term.direction == "vertical" then
+          return vim.o.columns * 0.4
+        else
+          return 20
+        end
+      end,
+      open_mapping = [[<C-\>]],
+      hide_numbers = true,
+      shade_terminals = false,
+      start_in_insert = true,
+      insert_mappings = true,
+      terminal_mappings = true,
+      persist_size = true,
+      persist_mode = true,
+      direction = "float",
+      close_on_exit = true,
+      shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "bash",
+      auto_scroll = true,
+
+      float_opts = {
+        border = "curved",
+        winblend = 0,
+        width = function() return math.floor(vim.o.columns * 0.9) end,
+        height = function() return math.floor(vim.o.lines * 0.9) end,
+        highlights = {
+          border = "FloatBorder",
+          background = "NormalFloat",
+        },
+      },
+
+      highlights = {
+        NormalFloat = { link = "Normal" },
+        FloatBorder = { fg = "#6272A4" },
+      },
+    })
+
+    vim.api.nvim_set_hl(0, "ToggleTermBorder", { fg = "#6272A4" })
+    vim.api.nvim_set_hl(0, "ToggleTermFloat", { bg = "#282A36" })
+
+    local Terminal = require("toggleterm.terminal").Terminal
+    
+    local lazygit = Terminal:new({
+      cmd = "lazygit",
+      dir = "git_dir",
+      direction = "float",
+      float_opts = { border = "double" },
+      on_open = function(term)
+        vim.cmd("startinsert!")
+        vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+      end,
+    })
+
+    -- KEYMAP
+    vim.keymap.set("n", "<leader>gg", function() lazygit:toggle() end, { desc = "Lazygit" })
+
+    -- ESC EXIST TERMINAL
+    vim.api.nvim_set_keymap("t", "<esc>", [[<C-\><C-n>]], { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("t", "<C-h>", [[<C-\><C-n><C-w>h]], { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("t", "<C-j>", [[<C-\><C-n><C-w>j]], { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("t", "<C-k>", [[<C-\><C-n><C-w>k]], { noremap = true, silent = true })
+    vim.api.nvim_set_keymap("t", "<C-l>", [[<C-\><C-n><C-w>l]], { noremap = true, silent = true })
+  end,
 }

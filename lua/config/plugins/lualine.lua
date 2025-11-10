@@ -65,20 +65,5 @@ return {
       extensions = { "neo-tree", "lazy", "trouble", "mason" },
     }
 
-    -- KEYMAP CLICK CHUỘT TRÁI VÀO NÚT × → TẮT BUFFER
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "lualine",
-      callback = function()
-        vim.api.nvim_buf_set_keymap(0, "n", "<leftmouse>", function()
-          local line = vim.fn.getline(".")
-          if line:find("") then
-            local bufnr = vim.fn.bufnr("#")
-            if bufnr ~= -1 then
-              vim.cmd("silent! bd " .. bufnr)
-            end
-          end
-        end, { noremap = true, silent = true })
-      end,
-    })
   end,
 }

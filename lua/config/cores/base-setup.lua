@@ -14,6 +14,17 @@ vim.api.nvim_create_autocmd({"BufEnter"}, {
     end
 })
 
+-- THEME HIGHLIGHTS
+vim.api.nvim_set_hl(0, "TelescopeMatching",        { fg = "#FF79C6", bg = "NONE", bold = true })
+vim.api.nvim_set_hl(0, "TelescopeSelection",       { bg = "#44475A", fg = "#F8F8F2", bold = true })
+vim.api.nvim_set_hl(0, "TelescopeSelectionCaret",  { fg = "#BD93F9", bg = "#44475A" })
+vim.api.nvim_set_hl(0, "TelescopeMultiSelection",  { fg = "#FFB86C", bg = "#44475A" })
+
+-- CMP HIGHLIGHTS
+vim.api.nvim_set_hl(0, "Pmenu",     { bg = "#282A36", fg = "#F8F8F2" })
+vim.api.nvim_set_hl(0, "PmenuSel",  { bg = "#44475A", fg = "#F8F8F2", bold = true })
+vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { fg = "#FF79C6", bold = true })
+
 local set = vim.opt
 
 -- Scrolling & Navigation (smooth and responsive)
