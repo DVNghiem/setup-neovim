@@ -1,14 +1,19 @@
 return {
     "nvim-treesitter/nvim-treesitter",
-    event = { "BufReadPost" }, -- Changed from BufReadPre to BufReadPost for faster opening
+    event = { "BufReadPost", "BufNewFile" },
     build = ":TSUpdate",
+    main = "nvim-treesitter.configs",
     dependencies = {
         "nvim-treesitter/nvim-treesitter-textobjects",
         "windwp/nvim-ts-autotag",
     },
     config = function()
-        -- import nvim-treesitter plugin
-        local treesitter = require("nvim-treesitter.configs")
+        -- import nvim-treesitter plugin safely
+        local ok, treesitter = pcall(require, "nvim-treesitter.configs")
+        if not ok then
+            vim.notify("nvim-treesitter not found", vim.log.levels.ERROR)
+            return
+        end
 
         treesitter.setup({     
             -- enable syntax highlighting
