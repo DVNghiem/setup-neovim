@@ -1,148 +1,84 @@
+-- ~/.config/nvim/lua/plugins/lualine.lua
 return {
-    "nvim-lualine/lualine.nvim",
-    dependencies = {"nvim-tree/nvim-web-devicons"},
-    config = function()
-        local lualine = require("lualine")
-        local lazy_status = require("lazy.status") -- to configure lazy pending updates count
+  "nvim-lualine/lualine.nvim",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  config = function()
+    require("lualine").setup {
+      options = {
+        theme = "dracula",
+        component_separators = "",
+        section_separators = { left = "", right = "" },
+        globalstatus = true,
+      },
 
-        local colors = {
-            blue = "#65D1FF",
-            green = "#3EFFDC",
-            violet = "#FF61EF",
-            yellow = "#FFDA7B",
-            red = "#FF4A4A",
-            fg = "#c3ccdc",
-            bg = "#112638",
-            inactive_bg = "#2c3043"
-        }
+      -- TABLINE SIÊU ĐẸP + NÚT × + BO TRÒN
+      tabline = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {
+          {
+            "buffers",
+            show_filename_only = true,
+            hide_filename_extension = false,
+            show_modified_status = true,
 
-        local my_lualine_theme = {
-            normal = {
-                a = {
-                    bg = colors.blue,
-                    fg = colors.bg,
-                    gui = "bold"
-                },
-                b = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                },
-                c = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                }
+            -- NÚT × ĐỎ ĐẸP NHƯ VSCode
+            symbols = {
+              modified = " ●",
+              alternate_file = "",
+              directory = "",
             },
-            insert = {
-                a = {
-                    bg = colors.green,
-                    fg = colors.bg,
-                    gui = "bold"
-                },
-                b = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                },
-                c = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                }
-            },
-            visual = {
-                a = {
-                    bg = colors.violet,
-                    fg = colors.bg,
-                    gui = "bold"
-                },
-                b = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                },
-                c = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                }
-            },
-            command = {
-                a = {
-                    bg = colors.yellow,
-                    fg = colors.bg,
-                    gui = "bold"
-                },
-                b = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                },
-                c = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                }
-            },
-            replace = {
-                a = {
-                    bg = colors.red,
-                    fg = colors.bg,
-                    gui = "bold"
-                },
-                b = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                },
-                c = {
-                    bg = colors.bg,
-                    fg = colors.fg
-                }
-            },
-            inactive = {
-                a = {
-                    bg = colors.inactive_bg,
-                    fg = colors.semilightgray,
-                    gui = "bold"
-                },
-                b = {
-                    bg = colors.inactive_bg,
-                    fg = colors.semilightgray
-                },
-                c = {
-                    bg = colors.inactive_bg,
-                    fg = colors.semilightgray
-                }
-            }
-        }
 
-        -- configure lualine with modified theme
-        lualine.setup({
-            tabline = {
-                lualine_a = {'buffers'},
-                lualine_b = {'branch'},
-                lualine_c = {},
-                lualine_x = {},
-                lualine_y = {},
-                lualine_z = {'tabs'}
+            -- BO TRÒN + MÀU DRACULA CHUẨN
+            buffers_color = {
+              active = { fg = "#F8F8F2", bg = "#44475A", gui = "bold" },
+              inactive = { fg = "#6272A4", bg = "#282A36" },
             },
-            extensions = {'neo-tree', 'lazy', 'trouble', 'mason', 'nvim-dap-ui'},
-            options = {
-                theme = 'dracula',
-                component_separators = '',
-                section_separators = {
-                    left = '',
-                    right = ''
-                },
-                globalstatus = true
-            },
-            sections = {
-                lualine_c = {{
-                    'filename',
-                    file_status = true,
-                    newfile_status = true,
-                    path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
-                    symbols = {
-                        modified = '󰷥',
-                        readonly = '',
-                        unnamed = '[No Name]',
-                        newfile = ''
-                    }
-                }}
-            }
-        })
-    end
+
+            -- NÚT × CLICK LÀ TẮT BUFFER
+            fmt = function(name, context)
+              local close_btn = context.bufnr and "  " .. "" or ""
+              return " " .. name .. close_btn
+            end,
+          }
+        },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = { "tabs" },
+      },
+
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch" },
+        lualine_c = {
+          {
+            "filename",
+            path = 1,
+            symbols = { modified = "●", readonly = "", newfile = "[New]" }
+          }
+        },
+        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
+      },
+
+      extensions = { "neo-tree", "lazy", "trouble", "mason" },
+    }
+
+    -- KEYMAP CLICK CHUỘT TRÁI VÀO NÚT × → TẮT BUFFER
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "lualine",
+      callback = function()
+        vim.api.nvim_buf_set_keymap(0, "n", "<leftmouse>", function()
+          local line = vim.fn.getline(".")
+          if line:find("") then
+            local bufnr = vim.fn.bufnr("#")
+            if bufnr ~= -1 then
+              vim.cmd("silent! bd " .. bufnr)
+            end
+          end
+        end, { noremap = true, silent = true })
+      end,
+    })
+  end,
 }

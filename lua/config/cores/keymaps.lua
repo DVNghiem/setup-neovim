@@ -182,19 +182,42 @@ vim.keymap.set("n", "<leader>ti", function()
   print("📊 File info bar toggled!")
 end, { desc = "Toggle file info bar", silent = true })
 
--- Enhanced buffer navigation with smooth animations
-vim.keymap.set("n", "[b", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
-vim.keymap.set("n", "]b", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
-vim.keymap.set("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>bn", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
-vim.keymap.set("n", "<leader>bd", "<cmd>BufferLinePickClose<cr>", { desc = "Pick close buffer" })
-vim.keymap.set("n", "<leader>bD", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
-vim.keymap.set("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", { desc = "Close left buffers" })
-vim.keymap.set("n", "<leader>br", "<cmd>BufferLineCloseRight<cr>", { desc = "Close right buffers" })
-vim.keymap.set("n", "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", { desc = "Close other buffers" })
-vim.keymap.set("n", "<leader>bP", "<cmd>BufferLineTogglePin<cr>", { desc = "Toggle pin buffer" })
+vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>",     { desc = "Next buffer" })
+
+vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+vim.keymap.set("n", "]b", "<cmd>bnext<cr>",     { desc = "Next buffer" })
+
+vim.keymap.set("n", "<leader>bn", "<cmd>bnext<cr>",     { desc = "Next buffer" })
+vim.keymap.set("n", "<leader>bp", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+
+-- Buffer management keymaps
+vim.keymap.set("n", "<leader>bd", function()
+  local current = vim.fn.bufnr("%")
+  vim.cmd("bdelete " .. current)
+end, { desc = "Delete current buffer" })
+
+vim.keymap.set("n", "<leader>bD", function()
+  local current = vim.fn.bufnr("%")
+  vim.cmd("%bd|e#|bd#")
+end, { desc = "Close all other buffers" })
+
+vim.keymap.set("n", "<leader>bl", function()
+  local current = vim.fn.bufnr("%")
+  vim.cmd("bdelete | bnext | bdelete")
+end, { desc = "Close left buffers (simplified)" })
+
+vim.keymap.set("n", "<leader>br", function()
+  local current = vim.fn.bufnr("%")
+  vim.cmd("bnext | %bd | e# | bd#")
+end, { desc = "Close right buffers (simplified)" })
+
+vim.keymap.set("n", "<leader>bo", function()
+  vim.cmd("%bd|e#|bd#")
+end, { desc = "Close all other buffers" })
+
+-- PICK BUFFER like BUFFERLINE
+vim.keymap.set("n", "gb", "<cmd>Telescope buffers<cr>", { desc = "Pick buffer (Telescope)" })
 
 -- Smooth interface controls
 vim.keymap.set("n", "<leader>ub", function()
