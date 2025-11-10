@@ -1,6 +1,6 @@
 vim.api.nvim_command("syntax enable")
 vim.api.nvim_command('filetype plugin indent on')
-
+vim.deprecate = function() end
 vim.opt.modifiable = true
 vim.api.nvim_create_autocmd({"BufEnter"}, {
     pattern = "*",
