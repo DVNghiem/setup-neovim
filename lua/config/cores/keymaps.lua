@@ -127,11 +127,6 @@ keymap.set('n', '<leader>fc', 'zc', { desc = "Close fold" })
 keymap.set('n', '<leader>fa', 'za', { desc = "Toggle fold" })
 keymap.set('n', '<leader>fA', 'zA', { desc = "Toggle all folds" })
 
--- Health and productivity shortcuts
-keymap.set('n', '<leader>br', function()
-    vim.notify("🧘 Take a deep breath! Stretch your fingers and neck.", vim.log.levels.INFO, { title = "Quick Break" })
-end, { desc = "Health break reminder" })
-
 -- Terminal shortcuts
 keymap.set('n', '<leader>tt', ':ToggleTerm<CR>', { desc = "Toggle terminal" })
 keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = "Exit terminal mode" })
@@ -309,9 +304,6 @@ keymap.set("n", "<leader>fe", "<cmd>Telescope diagnostics<cr>", { desc = "Find d
 -- Quick access shortcuts
 keymap.set("n", "<C-p>", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
 keymap.set("n", "<C-f>", "<cmd>Telescope live_grep<cr>", { desc = "Find text" })
-
--- Notification management
-keymap.set("n", "<leader>nd", function() require("notify").dismiss({ silent = true, pending = true }) end, { desc = "Dismiss notifications" })
 
 -- Workspace management
 keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add workspace folder" })
