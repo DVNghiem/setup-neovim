@@ -30,6 +30,7 @@ return {
         end
     end,
     config = function()
+        local icons = require("config.cores.icon")
         require("neo-tree").setup({
             close_if_last_window = false,
             popup_border_style = "rounded",
@@ -73,15 +74,15 @@ return {
                 },
                 git_status = {
                     symbols = {
-                        added = "",
-                        modified = "",
-                        deleted = "✖",
-                        renamed = "󰁕",
-                        untracked = "",
-                        ignored = "",
-                        unstaged = "��",
-                        staged = "",
-                        conflict = ""
+                        added = icons.git.added,
+                        modified = icons.git.modified,
+                        deleted = icons.git.removed,
+                        renamed = icons.git.renamed,
+                        untracked = icons.git.untracked,
+                        ignored = icons.git.ignored,
+                        unstaged = icons.git.unstaged,
+                        staged = icons.git.staged,
+                        conflict = icons.git.conflict
                     }
                 },
                 file_size = {
