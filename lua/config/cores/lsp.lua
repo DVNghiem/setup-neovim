@@ -1,6 +1,4 @@
 -- LSP Configuration Module
--- Optimized for performance and maintainability
-
 local M = {}
 
 -- Cache frequently used vim APIs for better performance
@@ -210,10 +208,6 @@ local LSP_KEYMAPS = {
   { "n", "K", vim.lsp.buf.hover, "Show documentation" },
   { "n", "<leader>K", vim.lsp.buf.signature_help, "Show signature help" },
   
-  -- Formatting - NOTE: Removed LSP formatting keymaps, use conform.nvim instead (<leader>fm)
-  -- { "n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, "Format buffer" },
-  -- { "v", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, "Format selection" },
-  
   -- Workspace management (important for backend projects)
   { "n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add workspace folder" },
   { "n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove workspace folder" },
@@ -337,7 +331,11 @@ local function setup_global_settings()
   })
   
   -- Configure LSP logging for debugging
-  vim.lsp.set_log_level("off")  -- Reduce noise in production
+  if vim.env.NVIM_LSP_DEBUG then
+    vim.lsp.set_log_level("debug")
+  else
+    vim.lsp.set_log_level("off")
+  end
 end
 
 -- Global diagnostic keymaps (available everywhere)
@@ -378,27 +376,6 @@ local function setup_lsp_attach()
       
       -- Setup buffer-local keymaps
       setup_buffer_keymaps(bufnr)
-      
-      -- Backend-specific client optimizations
-      -- NOTE: Auto-format on save is DISABLED here - using stevearc/conform.nvim instead
-      -- if client.server_capabilities.documentFormattingProvider then
-      --   -- Smart format on save for backend files
-      --   api.nvim_create_autocmd("BufWritePre", {
-      --     buffer = bufnr,
-      --     group = api.nvim_create_augroup('LspFormatting', { clear = false }),
-      --     callback = function()
-      --       -- Only format if the file type is supported and file is not too large
-      --       local file_size = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr))
-      --       if file_size < 1024 * 1024 then  -- Less than 1MB
-      --         vim.lsp.buf.format({ 
-      --           bufnr = bufnr,
-      --           timeout_ms = 2000,  -- Reasonable timeout for backend files
-      --           async = false,
-      --         })
-      --       end
-      --     end,
-      --   })
-      -- end
       
       -- Enable inlay hints for supported backends
       if client.server_capabilities.inlayHintProvider and lsp.inlay_hint then
@@ -511,31 +488,6 @@ local function setup_backend_utilities()
   end, { nargs = '?', desc = 'Search backend symbols' })
 end
 
--- Performance monitoring for backend development
-local function setup_performance_monitoring()
-  -- Track LSP performance for large backend codebases
-  local function log_lsp_performance(method, start_time)
-    local end_time = vim.loop.hrtime()
-    local duration = (end_time - start_time) / 1000000  -- Convert to milliseconds
-    if duration > 1000 then  -- Log if operation takes more than 1 second
-      vim.notify(string.format("LSP %s took %.2fms", method, duration), vim.log.levels.WARN)
-    end
-  end
-
-  -- Monitor slow LSP operations
-  local original_request = lsp.buf_request
-  lsp.buf_request = function(bufnr, method, params, handler)
-    local start_time = vim.loop.hrtime()
-    local new_handler = handler
-    if handler then
-      new_handler = function(...)
-        log_lsp_performance(method, start_time)
-        return handler(...)
-      end
-    end
-    return original_request(bufnr, method, params, new_handler)
-  end
-end
 
 -- Enhanced setup function with backend optimizations
 function M.setup(opts)
@@ -555,10 +507,6 @@ function M.setup(opts)
   setup_global_keymaps()
   setup_lsp_attach()
   setup_backend_utilities()
-  
-  if opts.enable_performance_monitoring then
-    setup_performance_monitoring()
-  end
   
   -- Set up backend-specific autocommands
   api.nvim_create_autocmd("FileType", {
