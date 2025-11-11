@@ -5,7 +5,6 @@ return {
     "nvim-tree/nvim-web-devicons",
     "folke/persistence.nvim",
     "nvim-telescope/telescope.nvim",
-    "robocorp/gp.nvim", -- AI
   },
   opts = function()
     local logo = [[
@@ -65,14 +64,6 @@ return {
             desc = "Projects",
             icon = "󰉖 ",
             key = "p",
-          },
-          {
-            action = function()
-              require("gp").ChatNew()
-            end,
-            desc = "AI Chat (GPT)",
-            icon = "󰧑 ",
-            key = "a",
           },
           {
             action = "Lazy",
