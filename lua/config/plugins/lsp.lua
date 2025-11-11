@@ -119,7 +119,7 @@ return {
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
       end
 
-      -- LSP ATTACH – KEYMAP KHI LSP KẾT NỐI
+      -- LSP ATTACH – KEYMAP
       local on_attach = function(client, bufnr)
         local opts = { buffer = bufnr, noremap = true, silent = true }
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
