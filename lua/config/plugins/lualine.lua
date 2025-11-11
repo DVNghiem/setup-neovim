@@ -32,8 +32,9 @@ return {
             },
 
             fmt = function(name, context)
-              local close_btn = context.bufnr and "  " .. "" or ""
-              return " " .. name .. close_btn
+              -- local close_btn = context.bufnr and "  " .. "" or ""
+              -- return " " .. name .. close_btn
+              return " " .. name
             end,
           }
         },
