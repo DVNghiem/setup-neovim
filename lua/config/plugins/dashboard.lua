@@ -5,88 +5,91 @@ return {
     "nvim-tree/nvim-web-devicons",
     "folke/persistence.nvim",
     "nvim-telescope/telescope.nvim",
+    "robocorp/gp.nvim", -- AI
   },
   opts = function()
-    -- Modern ASCII art logo
     local logo = [[
-                                                    
-        ███╗   ██╗      ██████╗ ███████╗██╗   ██╗       
+                                                        
+         ███╗   ██╗      ██████╗ ███████╗██╗   ██╗       
         ████╗  ██║      ██╔══██╗██╔════╝██║   ██║      
         ██╔██╗ ██║█████╗██║  ██║█████╗  ██║   ██║      
         ██║╚██╗██║╚════╝██║  ██║██╔══╝  ╚██╗ ██╔╝      
         ██║ ╚████║      ██████╔╝███████╗ ╚████╔╝       
         ╚═╝  ╚═══╝      ╚═════╝ ╚══════╝  ╚═══╝      
-         ⚡ Lightning Fast Development Environment
+        ⚡ Neovim Configuration by VanNghiem848 ⚡
     ]]
 
-    logo = string.rep("\n", 4) .. logo .. "\n\n"
+    local lines = vim.split(logo, "\n")
+    local height = vim.o.lines * 0.6
+    local pad = math.floor((height - #lines) * 0.35)
+    logo = string.rep("\n", pad) .. table.concat(lines, "\n") .. "\n\n"
 
     local opts = {
       theme = "doom",
-      hide = {
-        statusline = false,
-        tabline = false,
-        winbar = false,
-      },
+      hide = { statusline = false, tabline = false, winbar = false },
       config = {
         header = vim.split(logo, "\n"),
         center = {
           {
             action = "Telescope find_files",
-            desc = " Find Files",
-            icon = " ",
+            desc = "Find File",
+            icon = "󰱼 ",
             key = "f",
           },
           {
             action = "ene | startinsert",
-            desc = " New File",
-            icon = " ",
+            desc = "New File",
+            icon = "󰝒 ",
             key = "n",
           },
           {
             action = "Telescope oldfiles",
-            desc = " Recent Files",
-            icon = " ",
+            desc = "File Recent",
+            icon = "󰋚 ",
             key = "r",
           },
           {
             action = "Telescope live_grep",
-            desc = " Find Text",
-            icon = " ",
+            desc = "Find content",
+            icon = "󱡴 ",
             key = "g",
           },
           {
-            action = function()
-              require("persistence").load()
-            end,
-            desc = " Restore Session",
-            icon = " ",
+            action = function() require("persistence").load() end,
+            desc = "Restore Session",
+            icon = "󰁯 ",
             key = "s",
           },
           {
             action = "Telescope projects",
-            desc = " Projects",
-            icon = " ",
+            desc = "Projects",
+            icon = "󰉖 ",
             key = "p",
           },
           {
+            action = function()
+              require("gp").ChatNew()
+            end,
+            desc = "AI Chat (GPT)",
+            icon = "󰧑 ",
+            key = "a",
+          },
+          {
             action = "Lazy",
-            desc = " Lazy Plugin Manager",
+            desc = "Manage Plugins",
             icon = "󰒲 ",
             key = "l",
           },
           {
             action = "Mason",
-            desc = " Mason LSP Manager",
-            icon = " ",
+            desc = "LSP & Tools",
+            icon = "󰔡 ",
             key = "m",
           },
           {
-            action = function()
-              vim.api.nvim_input("<cmd>qa<cr>")
-            end,
-            desc = " Quit",
-            icon = " ",
+            action = function() vim.api.nvim_input("<cmd>qa<cr>") end,
+            desc = "Quit Neovim",
+            icon = "󰩈 ",
             key = "q",
           },
         },
@@ -95,28 +98,18 @@ return {
           local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
           return {
             "",
-            "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
+            "⚡ Neovim startup " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
+            "   @vannghiem848",
           }
         end,
       },
     }
 
-    -- Add padding for better visual spacing
     for _, button in ipairs(opts.config.center) do
-      button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
+      local padding = 50 - #button.desc
+      button.desc = button.desc .. string.rep(" ", padding)
       button.key_format = "  %s"
     end
-
-    -- Auto-open on startup
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "LazyVimStarted",
-      callback = function()
-        local stats = require("lazy").stats()
-        local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-        local msg = "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms"
-        vim.notify(msg, vim.log.levels.INFO, { title = "Startup" })
-      end,
-    })
 
     return opts
   end,
