@@ -273,7 +273,8 @@ keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature he
 -- Code Actions and Refactoring
 keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "See available code actions" })
 keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Smart rename" })
-keymap.set("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format code" })
+-- NOTE: Removed LSP format keymap, use conform.nvim instead (<leader>fm)
+-- keymap.set("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format code" })
 
 -- Diagnostics Navigation
 keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show line diagnostics" })

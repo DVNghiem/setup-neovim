@@ -210,9 +210,9 @@ local LSP_KEYMAPS = {
   { "n", "K", vim.lsp.buf.hover, "Show documentation" },
   { "n", "<leader>K", vim.lsp.buf.signature_help, "Show signature help" },
   
-  -- Formatting (essential for backend code quality)
-  { "n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, "Format buffer" },
-  { "v", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, "Format selection" },
+  -- Formatting - NOTE: Removed LSP formatting keymaps, use conform.nvim instead (<leader>fm)
+  -- { "n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, "Format buffer" },
+  -- { "v", "<leader>f", function() vim.lsp.buf.format({ async = true }) end, "Format selection" },
   
   -- Workspace management (important for backend projects)
   { "n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add workspace folder" },
@@ -380,24 +380,25 @@ local function setup_lsp_attach()
       setup_buffer_keymaps(bufnr)
       
       -- Backend-specific client optimizations
-      if client.server_capabilities.documentFormattingProvider then
-        -- Smart format on save for backend files
-        api.nvim_create_autocmd("BufWritePre", {
-          buffer = bufnr,
-          group = api.nvim_create_augroup('LspFormatting', { clear = false }),
-          callback = function()
-            -- Only format if the file type is supported and file is not too large
-            local file_size = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr))
-            if file_size < 1024 * 1024 then  -- Less than 1MB
-              vim.lsp.buf.format({ 
-                bufnr = bufnr,
-                timeout_ms = 2000,  -- Reasonable timeout for backend files
-                async = false,
-              })
-            end
-          end,
-        })
-      end
+      -- NOTE: Auto-format on save is DISABLED here - using stevearc/conform.nvim instead
+      -- if client.server_capabilities.documentFormattingProvider then
+      --   -- Smart format on save for backend files
+      --   api.nvim_create_autocmd("BufWritePre", {
+      --     buffer = bufnr,
+      --     group = api.nvim_create_augroup('LspFormatting', { clear = false }),
+      --     callback = function()
+      --       -- Only format if the file type is supported and file is not too large
+      --       local file_size = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr))
+      --       if file_size < 1024 * 1024 then  -- Less than 1MB
+      --         vim.lsp.buf.format({ 
+      --           bufnr = bufnr,
+      --           timeout_ms = 2000,  -- Reasonable timeout for backend files
+      --           async = false,
+      --         })
+      --       end
+      --     end,
+      --   })
+      -- end
       
       -- Enable inlay hints for supported backends
       if client.server_capabilities.inlayHintProvider and lsp.inlay_hint then

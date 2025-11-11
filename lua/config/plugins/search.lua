@@ -85,7 +85,7 @@ return {
             preview_cutoff = 120,
           },
           file_ignore_patterns = { "node_modules", ".git/", "venv", "__pycache__" },
-          path_display = { "truncate" },
+          path_display = { "filename_first" },
           winblend = 0,
           border = {},
           borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
