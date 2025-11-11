@@ -92,21 +92,23 @@ return {
     "chentoast/marks.nvim",
     event = "VeryLazy",
     config = function()
-      require'marks'.setup {
+      require("marks").setup({
         default_mappings = true,
         builtin_marks = { ".", "<", ">", "^" },
         cyclic = true,
-        force_write_shada = false,
-        refresh_interval = 250,
-        sign_priority = { lower=10, upper=15, builtin=8, bookmark=20 },
-        excluded_filetypes = {},
+        sign_priority = { lower = 10, upper = 15, builtin = 8, bookmark = 20 },
+        mappings = {
+          set_next = "m,",
+          delete_line = "dm",
+          delete_buf = "m<BS>",
+          preview = "m:",
+        },
         bookmark_0 = {
-          sign = "⚑",
-          virt_text = "hello world",
+          sign = "★",
+          virt_text = "",
           annotate = false,
         },
-        mappings = {}
-      }
+      })
     end,
   },
   
@@ -167,29 +169,15 @@ return {
   },
   
   -- Smart column marker for code style
-  {
+ {
     "Bekaboo/deadcolumn.nvim",
-    event = "VeryLazy",
+    event = "BufEnter",
     config = function()
-      require('deadcolumn').setup({
-        scope = 'line',
-        modes = function(mode)
-          return mode:find('^[ictRss\x13]') ~= nil
-        end,
-        blending = {
-          threshold = 0.75,
-          colorcode = '#000000',
-          hlgroup = { 'Normal', 'bg' },
-        },
-        warning = {
-          alpha = 0.4,
-          offset = 0,
-          colorcode = '#FF0000',
-          hlgroup = { 'Error', 'bg' },
-        },
-        extra = {
-          follow_tw = nil,
-        },
+      require("deadcolumn").setup({
+        scope = "line",
+        modes = { "i", "ic", "ix", "R", "Rc", "Rx", "Rv", "Rvc", "Rvx" },
+        blending = { threshold = 0.75, colorcode = "#000000" },
+        warning = { alpha = 0.3, colorcode = "#FF79C6", hlgroup = { "Error", "bg" } },
       })
     end,
   },
