@@ -1,5 +1,3 @@
-vim.api.nvim_command("syntax enable")
-vim.api.nvim_command('filetype plugin indent on')
 vim.deprecate = function() end
 vim.opt.modifiable = true
 vim.api.nvim_create_autocmd({"BufEnter"}, {
@@ -12,6 +10,26 @@ vim.api.nvim_create_autocmd({"BufEnter"}, {
             end
         end
     end
+})
+
+-- Relative line numbers in normal mode only
+vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter", "InsertLeave" }, {
+  pattern = "*",
+  callback = function()
+    if vim.bo.buftype == "" then
+      vim.wo.relativenumber = true
+    end
+  end,
+})
+
+-- Auto-save when leaving buffer or losing focus
+vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost" }, {
+  pattern = "*",
+  callback = function()
+    if vim.bo.modified and vim.bo.buftype == "" then
+      vim.cmd("silent! write")
+    end
+  end,
 })
 
 -- THEME HIGHLIGHTS
@@ -60,7 +78,7 @@ set.ttyfast = true
 
 -- Visual & UI (modern and clean)
 vim.o.termguicolors = true
-vim.o.background = "dark"
+vim.go.background = "dark"
 
 -- Better cursor and visual indicators
 set.cursorline = true
@@ -68,13 +86,14 @@ set.cursorcolumn = false
 set.signcolumn = "yes"
 set.colorcolumn = ""
 set.list = false
-set.listchars = {
-    tab = "  ",
-    trail = " ",
-    extends = " ",
-    precedes = " ",
-    nbsp = " "
-}
+
+vim.opt.listchars:append({
+  tab = "  ",
+  trail = "·",
+  extends = "›",
+  precedes = "‹",
+  nbsp = "␣"
+})
 
 -- Modern window settings
 set.splitright = true
@@ -122,20 +141,17 @@ set.history = 1000
 set.completeopt = { "menu", "menuone", "noselect" }
 set.pumheight = 15
 
--- Modern cursor styling
-vim.cmd([[
-    highlight iCursor guifg=white guibg=#89b4fa
-    set guicursor=n-v-c:block-Cursor
-    set guicursor+=i:ver25-iCursor
-    set guicursor+=n-v-c:blinkon0
-    set guicursor+=i:blinkwait10
-    
-    " Better visual feedback
-    highlight Visual gui=reverse
-    highlight Search guibg=#f9e2af guifg=#000000
-    highlight IncSearch guibg=#f38ba8 guifg=#ffffff
-]])
+-- Custom GUI cursor settings
+vim.opt.guicursor = {
+  "n-v-c:block-Cursor/lCursor-blinkwait1000-blinkon200-blinkoff150",
+  "i-ci-ve:ver25-Cursor/lCursor-blinkwait300-blinkon200-blinkoff150",
+  "r-cr:hor20-Cursor/lCursor",
+  "sm:block-Cursor-blinkwait175-blinkon175-blinkoff150",
+}
+
 -- Clipboard and editing
-vim.opt.clipboard:append { 'unnamedplus' }
+vim.opt.clipboard = "unnamedplus"
 -- Font (optimized for readability)
-vim.opt.guifont = "JetBrains Mono:h13"
+if vim.g.neovide then
+  vim.opt.guifont = "JetBrains Mono:h13"
+end

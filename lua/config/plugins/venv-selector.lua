@@ -13,7 +13,6 @@ return {
     }},
     opts = {
         search_workspace = true,
-        search = true,
 
         auto_refresh = true,
 
@@ -30,17 +29,5 @@ return {
     },
     config = function(_, opts)
         require("venv-selector").setup(opts)
-
-        vim.api.nvim_create_autocmd("FileType", {
-            pattern = "python",
-            callback = function()
-                vim.schedule(function()
-                    local venv = vim.env.VIRTUAL_ENV
-                    if not venv or venv == "" then
-                        vim.cmd("VenvSelectCached")
-                    end
-                end)
-            end
-        })
     end
 }

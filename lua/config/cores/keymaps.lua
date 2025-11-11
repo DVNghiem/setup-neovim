@@ -105,7 +105,7 @@ keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- Quick duplicate
-keymap.set('n', '<leader>d', 'yyp', { desc = "Duplicate current line" })
+keymap.set('n', '<leader>dd', 'yyp', { desc = "Duplicate current line" })
 keymap.set('v', '<leader>d', 'y`>p', { desc = "Duplicate selection" })
 
 -- Better undo/redo
@@ -277,7 +277,7 @@ keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Smart rename" })
 -- keymap.set("n", "<leader>cf", function() vim.lsp.buf.format({ async = true }) end, { desc = "Format code" })
 
 -- Diagnostics Navigation
-keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+keymap.set("n", "<leader>ee", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
 keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
 keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
 keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
@@ -334,8 +334,6 @@ keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add wo
 keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { desc = "Remove workspace folder" })
 keymap.set("n", "<leader>wl", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, { desc = "List workspace folders" })
 
--- Enhanced editing commands for ultimate productivity
-keymap.set("n", "<leader>dup", "yyp", { desc = "Duplicate line" })
 keymap.set("v", "<leader>dup", "y`>p", { desc = "Duplicate selection" })
 keymap.set("n", "<leader>del", "dd", { desc = "Delete line" })
 keymap.set("n", "<leader>cls", "cc", { desc = "Clear line and enter insert" })
