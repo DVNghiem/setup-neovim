@@ -47,8 +47,5 @@ return {
         "WinScrolled", "CursorMoved", "CursorMovedI",
       },
     })
-	vim.api.nvim_set_hl(0, "Cursor", { fg = "#282A36", bg = "#8BE9FD", bold = true })
-	vim.api.nvim_set_hl(0, "CursorLine", { bg = "#44475A" })
-	vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#FFB86C", bold = true })
   end,
 }

@@ -163,13 +163,5 @@ return {
 
     })
 
-    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "#282A36" })
-    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "#282A36" })
-    vim.api.nvim_set_hl(0, "NeoTreeFloatBorder", { fg = "#6272A4", bg = "#282A36" })
-    vim.api.nvim_set_hl(0, "NeoTreeFloatTitle", { fg = "#F8F8F2", bg = "#6272A4" })
-    vim.api.nvim_set_hl(0, "NeoTreeCursorLine", { bg = "#44475A" })
-    vim.api.nvim_set_hl(0, "NeoTreeGitAdded", { fg = "#50FA7B" })
-    vim.api.nvim_set_hl(0, "NeoTreeGitModified", { fg = "#FFB86C" })
-    vim.api.nvim_set_hl(0, "NeoTreeGitDeleted", { fg = "#FF5555" })
   end,
 }

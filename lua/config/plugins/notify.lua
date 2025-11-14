@@ -102,12 +102,6 @@ return {
       },
     })
 
-    vim.api.nvim_set_hl(0, "NoiceCmdlinePopupBorder", { fg = "#6272A4" })
-    vim.api.nvim_set_hl(0, "NoiceCmdlinePopupTitle", { fg = "#F8F8F2", bg = "#6272A4" })
-    vim.api.nvim_set_hl(0, "NoiceMini", { fg = "#F8F8F2", bg = "#282A36" })
-    vim.api.nvim_set_hl(0, "NotifyINFOBorder", { fg = "#8BE9FD" })
-    vim.api.nvim_set_hl(0, "NotifyWARNBorder", { fg = "#FFB86C" })
-    vim.api.nvim_set_hl(0, "NotifyERRORBorder", { fg = "#FF5555" })
 
     require("notify").setup({
       background_colour = "#282A36",

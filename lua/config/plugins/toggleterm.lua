@@ -48,14 +48,7 @@ return {
         },
       },
 
-      highlights = {
-        NormalFloat = { link = "Normal" },
-        FloatBorder = { fg = "#6272A4" },
-      },
     })
-
-    vim.api.nvim_set_hl(0, "ToggleTermBorder", { fg = "#6272A4" })
-    vim.api.nvim_set_hl(0, "ToggleTermFloat", { bg = "#282A36" })
 
     local Terminal = require("toggleterm.terminal").Terminal
     
