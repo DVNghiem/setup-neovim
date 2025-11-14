@@ -97,6 +97,72 @@ return {
     },
   },
 
+  -- GOTO PREVIEW – PREVIEW DEFINITIONS IN FLOATING WINDOWS
+  {
+    "rmagatti/goto-preview",
+    dependencies = { "nvim-telescope/telescope.nvim" }, -- optional nhưng nên có
+    event = "LspAttach",
+    keys = {
+      { "gpd", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", desc = "Preview definition" },
+      { "gpi", "<cmd>lua require('goto-preview').goto_preview_implementation()<CR>", desc = "Preview implementation" },
+      { "gpr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>", desc = "Preview references" },
+      { "gP",  "<cmd>lua require('goto-preview').close_all_win()<CR>", desc = "Close all previews" },
+    },
+    config = function()
+      local goto_preview = require("goto-preview")
+
+      goto_preview.setup({
+        width = 100,                
+        height = 18,               
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        default_mappings = false,  
+        debug = false,
+        opacity = 5,                
+        resizing_mappings = false,
+        post_open_hook = function(buf, win)
+          vim.api.nvim_buf_set_keymap(buf, "n", "<Esc>", "", {
+            callback = function()
+              goto_preview.close_all_win()
+            end,
+            nowait = true,
+            silent = true,
+          })
+          vim.api.nvim_buf_set_keymap(buf, "n", "q", "", {
+            callback = function()
+              goto_preview.close_all_win()
+            end,
+            nowait = true,
+            silent = true,
+          })
+
+          vim.api.nvim_win_set_config(win, { focusable = true })
+          vim.api.nvim_create_autocmd("WinLeave", {
+            buffer = buf,
+            once = true,
+            callback = function()
+              pcall(goto_preview.close_all_win)
+            end,
+          })
+
+          vim.wo[win].winblend = 10
+          vim.wo[win].winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder"
+        end,
+
+        post_close_hook = nil,
+
+        references = {
+          telescope = require("telescope.themes").get_dropdown({}),
+        },
+
+        focus_on_open = true,
+
+        dismiss_on_move = false,
+      })
+
+      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#8BE9FD", bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e1e1e" })
+    end,
+  },
   -- LSP CONFIG BASE SETUP
   {
     "neovim/nvim-lspconfig",
@@ -124,7 +190,7 @@ return {
         local opts = { buffer = bufnr, noremap = true, silent = true }
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+        vim.keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, opts)
       end
 
       local servers = {

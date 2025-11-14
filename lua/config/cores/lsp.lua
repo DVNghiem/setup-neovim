@@ -230,21 +230,9 @@ local LSP_KEYMAPS = {
 local function setup_diagnostics()
   -- Configure diagnostic display with backend-focused settings
   diagnostic.config({
-    virtual_text = {
-      source = "always",  -- Always show source for backend debugging
-      spacing = 4,
-      prefix = "●",
-      severity_sort = true,
-      format = function(diagnostic)
-        -- Show error codes for backend debugging
-        if diagnostic.code then
-          return string.format("%s [%s]", diagnostic.message, diagnostic.code)
-        end
-        return diagnostic.message
-      end,
-    },
-    signs = false,  -- Disabled to remove sign column highlights
-    underline = false,  -- Disabled to remove underline highlights
+    virtual_text = false,  -- Disable inline error messages
+    signs = true,  -- Keep signs in the sign column
+    underline = true,  -- Enable underline to show errors
     update_in_insert = false,
     severity_sort = true,
     float = {
@@ -381,6 +369,24 @@ local function setup_lsp_attach()
       if client.server_capabilities.inlayHintProvider and lsp.inlay_hint then
         lsp.inlay_hint.enable(true, { bufnr = bufnr })
       end
+      
+      -- Auto show diagnostics on cursor move
+      local diag_float_group = api.nvim_create_augroup('DiagnosticFloat', { clear = false })
+      api.nvim_create_autocmd({ 'CursorHold' }, {
+        buffer = bufnr,
+        group = diag_float_group,
+        callback = function()
+          local opts = {
+            focusable = false,
+            close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+            border = 'rounded',
+            source = 'always',
+            prefix = ' ',
+            scope = 'cursor',
+          }
+          vim.diagnostic.open_float(nil, opts)
+        end
+      })
       
       -- Enable document highlighting for backend code navigation
       if client.server_capabilities.documentHighlightProvider then

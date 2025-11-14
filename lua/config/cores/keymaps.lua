@@ -87,10 +87,10 @@ vim.api.nvim_set_keymap('n', '<Left>', [[col('.') == 1 ? '<Esc>k<S-a><Esc>' : '<
 vim.api.nvim_set_keymap('i', '<Left>', [[col('.') == 1 ? '<Esc>k<S-a>' : '<Left>']], {expr = true, desc = "Smart left navigation in insert"})
 
 -- Enhanced window navigation (optimized for long sessions)
-keymap.set("n", "<c-k>", ":wincmd k<CR>", { noremap = true, silent = true, desc = "Move to upper window" })
-keymap.set("n", "<c-j>", ":wincmd j<CR>", { noremap = true, silent = true, desc = "Move to lower window" })
-keymap.set("n", "<c-h>", ":wincmd h<CR>", { noremap = true, silent = true, desc = "Move to left window" })
-keymap.set("n", "<c-l>", ":wincmd l<CR>", { noremap = true, silent = true, desc = "Move to right window" })
+keymap.set("n", "<c-k>", "<C-w>k", { noremap = true, silent = true, desc = "Move to upper window" })
+keymap.set("n", "<c-j>", "<C-w>j", { noremap = true, silent = true, desc = "Move to lower window" })
+keymap.set("n", "<c-h>", "<C-w>h", { noremap = true, silent = true, desc = "Move to left window" })
+keymap.set("n", "<c-l>", "<C-w>l", { noremap = true, silent = true, desc = "Move to right window" })
 
 -- Better text editing
 keymap.set("n", 'dw', 'vb"_d', { desc = "Delete word backward" })
@@ -268,7 +268,7 @@ keymap.set("n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation
 keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Show references" })
 keymap.set("n", "gt", vim.lsp.buf.type_definition, { desc = "Go to type definition" })
 keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show hover information" })
-keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Show signature help" })
+keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, { desc = "Show signature help" })
 
 -- Code Actions and Refactoring
 keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "See available code actions" })
