@@ -9,7 +9,7 @@ return {
         suggestion = {
           enabled = true,
           auto_trigger = true,
-          debounce = 75,
+          debounce = 150,
           keymap = {
             accept = "<M-l>",        -- Alt+L = accept
             accept_word = "<M-w>",   -- Alt+W = accept word
