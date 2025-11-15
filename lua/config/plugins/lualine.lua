@@ -4,44 +4,12 @@ return {
   config = function()
     require("lualine").setup {
       options = {
-        theme = "dracula",
+        theme = "catppuccin",
         component_separators = "",
         section_separators = { left = "", right = "" },
         globalstatus = true,
       },
 
-      tabline = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = {
-          {
-            "buffers",
-            show_filename_only = true,
-            hide_filename_extension = false,
-            show_modified_status = true,
-
-            symbols = {
-              modified = " ●",
-              alternate_file = "",
-              directory = "",
-            },
-
-            buffers_color = {
-              active = { fg = "#F8F8F2", bg = "#44475A", gui = "bold" },
-              inactive = { fg = "#6272A4", bg = "#282A36" },
-            },
-
-            fmt = function(name, context)
-              -- local close_btn = context.bufnr and "  " .. "" or ""
-              -- return " " .. name .. close_btn
-              return " " .. name
-            end,
-          }
-        },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = { "tabs" },
-      },
 
       sections = {
         lualine_a = { "mode" },

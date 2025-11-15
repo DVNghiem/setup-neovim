@@ -80,9 +80,6 @@ return {
         expand = "⊞",
         collapse = "⊟",
         code_action = "💡",
-        colors = {
-          normal_bg = "#1e1e2e",
-        },
       },
     },
     keys = {
@@ -159,8 +156,6 @@ return {
         dismiss_on_move = false,
       })
 
-      vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#8BE9FD", bg = "NONE" })
-      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#1e1e1e" })
     end,
   },
   -- LSP CONFIG BASE SETUP

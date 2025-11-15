@@ -176,8 +176,6 @@ return {
       require("deadcolumn").setup({
         scope = "line",
         modes = { "i", "ic", "ix", "R", "Rc", "Rx", "Rv", "Rvc", "Rvx" },
-        blending = { threshold = 0.75, colorcode = "#000000" },
-        warning = { alpha = 0.3, colorcode = "#FF79C6", hlgroup = { "Error", "bg" } },
       })
     end,
   },
