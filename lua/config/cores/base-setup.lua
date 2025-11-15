@@ -136,3 +136,40 @@ vim.opt.clipboard = "unnamedplus"
 if vim.g.neovide then
   vim.opt.guifont = "JetBrains Mono:h13"
 end
+
+
+-- Sync Neovim mode to WezTerm (ONLY if running inside WezTerm)
+local function is_wezterm()
+  if vim.env.WEZTERM_RUNTIME_DIR then
+    return true
+  end
+
+  local handle = io.popen('wezterm cli --version 2>/dev/null')
+  if handle then
+    local output = handle:read('*a')
+    handle:close()
+    return output:match('wezterm') ~= nil
+  end
+
+  return false
+end
+
+if is_wezterm() then
+  vim.api.nvim_create_autocmd("ModeChanged", {
+    callback = function()
+      local mode = vim.fn.mode()
+      local mode_map = {
+        n = "NORMAL",
+        i = "INSERT",
+        v = "VISUAL",
+        V = "VISUAL",
+        [""] = "VISUAL",  -- Ctrl+V
+        R = "REPLACE",
+        c = "COMMAND",
+      }
+      local current_mode = mode_map[mode] or "UNKNOWN"
+
+      vim.fn.system("wezterm cli set-user-var neovim_mode " .. current_mode .. " 2>/dev/null")
+    end,
+  })
+end
