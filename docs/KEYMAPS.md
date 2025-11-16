@@ -1,5 +1,6 @@
 # Neovim Keymaps Documentation
 
+> **Version 2.0** - Complete Keymap Reference  
 > **Note**: Leader key is `<Space>` by default
 
 ## Table of Contents

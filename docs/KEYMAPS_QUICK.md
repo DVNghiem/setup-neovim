@@ -1,5 +1,6 @@
 # Neovim Keymaps Quick Reference
 
+> **Version 2.0** - Essential Commands Cheat Sheet  
 > **Leader key**: `<Space>`
 
 ## Essential Commands

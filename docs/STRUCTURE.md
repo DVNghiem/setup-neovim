@@ -1,5 +1,7 @@
 # Documentation Structure
 
+> **Version 2.0** - Complete Documentation Map
+
 ```
 docs/
 │

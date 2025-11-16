@@ -1,5 +1,14 @@
 # 🚀 Installation & Setup Guide
 
+> **Version 2.0** - Complete Setup Instructions
+
+## Prerequisites
+
+- **Neovim** 0.9+ (recommended: 0.10+)
+- **Git** for version control and plugin management
+- **Node.js** (for LSP servers and some plugins)
+- **A Nerd Font** for icons (recommended: JetBrains Mono)
+
 ## Quick Setup
 
 1. **Restart Neovim** to trigger plugin installation:
@@ -137,6 +146,50 @@ If you run into issues:
 2. Use `:Lazy log` to see plugin installation logs  
 3. Try `:Lazy restore` to reset to working state
 
+## 🎉 What's New in v2.0
+
+### UI/UX Improvements
+- ✨ Smooth animations and transitions
+- 🎨 Transparent windows with rounded borders
+- 🖱️ Visual buffer picker (`gb`)
+- 📊 Enhanced titlebar with breadcrumbs
+- 🌊 Buttery-smooth scrolling
+
+### Performance Enhancements
+- ⚡ Zero navigation lag (all j/k freezing eliminated)
+- 🚀 Instant file opening with smart lazy loading
+- 💾 Optimized memory management
+- 📈 Performance dashboard improvements
+
+### New Features
+- 🧘 Comprehensive health tracking dashboard
+- 🎯 Pomodoro-style focus sessions
+- 🤖 Enhanced AI integration with Copilot Chat
+- 📋 Multiple documentation formats
+- 🎨 Theme auto-switching based on time of day
+
+### Quality of Life
+- 🔧 Zero configuration errors on startup
+- 📚 Comprehensive documentation in `docs/`
+- 🎯 Better keybinding organization
+- 💡 Improved help and cheatsheet system
+
+For complete changelog, see [CHANGELOG.md](./CHANGELOG.md)
+
+## 🔄 Upgrading from v1.0
+
+If you're upgrading from version 1.0:
+
+1. **Backup your config**: `cp -r ~/.config/nvim ~/.config/nvim.backup`
+2. **Pull updates**: `cd ~/.config/nvim && git pull origin main`
+3. **Clean plugins**: Open Neovim and run `:Lazy clean`
+4. **Sync plugins**: Run `:Lazy sync`
+5. **Restart Neovim**: Plugins will reinstall automatically
+
+**Note**: Some keybindings have changed. Review [docs/KEYMAPS.md](./docs/KEYMAPS.md) for updates.
+
+---
+
 Remember: This configuration is designed to help you code better and healthier. Take your time to learn it, and don't hesitate to customize it to your needs!
 
-Happy coding! 💪🚀
+**Version 2.0** - Happy coding! 💪🚀

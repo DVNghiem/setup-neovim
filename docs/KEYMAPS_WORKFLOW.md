@@ -1,5 +1,6 @@
 # Neovim Keymaps by Workflow
 
+> **Version 2.0** - Workflow-Oriented Development Guide  
 > Organized by common development workflows and tasks
 
 ## 🚀 Getting Started

@@ -1,10 +1,31 @@
 # 🚀 Ultimate Neovim IDE for Long Coding Sessions
 
+> **Version 2.0** - November 2025 Release
+
 Welcome to your supercharged Neovim configuration, designed specifically for developers who code for hours and need to maintain their health, productivity, and sanity!
 
 ## 🌟 What Makes This Special?
 
 This isn't just another Neovim config - it's a comprehensive development environment that cares about **YOU** as much as your code.
+
+### 🎉 What's New in v2.0
+
+**Major Enhancements:**
+- ✨ **Complete UI Overhaul** - Smooth animations, transparent windows, and modern aesthetics
+- 🔧 **Zero Configuration Errors** - All plugin conflicts resolved for seamless experience
+- ⚡ **Performance Optimizations** - Eliminated all key lag and navigation freezes
+- 🎨 **Enhanced Visual Design** - Rounded borders, fluid transitions, and elegant UI
+- 🤖 **Improved AI Integration** - Better Copilot Chat and code assistance
+- 📊 **Enhanced Health Tracking** - More comprehensive wellness monitoring
+- 🚀 **Faster File Operations** - Instant file opening with smart lazy loading
+
+**Major Fixes:**
+- Fixed all periodic j/k key freezing issues
+- Resolved CopilotChat module loading errors
+- Eliminated diagnostic popup lag
+- Fixed buffer management and navigation
+- Resolved all notification system errors
+- Optimized auto-save for zero lag
 
 ### 🧘 Health & Wellness Features
 - **Break Reminders**: Automatic notifications every hour to take breaks
@@ -313,8 +334,75 @@ This configuration is built on the principle that great code comes from great de
 
 Your health matters. Your productivity matters. And this Neovim setup makes sure both are taken care of.
 
+## 📝 Version History
+
+### v2.0 - November 2025 (Current Release)
+
+**🎨 UI/UX Enhancements:**
+- Complete smooth UI experience with animations
+- Transparent windows and modern aesthetics
+- Rounded borders and fluid transitions
+- Enhanced buffer management with visual picker
+- Smooth cursor smearing effects
+- Beautiful breadcrumb navigation
+
+**⚡ Performance Improvements:**
+- Eliminated all j/k navigation freezing issues
+- Fixed auto-save conflicts causing periodic lag
+- Optimized file opening for instant access
+- Smart lazy loading for better startup time
+- Reduced memory footprint
+- Enhanced large file handling
+
+**🐛 Major Bug Fixes:**
+- Resolved CopilotChat module loading errors
+- Fixed Mason LSP configuration issues
+- Eliminated diagnostic popup lag
+- Resolved barbecue titlebar callback errors
+- Fixed bufferline Catppuccin integration
+- Removed hardtime.nvim conflicts
+- Fixed nvim-notify compatibility issues
+
+**🔧 Configuration Improvements:**
+- Streamlined plugin configurations
+- Better error handling and fallbacks
+- Improved documentation structure
+- Enhanced health monitoring
+- Better session management
+- Optimized keybindings
+
+**📚 Documentation:**
+- Comprehensive keymap documentation
+- Multiple reference formats (quick, workflow, complete)
+- Improved troubleshooting guides
+- Better onboarding for new users
+
+### v1.0 - Initial Release
+- Basic Neovim configuration
+- Core plugin setup
+- Initial health monitoring features
+- Basic LSP integration
+
+## 🔄 Migration from v1.0
+
+If you're upgrading from v1.0:
+
+1. **Backup your current config**: `cp -r ~/.config/nvim ~/.config/nvim.backup`
+2. **Pull latest changes**: `git pull origin main`
+3. **Remove old plugins**: `:Lazy clean`
+4. **Update plugins**: `:Lazy sync`
+5. **Restart Neovim**: All plugins will reinstall automatically
+
+**Breaking Changes:**
+- Removed hardtime.nvim plugin (navigation warnings eliminated)
+- Changed auto-save implementation (smoother, less intrusive)
+- Updated notification system (simplified for reliability)
+- Adjusted some keybindings for better ergonomics
+
 Happy coding! 💪🚀
 
 ---
 
 > Remember: The best IDE is the one that helps you write great code while staying healthy and happy.
+>
+> **Version 2.0** - Built with ❤️ for developers who code for hours

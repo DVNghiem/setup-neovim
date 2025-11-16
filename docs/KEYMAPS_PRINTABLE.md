@@ -1,5 +1,5 @@
 # Neovim Keymaps Cheat Sheet
-**Print-Friendly Reference Card** | Leader: `<Space>`
+**Version 2.0** - Print-Friendly Reference Card | Leader: `<Space>`
 
 ---
 

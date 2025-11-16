@@ -1,5 +1,7 @@
 # Neovim Configuration Documentation
 
+> **Version 2.0** - November 2025 Release
+
 Welcome to the documentation for this Neovim setup! This directory contains comprehensive guides for all keymaps and configurations.
 
 ## 📚 Documentation Files
@@ -178,7 +180,8 @@ Or use telescope:
 
 ---
 
-**Last Updated**: November 9, 2025  
+**Last Updated**: November 16, 2025  
+**Version**: 2.0  
 **Neovim Version**: Compatible with 0.9+  
 **Plugin Manager**: Lazy.nvim
 

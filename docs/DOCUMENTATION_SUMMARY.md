@@ -1,5 +1,7 @@
 # Keymap Documentation Summary
 
+> **Version 2.0** - November 2025 Release
+
 This document summarizes the keymap documentation that has been created for your Neovim configuration.
 
 ## 📁 Files Created
