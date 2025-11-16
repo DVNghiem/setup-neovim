@@ -195,7 +195,7 @@ return {
         pyright = {
           settings = { python = { analysis = { typeCheckingMode = "basic" } } }
         },
-        rust_analyzer = {},
+        -- rust_analyzer = {}, -- REMOVED: Configured in lua/config/cores/lang/rust.lua to avoid duplicate processes
         gopls = {},
         jdtls = {},
         ts_ls = {},
