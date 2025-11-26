@@ -12,21 +12,15 @@ vim.api.nvim_create_autocmd({"BufEnter"}, {
     end
 })
 
--- Relative line numbers in normal mode only
-vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter", "InsertLeave" }, {
-  pattern = "*",
-  callback = function()
-    if vim.bo.buftype == "" then
-      vim.wo.relativenumber = true
-    end
-  end,
-})
+-- Optimized autocmds - consolidated to reduce overhead
+local augroup = vim.api.nvim_create_augroup("CoreSettings", { clear = true })
 
 -- Auto-save when leaving buffer or losing focus
 vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost" }, {
+  group = augroup,
   pattern = "*",
   callback = function()
-    if vim.bo.modified and vim.bo.buftype == "" then
+    if vim.bo.modified and vim.bo.buftype == "" and vim.bo.readonly == false then
       vim.cmd("silent! write")
     end
   end,
@@ -56,11 +50,11 @@ set.number = true
 set.relativenumber = true
 set.wrap = false
 
--- Performance optimizations
+-- Performance optimizations (improved)
 set.synmaxcol = 300
-set.timeoutlen = 300
+set.timeoutlen = 250  -- Reduced from 300 for faster response
 set.ttimeoutlen = 10
-set.updatetime = 250
+set.updatetime = 200  -- Reduced from 250 for faster LSP/diagnostics
 set.redrawtime = 1500
 set.lazyredraw = false
 set.ttyfast = true
@@ -132,44 +126,8 @@ set.pumheight = 15
 
 -- Clipboard and editing
 vim.opt.clipboard = "unnamedplus"
+
 -- Font (optimized for readability)
 if vim.g.neovide then
   vim.opt.guifont = "JetBrains Mono:h13"
-end
-
-
--- Sync Neovim mode to WezTerm (ONLY if running inside WezTerm)
-local function is_wezterm()
-  if vim.env.WEZTERM_RUNTIME_DIR then
-    return true
-  end
-
-  local handle = io.popen('wezterm cli --version 2>/dev/null')
-  if handle then
-    local output = handle:read('*a')
-    handle:close()
-    return output:match('wezterm') ~= nil
-  end
-
-  return false
-end
-
-if is_wezterm() then
-  vim.api.nvim_create_autocmd("ModeChanged", {
-    callback = function()
-      local mode = vim.fn.mode()
-      local mode_map = {
-        n = "NORMAL",
-        i = "INSERT",
-        v = "VISUAL",
-        V = "VISUAL",
-        [""] = "VISUAL",  -- Ctrl+V
-        R = "REPLACE",
-        c = "COMMAND",
-      }
-      local current_mode = mode_map[mode] or "UNKNOWN"
-
-      vim.fn.system("wezterm cli set-user-var neovim_mode " .. current_mode .. " 2>/dev/null")
-    end,
-  })
 end

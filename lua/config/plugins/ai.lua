@@ -3,14 +3,14 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    event = "VeryLazy",
+    event = "InsertEnter",  -- Changed from VeryLazy for better performance
     build = ":Copilot auth",
     config = function()
       require("copilot").setup({
         suggestion = {
           enabled = true,
           auto_trigger = true,
-          debounce = 150,
+          debounce = 100,  -- Reduced from 150 for faster response
           keymap = {
             accept = "<M-l>",
             accept_word = "<M-w>",
@@ -72,7 +72,6 @@ Be concise, clear, and helpful.]],
         separator = " --- ",
         show_help = true,
         auto_follow_cursor = false,
-        history_path = vim.fn.stdpath("cache") .. "/copilotchat_history",
         selection = function(source)
           return (vim.fn.mode() == "v" or vim.fn.mode() == "V") and select.visual(source) or select.buffer(source)
         end,
@@ -98,15 +97,6 @@ Be concise, clear, and helpful.]],
           Docs = { prompt = "/COPILOT_GENERATE Add documentation." },
           Debug = { prompt = "Suggest where to put breakpoints and how to debug this." },
         },
-      })
-
-      -- Auto save chat history khi thoát
-      vim.api.nvim_create_autocmd("VimLeavePre", {
-        callback = function()
-          local path = vim.fn.stdpath("cache") .. "/copilotchat_history"
-          vim.fn.mkdir(path, "p")
-          pcall(chat.save, path .. "/session_" .. os.date("%Y%m%d_%H%M%S") .. ".json")
-        end,
       })
 
       -- Keymaps cho CopilotChat
