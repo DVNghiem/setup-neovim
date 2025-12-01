@@ -10,10 +10,10 @@ return {
         icons = {
           package_installed = "✓",
           package_pending = "➜",
-          package_uninstalled = "✗"
+          package_uninstalled = "✗",
         },
         border = "rounded",
-      }
+      },
     },
   },
 
@@ -23,8 +23,16 @@ return {
     dependencies = { "mason.nvim" },
     opts = {
       ensure_installed = {
-        "lua_ls", "pyright", "rust_analyzer", "gopls", "jdtls",
-        "ts_ls", "html", "cssls", "tailwindcss", "emmet_ls",
+        "lua_ls",
+        "pyright",
+        "rust_analyzer",
+        "gopls",
+        "jdtls",
+        "ts_ls",
+        "html",
+        "cssls",
+        "tailwindcss",
+        "emmet_ls",
       },
       automatic_installation = true,
     },
@@ -36,16 +44,22 @@ return {
     dependencies = { "mason.nvim" },
     opts = {
       ensure_installed = {
-        "black", "isort", "pylint",
-        "prettier", "stylua", "eslint_d",
-        "ruff", "mypy", "flake8",
+        "black",
+        "isort",
+        "pylint",
+        "prettier",
+        "stylua",
+        "eslint_d",
+        "ruff",
+        "mypy",
+        "flake8",
       },
       auto_update = true,
       run_on_start = true,
     },
   },
 
-  -- FIDGET – LSP STATUS UI
+  -- FIDGET – LSP STATUS UI (Excellent, keep this)
   {
     "j-hui/fidget.nvim",
     event = "LspAttach",
@@ -59,148 +73,148 @@ return {
     },
   },
 
-  -- LSP SAGA – LSP UI + ACTIONS
-  {
-    "nvimdev/lspsaga.nvim",
-    event = "LspAttach",
-    opts = {
-      lightbulb = { enable = true, sign = true, virtual_text = false },
-      symbol_in_winbar = { enable = false },
-      code_action = {
-        num_shortcut = true,
-        show_server_name = true,
-        extend_gitsigns = true,
-        keys = { quit = "q", exec = "<CR>" },
-      },
-      rename = { quit = "<C-c>", exec = "<CR>", in_select = true },
-      ui = {
-        border = "rounded",
-        devicon = true,
-        title = true,
-        expand = "⊞",
-        collapse = "⊟",
-        code_action = "💡",
-      },
-    },
-    keys = {
-      { "gd", "<cmd>Lspsaga goto_definition<CR>", desc = "Goto Definition" },
-      { "gr", "<cmd>Lspsaga finder<CR>", desc = "References + Definition" },
-      { "K", "<cmd>Lspsaga hover_doc<CR>", desc = "Hover Doc" },
-      { "<leader>ca", "<cmd>Lspsaga code_action<CR>", mode = { "n", "v" }, desc = "Code Action" },
-      { "<leader>rn", "<cmd>Lspsaga rename<CR>", desc = "Rename" },
-      { "<leader>pd", "<cmd>Lspsaga peek_definition<CR>", desc = "Peek Definition" },
-      { "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", desc = "Prev Diagnostic" },
-      { "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", desc = "Next Diagnostic" },
-    },
-  },
-
-  -- GOTO PREVIEW – PREVIEW DEFINITIONS IN FLOATING WINDOWS
-  {
-    "rmagatti/goto-preview",
-    dependencies = { "nvim-telescope/telescope.nvim" }, -- optional nhưng nên có
-    event = "LspAttach",
-    keys = {
-      { "gpd", "<cmd>lua require('goto-preview').goto_preview_definition()<CR>", desc = "Preview definition" },
-      { "gpi", "<cmd>lua require('goto-preview').goto_preview_implementation()<CR>", desc = "Preview implementation" },
-      { "gpr", "<cmd>lua require('goto-preview').goto_preview_references()<CR>", desc = "Preview references" },
-      { "gP",  "<cmd>lua require('goto-preview').close_all_win()<CR>", desc = "Close all previews" },
-    },
-    config = function()
-      local goto_preview = require("goto-preview")
-
-      goto_preview.setup({
-        width = 100,                
-        height = 18,               
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-        default_mappings = false,  
-        debug = false,
-        opacity = 5,                
-        resizing_mappings = false,
-        post_open_hook = function(buf, win)
-          vim.api.nvim_buf_set_keymap(buf, "n", "<Esc>", "", {
-            callback = function()
-              goto_preview.close_all_win()
-            end,
-            nowait = true,
-            silent = true,
-          })
-          vim.api.nvim_buf_set_keymap(buf, "n", "q", "", {
-            callback = function()
-              goto_preview.close_all_win()
-            end,
-            nowait = true,
-            silent = true,
-          })
-
-          vim.api.nvim_win_set_config(win, { focusable = true })
-          vim.api.nvim_create_autocmd("WinLeave", {
-            buffer = buf,
-            once = true,
-            callback = function()
-              pcall(goto_preview.close_all_win)
-            end,
-          })
-
-          vim.wo[win].winblend = 10
-          vim.wo[win].winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder"
-        end,
-
-        post_close_hook = nil,
-
-        references = {
-          telescope = require("telescope.themes").get_dropdown({}),
-        },
-
-        focus_on_open = true,
-
-        dismiss_on_move = false,
-      })
-
-    end,
-  },
-  -- LSP CONFIG BASE SETUP
+  -- LSP CONFIG BASE SETUP (Streamlined)
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "mason.nvim",
       "mason-lspconfig.nvim",
-      "lspsaga.nvim",
-      "hrsh7th/cmp-nvim-lsp",
+      "saghen/blink.cmp",
       "folke/neoconf.nvim",
     },
     config = function()
       local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      
+      -- Get capabilities from blink.cmp
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
 
-      -- ICON DIAGNOSTIC
+      -- DIAGNOSTIC ICONS
       local signs = { Error = "✘", Warn = "▲", Hint = "💡", Info = "ℹ" }
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
       end
 
-      -- LSP ATTACH – KEYMAP
+      -- LSP ATTACH – KEYMAP (Organized under <leader>l)
       local on_attach = function(client, bufnr)
         local opts = { buffer = bufnr, noremap = true, silent = true }
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, opts)
+        
+        -- Navigation
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to definition" }))
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "Show references" }))
+        vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, vim.tbl_extend("force", opts, { desc = "Go to type definition" }))
+        
+        -- Documentation
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover documentation" }))
+        vim.keymap.set("n", "<leader>k", vim.lsp.buf.signature_help, vim.tbl_extend("force", opts, { desc = "Signature help" }))
+        
+        -- LSP Actions (organized under <leader>l)
+        vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
+        vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+        vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format({ async = true }) end, vim.tbl_extend("force", opts, { desc = "Format buffer" }))
+        vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Show diagnostics" }))
+        vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, vim.tbl_extend("force", opts, { desc = "Diagnostics to loclist" }))
+        
+        -- Diagnostics navigation
+        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
+        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
+        
+        -- Workspace
+        vim.keymap.set("n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, vim.tbl_extend("force", opts, { desc = "Add workspace folder" }))
+        vim.keymap.set("n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, vim.tbl_extend("force", opts, { desc = "Remove workspace folder" }))
+        vim.keymap.set("n", "<leader>lwl", function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, vim.tbl_extend("force", opts, { desc = "List workspace folders" }))
+
+        -- Enable inlay hints if supported
+        if client.server_capabilities.inlayHintProvider then
+          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        end
       end
 
+      -- SERVER CONFIGURATIONS
       local servers = {
         lua_ls = {
-          settings = { Lua = { diagnostics = { globals = { "vim" } } } }
+          settings = {
+            Lua = {
+              runtime = { version = "LuaJIT" },
+              diagnostics = { globals = { "vim" } },
+              workspace = {
+                checkThirdParty = false,
+                library = {
+                  vim.env.VIMRUNTIME,
+                  "${3rd}/luv/library",
+                },
+              },
+              telemetry = { enable = false },
+              hint = { enable = true },
+            },
+          },
         },
         pyright = {
-          settings = { python = { analysis = { typeCheckingMode = "basic" } } }
+          settings = {
+            python = {
+              analysis = {
+                typeCheckingMode = "basic",
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+              },
+            },
+          },
         },
-        -- rust_analyzer = {}, -- REMOVED: Configured in lua/config/cores/lang/rust.lua to avoid duplicate processes
-        gopls = {},
+        gopls = {
+          settings = {
+            gopls = {
+              hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+              },
+            },
+          },
+        },
+        ts_ls = {
+          settings = {
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+            },
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "all",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayVariableTypeHints = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayEnumMemberValueHints = true,
+              },
+            },
+          },
+        },
+        -- rust_analyzer configured in lang/rust.lua to avoid duplication
         jdtls = {},
-        ts_ls = {},
+        html = {},
+        cssls = {},
+        tailwindcss = {},
+        emmet_ls = {},
       }
 
+      -- Setup all servers
       for server, config in pairs(servers) do
         lspconfig[server].setup(vim.tbl_deep_extend("force", {
           capabilities = capabilities,
