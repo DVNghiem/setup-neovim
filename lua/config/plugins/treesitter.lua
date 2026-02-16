@@ -47,7 +47,7 @@ return {
                 'bash', 'sh', 'markdown', 'toml',
             },
             callback = function()
-                vim.treesitter.start()
+                pcall(vim.treesitter.start)
             end,
         })
         
@@ -62,6 +62,26 @@ return {
             callback = function()
                 vim.wo[0][0].foldmethod = 'expr'
                 vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+                vim.wo[0][0].foldlevel = 99  -- start with all folds open
+            end,
+        })
+
+        -- PERF: Switch to manual foldmethod in insert mode to prevent
+        -- foldexpr from being recalculated on every keystroke
+        vim.api.nvim_create_autocmd('InsertEnter', {
+            callback = function()
+                if vim.wo.foldmethod == 'expr' then
+                    vim.w._old_foldmethod = 'expr'
+                    vim.wo.foldmethod = 'manual'
+                end
+            end,
+        })
+        vim.api.nvim_create_autocmd('InsertLeave', {
+            callback = function()
+                if vim.w._old_foldmethod == 'expr' then
+                    vim.w._old_foldmethod = nil
+                    vim.wo.foldmethod = 'expr'
+                end
             end,
         })
         

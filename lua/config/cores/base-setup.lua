@@ -111,9 +111,7 @@ set.fillchars = {
 -- File handling
 set.swapfile = false
 set.backup = false
-set.undofile = true
-set.undodir = vim.fn.expand("~/.cache/nvim/undo")
-set.undolevels = 10000
+set.undofile = false
 set.hidden = true
 
 -- Search settings
@@ -161,7 +159,7 @@ if is_wezterm() then
       }
       local current_mode = mode_map[mode] or "UNKNOWN"
 
-      vim.fn.system("wezterm cli set-user-var neovim_mode " .. current_mode .. " 2>/dev/null")
+      vim.system({"wezterm", "cli", "set-user-var", "neovim_mode", current_mode})  -- async, non-blocking
     end,
   })
 end
