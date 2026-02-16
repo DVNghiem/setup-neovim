@@ -3,8 +3,13 @@ local capabilities = cmp_nvim_lsp.default_capabilities()
 
 vim.lsp.config('rust_analyzer', {
 	capabilities = capabilities,
-	-- Limit memory usage
-	cmd = { "rust-analyzer" },
+	cmd = {
+		"rust-analyzer",
+	},
+	-- Set memory limit via environment
+	cmd_env = {
+		["RA_LRU_CAP"] = "64",  -- Limit LRU cache entries to reduce RAM
+	},
 	settings = {
 		["rust-analyzer"] = {
 			-- Only check on save, not while typing (saves CPU)
@@ -54,7 +59,7 @@ vim.lsp.config('rust_analyzer', {
 			-- Cache priming (reduces repeated work)
 			cachePriming = {
 				enable = true,
-				numThreads = 2, -- Limit to 2 threads to reduce CPU usage
+				numThreads = 1, -- Limit to 1 thread to minimize CPU/RAM spikes
 			},
 			
 			-- Disable heavy features
@@ -112,8 +117,8 @@ vim.lsp.config('rust_analyzer', {
 			workspace = {
 				symbol = {
 					search = {
-						kind = "only_types", -- Limit search scope
-						limit = 128, -- Limit results to reduce RAM
+						kind = "only_types",
+						limit = 64, -- Reduced from 128 to save RAM
 					},
 				},
 			},

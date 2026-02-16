@@ -57,12 +57,12 @@ set.relativenumber = true
 set.wrap = false
 
 -- Performance optimizations
-set.synmaxcol = 300
+set.synmaxcol = 240               -- Reduced: limit syntax highlight columns
 set.timeoutlen = 300
 set.ttimeoutlen = 10
 set.updatetime = 250
 set.redrawtime = 1500
-set.lazyredraw = false
+set.lazyredraw = false            -- Must be false for noice.nvim
 set.ttyfast = true
 
 -- Visual & UI (modern and clean)
@@ -123,8 +123,8 @@ set.incsearch = true
 set.hlsearch = true
 
 -- Memory and performance
-set.maxmempattern = 2000
-set.history = 1000
+set.maxmempattern = 1000          -- Reduced from 2000
+set.history = 500                 -- Reduced from 1000
 
 -- Better completion experience
 set.completeopt = { "menu", "menuone", "noselect" }
@@ -139,19 +139,11 @@ end
 
 
 -- Sync Neovim mode to WezTerm (ONLY if running inside WezTerm)
+local _wezterm_checked = nil
 local function is_wezterm()
-  if vim.env.WEZTERM_RUNTIME_DIR then
-    return true
-  end
-
-  local handle = io.popen('wezterm cli --version 2>/dev/null')
-  if handle then
-    local output = handle:read('*a')
-    handle:close()
-    return output:match('wezterm') ~= nil
-  end
-
-  return false
+  if _wezterm_checked ~= nil then return _wezterm_checked end
+  _wezterm_checked = vim.env.WEZTERM_RUNTIME_DIR ~= nil
+  return _wezterm_checked
 end
 
 if is_wezterm() then

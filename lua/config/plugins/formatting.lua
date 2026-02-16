@@ -17,15 +17,13 @@ return {
           typescript = { "prettier" },
           javascriptreact = { "prettier" },
           typescriptreact = { "prettier" },
-          svelte = { "prettier" },
-          css = { "prettier" },
-          html = { "prettier" },
           json = { "prettier" },
           yaml = { "prettier" },
           markdown = { "prettier" },
-          graphql = { "prettier" },
           lua = { "stylua" },
           python = { "isort", "black" },
+          -- rust: uses rustfmt via rust-analyzer
+          -- go: uses gofmt/goimports via gopls
         },
         -- format_on_save = {f,
         --   lsp_fallback = false,

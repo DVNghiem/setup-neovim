@@ -22,8 +22,6 @@ return {
             "typescript",
             "tsx",
             "yaml",
-            "html",
-            "css",
             "markdown",
             "markdown_inline",
             "bash",
@@ -34,8 +32,7 @@ return {
             "rust",
             "python",
             "go",
-            "c",
-            "cpp",
+            "toml",
         }
         
         -- Install parsers asynchronously
@@ -45,10 +42,9 @@ return {
         vim.api.nvim_create_autocmd('FileType', {
             pattern = {
                 'javascript', 'typescript', 'tsx', 'jsx',
-                'html', 'css', 'json', 'yaml',
+                'json', 'yaml',
                 'lua', 'vim', 'rust', 'python', 'go',
-                'bash', 'sh', 'markdown',
-                'c', 'cpp',
+                'bash', 'sh', 'markdown', 'toml',
             },
             callback = function()
                 vim.treesitter.start()
@@ -59,9 +55,9 @@ return {
         vim.api.nvim_create_autocmd('FileType', {
             pattern = {
                 'javascript', 'typescript', 'tsx', 'jsx',
-                'html', 'css', 'json', 'yaml',
+                'json', 'yaml',
                 'lua', 'vim', 'rust', 'python', 'go',
-                'bash', 'sh', 'markdown',
+                'bash', 'sh', 'markdown', 'toml',
             },
             callback = function()
                 vim.wo[0][0].foldmethod = 'expr'
@@ -73,7 +69,7 @@ return {
         vim.api.nvim_create_autocmd('FileType', {
             pattern = {
                 'javascript', 'typescript', 'tsx', 'jsx',
-                'html', 'css', 'json', 'yaml',
+                'json', 'yaml',
                 'lua', 'rust', 'python', 'go',
             },
             callback = function()

@@ -23,8 +23,8 @@ return {
     dependencies = { "mason.nvim" },
     opts = {
       ensure_installed = {
-        "lua_ls", "pyright", "rust_analyzer", "gopls", "jdtls",
-        "ts_ls", "html", "cssls", "tailwindcss", "emmet_ls",
+        "lua_ls", "pyright", "rust_analyzer", "gopls",
+        "ts_ls",
       },
       automatic_installation = true,
     },
@@ -38,7 +38,7 @@ return {
       ensure_installed = {
         "black", "isort", "pylint",
         "prettier", "stylua", "eslint_d",
-        "ruff", "mypy", "flake8",
+        "ruff",
       },
       auto_update = true,
       run_on_start = true,
@@ -195,9 +195,8 @@ return {
         pyright = {
           settings = { python = { analysis = { typeCheckingMode = "basic" } } }
         },
-        -- rust_analyzer = {}, -- REMOVED: Configured in lua/config/cores/lang/rust.lua to avoid duplicate processes
+        -- rust_analyzer = {}, -- Configured in lua/config/cores/lang/rust.lua
         gopls = {},
-        jdtls = {},
         ts_ls = {},
       }
 

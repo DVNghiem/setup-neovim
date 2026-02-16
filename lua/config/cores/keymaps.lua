@@ -12,11 +12,11 @@ keymap.set("i", "kj", "<ESC>", { desc = "Exit insert mode with kj" })
 keymap.set('n', '<A-j>', '5j', { noremap = true, silent = true, desc = "Move down 5 lines" })
 keymap.set('n', '<A-k>', '5k', { noremap = true, silent = true, desc = "Move up 5 lines" })
 
--- Better line navigation
-keymap.set('n', 'H', '^', { desc = "Go to beginning of line" })
-keymap.set('n', 'L', '$', { desc = "Go to end of line" })
-keymap.set('v', 'H', '^', { desc = "Go to beginning of line" })
-keymap.set('v', 'L', '$', { desc = "Go to end of line" })
+-- Better line navigation (use 0 and $ directly, H/L reserved for buffer switching)
+-- keymap.set('n', 'H', '^', { desc = "Go to beginning of line" })
+-- keymap.set('n', 'L', '$', { desc = "Go to end of line" })
+-- keymap.set('v', 'H', '^', { desc = "Go to beginning of line" })
+-- keymap.set('v', 'L', '$', { desc = "Go to end of line" })
 
 -- Better scrolling
 keymap.set('n', '<C-d>', '<C-d>zz', { desc = "Scroll down and center" })
@@ -64,21 +64,11 @@ keymap.set("n", "<S-Tab>", "<cmd>tabp<CR>", { desc = "Previous tab" })
 keymap.set("n", "<c-s>", ":w<cr>", { desc = "Save file" })
 keymap.set("i", "<c-s>", "<ESC>:w<cr>", { desc = "Save file from insert mode" })
 keymap.set("n", "<leader>w", ":w<cr>", { desc = "Save file" })
-keymap.set("n", "<leader>wa", ":wa<cr>", { desc = "Save all files" })
-
--- Ctrl+W save functionality (with timeout to preserve window management)
--- In normal mode: Ctrl+W followed by 's' saves, otherwise falls back to window commands
-keymap.set("n", "<C-w>s", ":w<cr>", { desc = "Save file (Ctrl+W+S)" })
--- Alternative: Double Ctrl+W to save (preserves single Ctrl+W for window management)
-keymap.set("n", "<C-w><C-w>", ":w<cr>", { desc = "Save file (Double Ctrl+W)" })
--- In insert mode: Ctrl+W saves immediately
-keymap.set("i", "<C-w>", "<ESC>:w<cr>a", { desc = "Save file from insert mode and continue editing" })
+keymap.set("n", "<leader>W", ":wa<cr>", { desc = "Save all files" })
 
 keymap.set("n", "<leader>q", ":q<cr>", { desc = "Quit" })
 keymap.set("n", "<leader>qa", ":qa<cr>", { desc = "Quit all" })
 keymap.set("n", "<leader>wq", ":wq<cr>", { desc = "Save and quit" })
-
--- Emergency exit
 keymap.set("n", "<leader>Q", ":q!<cr>", { desc = "Force quit" })
 keymap.set("n", "<leader>QA", ":qa!<cr>", { desc = "Force quit all" })
 
@@ -156,30 +146,30 @@ vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
 
 -- Smooth UI and transparency controls
-vim.keymap.set("n", "<leader>tt", function()
+vim.keymap.set("n", "<leader>ut", function()
   require("transparent").toggle()
-  print("🎨 Transparency toggled!")
+  print("Transparency toggled")
 end, { desc = "Toggle transparency", silent = true })
 
-vim.keymap.set("n", "<leader>tc", function()
+vim.keymap.set("n", "<leader>uT", function()
   require("transparent").clear_prefix("BufferLine")
   require("transparent").clear_prefix("NeoTree")
-  print("🎨 UI transparency cleared!")
+  print("UI transparency cleared")
 end, { desc = "Clear UI transparency", silent = true })
 
 -- Enhanced smooth scrolling keymaps (already handled by neoscroll)
 -- vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
 -- vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 
--- Enhanced title bar and navigation
-vim.keymap.set("n", "<leader>tb", function()
-  require("barbecue.ui").toggle()
-  print("🍖 Breadcrumb navigation toggled!")
+-- Title bar toggles (requires barbecue/incline plugins if installed)
+vim.keymap.set("n", "<leader>ub", function()
+  local ok, barbecue = pcall(require, "barbecue.ui")
+  if ok then barbecue.toggle() end
 end, { desc = "Toggle breadcrumb bar", silent = true })
 
-vim.keymap.set("n", "<leader>ti", function()
-  require("incline").toggle()
-  print("📊 File info bar toggled!")
+vim.keymap.set("n", "<leader>ui", function()
+  local ok, incline = pcall(require, "incline")
+  if ok then incline.toggle() end
 end, { desc = "Toggle file info bar", silent = true })
 
 vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
@@ -220,24 +210,24 @@ end, { desc = "Close all other buffers" })
 vim.keymap.set("n", "gb", "<cmd>Telescope buffers<cr>", { desc = "Pick buffer (Telescope)" })
 
 -- Smooth interface controls
-vim.keymap.set("n", "<leader>ub", function()
+vim.keymap.set("n", "<leader>uw", function()
   vim.o.winblend = vim.o.winblend == 0 and 15 or 0
   vim.o.pumblend = vim.o.pumblend == 0 and 15 or 0
-  print("🌊 Window transparency: " .. (vim.o.winblend == 0 and "OFF" or "ON"))
+  print("Window transparency: " .. (vim.o.winblend == 0 and "OFF" or "ON"))
 end, { desc = "Toggle window transparency", silent = true })
 
 vim.keymap.set("n", "<leader>us", function()
   vim.o.smoothscroll = not vim.o.smoothscroll
-  print("🌊 Smooth scrolling: " .. (vim.o.smoothscroll and "ON" or "OFF"))
+  print("Smooth scrolling: " .. (vim.o.smoothscroll and "ON" or "OFF"))
 end, { desc = "Toggle smooth scrolling", silent = true })
 
-vim.keymap.set("n", "<leader>uc", function()
+vim.keymap.set("n", "<leader>ul", function()
   vim.o.cursorline = not vim.o.cursorline
-  print("🌊 Cursor line: " .. (vim.o.cursorline and "ON" or "OFF"))
+  print("Cursor line: " .. (vim.o.cursorline and "ON" or "OFF"))
 end, { desc = "Toggle cursor line", silent = true })
 
 -- Smooth buffer border styling
-vim.keymap.set("n", "<leader>bb", function()
+vim.keymap.set("n", "<leader>bs", function()
   local bufferline = require("bufferline")
   local current_style = bufferline.get_config().options.separator_style
   local styles = { "slope", "slant", "padded_slant", "thick", "thin" }
@@ -250,7 +240,7 @@ vim.keymap.set("n", "<leader>bb", function()
   end
   local next_style = styles[(current_index % #styles) + 1]
   bufferline.setup({ options = { separator_style = next_style } })
-  print("🎨 Buffer style: " .. next_style)
+  print("Buffer style: " .. next_style)
 end, { desc = "Cycle buffer border styles", silent = true })
 
 -- Ultimate IDE Feature Keymaps
@@ -283,15 +273,13 @@ keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic"
 keymap.set("n", "<leader>dl", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
 -- Symbols Outline
-keymap.set("n", "<leader>so", "<cmd>SymbolsOutline<cr>", { desc = "Toggle symbols outline" })
+keymap.set("n", "<leader>sO", "<cmd>SymbolsOutline<cr>", { desc = "Toggle symbols outline" })
 
 -- Git Workflow Enhancement
 keymap.set("n", "<leader>gg", "<cmd>Neogit<cr>", { desc = "Open Neogit" })
 keymap.set("n", "<leader>gc", "<cmd>Neogit commit<cr>", { desc = "Git commit" })
 keymap.set("n", "<leader>gp", "<cmd>Neogit push<cr>", { desc = "Git push" })
 keymap.set("n", "<leader>gl", "<cmd>Neogit pull<cr>", { desc = "Git pull" })
-keymap.set("n", "<leader>gai", function() require("gp").generate_commit_message() end, { desc = "Generate AI commit message" })
-keymap.set("n", "<leader>gsc", function() require("gp").smart_commit() end, { desc = "Smart commit workflow" })
 
 -- Advanced Git Tools
 keymap.set("n", "<leader>gdo", "<cmd>DiffviewOpen<cr>", { desc = "Open Diffview" })
@@ -338,12 +326,12 @@ keymap.set("v", "<leader>dup", "y`>p", { desc = "Duplicate selection" })
 keymap.set("n", "<leader>del", "dd", { desc = "Delete line" })
 keymap.set("n", "<leader>cls", "cc", { desc = "Clear line and enter insert" })
 
--- Quick save and quit shortcuts
-keymap.set("n", "<C-s>", "<cmd>w<cr>", { desc = "Save file" })
-keymap.set("i", "<C-s>", "<esc><cmd>w<cr>", { desc = "Save file and exit insert" })
-keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
+-- Quick save and quit shortcuts (deduplicated - primary bindings are above)
+-- keymap.set("n", "<C-s>", "<cmd>w<cr>", { desc = "Save file" })
+-- keymap.set("i", "<C-s>", "<esc><cmd>w<cr>", { desc = "Save file and exit insert" })
+-- keymap.set("n", "<leader>w", "<cmd>w<cr>", { desc = "Save file" })
 keymap.set("n", "<leader>W", "<cmd>wa<cr>", { desc = "Save all files" })
-keymap.set("n", "<leader>Q", "<cmd>qa<cr>", { desc = "Quit all" })
+keymap.set("n", "<leader>QQ", "<cmd>qa<cr>", { desc = "Quit all" })
 
 -- Enhanced visual mode shortcuts
 keymap.set("v", "<", "<gv", { desc = "Unindent and keep selection" })
@@ -352,7 +340,7 @@ keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- UI Toggle for minimal cmdline interface
-keymap.set("n", "<leader>uc", function()
+keymap.set("n", "<leader>um", function()
   local current_cmdheight = vim.o.cmdheight
   if current_cmdheight == 0 then
     vim.o.cmdheight = 1

@@ -77,107 +77,8 @@ local BACKEND_LSP_CONFIGS = {
   },
   -- Rust development
   rust_analyzer = {
-    settings = {
-      ["rust-analyzer"] = {
-        checkOnSave = {
-          command = "cargo-clippy",
-        },
-        imports = {
-          granularity = {
-            group = "module",
-          },
-          prefix = "self",
-        },
-        cargo = {
-          buildScripts = {
-            enable = true,
-          },
-        },
-        procMacro = {
-          enable = true,
-        },
-        inlayHints = {
-          bindingModeHints = {
-            enable = false,
-          },
-          chainingHints = {
-            enable = true,
-          },
-          closingBraceHints = {
-            enable = true,
-            minLines = 25,
-          },
-          closureReturnTypeHints = {
-            enable = "never",
-          },
-          lifetimeElisionHints = {
-            enable = "never",
-            useParameterNames = false,
-          },
-          maxLength = 25,
-          parameterHints = {
-            enable = true,
-          },
-          reborrowHints = {
-            enable = "never",
-          },
-          renderColons = true,
-          typeHints = {
-            enable = true,
-            hideClosureInitialization = false,
-            hideNamedConstructor = false,
-          },
-        },
-      },
-    },
-  },
-  -- Java development
-  jdtls = {
-    settings = {
-      java = {
-        eclipse = {
-          downloadSources = true,
-        },
-        configuration = {
-          updateBuildConfiguration = "interactive",
-        },
-        maven = {
-          downloadSources = true,
-        },
-        implementationsCodeLens = {
-          enabled = true,
-        },
-        referencesCodeLens = {
-          enabled = true,
-        },
-        format = {
-          enabled = true,
-        },
-        signatureHelp = { enabled = true },
-        completion = {
-          favoriteStaticMembers = {
-            "org.hamcrest.MatcherAssert.assertThat",
-            "org.hamcrest.Matchers.*",
-            "org.hamcrest.CoreMatchers.*",
-            "org.junit.jupiter.api.Assertions.*",
-            "java.util.Objects.requireNonNull",
-            "java.util.Objects.requireNonNullElse",
-            "org.mockito.Mockito.*",
-          },
-        },
-        sources = {
-          organizeImports = {
-            starThreshold = 9999,
-            staticStarThreshold = 9999,
-          },
-        },
-        codeGeneration = {
-          toString = {
-            template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
-          },
-        },
-      },
-    },
+    -- Intentionally minimal here: full config in lua/config/cores/lang/rust.lua
+    settings = {},
   },
 }
 
@@ -300,10 +201,10 @@ local function setup_global_settings()
   vim.o.synmaxcol = 300  -- Limit syntax highlighting for long lines
   -- vim.o.lazyredraw = true  -- Disabled: conflicts with noice.nvim
   
-  -- Enable inlay hints globally with backend focus
-  if lsp.inlay_hint and lsp.inlay_hint.enable then
-    lsp.inlay_hint.enable(true)
-  end
+  -- Enable inlay hints globally (disabled by default for performance, toggle with <leader>ih)
+  -- if lsp.inlay_hint and lsp.inlay_hint.enable then
+  --   lsp.inlay_hint.enable(true)
+  -- end
   
   -- Set up LSP handlers for better backend development experience
   lsp.handlers["textDocument/hover"] = lsp.with(lsp.handlers.hover, {
@@ -365,10 +266,10 @@ local function setup_lsp_attach()
       -- Setup buffer-local keymaps
       setup_buffer_keymaps(bufnr)
       
-      -- Enable inlay hints for supported backends
-      if client.server_capabilities.inlayHintProvider and lsp.inlay_hint then
-        lsp.inlay_hint.enable(true, { bufnr = bufnr })
-      end
+      -- Enable inlay hints only when toggled (off by default for performance)
+      -- if client.server_capabilities.inlayHintProvider and lsp.inlay_hint then
+      --   lsp.inlay_hint.enable(true, { bufnr = bufnr })
+      -- end
       
       -- Auto show diagnostics on cursor move
       local diag_float_group = api.nvim_create_augroup('DiagnosticFloat', { clear = false })
@@ -417,9 +318,9 @@ local function setup_lsp_attach()
         end
       end
       
-      -- Set up code lens for supported backends (useful for Spring Boot, etc.)
+      -- Set up code lens for supported backends (refresh only on buffer enter/save)
       if client.server_capabilities.codeLensProvider then
-        api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+        api.nvim_create_autocmd({ 'BufEnter', 'InsertLeave' }, {
           buffer = bufnr,
           callback = function()
             vim.lsp.codelens.refresh()
@@ -445,10 +346,6 @@ local function setup_lsp_attach()
       elseif filetype == "python" then
         -- Python-specific optimizations
         keymap.set('n', '<leader>pt', '<cmd>!python -m pytest<CR>', { buffer = bufnr, desc = "Run Python tests" })
-      elseif filetype == "java" then
-        -- Java-specific optimizations
-        keymap.set('n', '<leader>jt', '<cmd>!mvn test<CR>', { buffer = bufnr, desc = "Run Maven tests" })
-        keymap.set('n', '<leader>jb', '<cmd>!mvn compile<CR>', { buffer = bufnr, desc = "Maven compile" })
       elseif filetype == "rust" then
         -- Rust-specific optimizations
         keymap.set('n', '<leader>rt', '<cmd>!cargo test<CR>', { buffer = bufnr, desc = "Run Cargo tests" })
@@ -516,7 +413,7 @@ function M.setup(opts)
   
   -- Set up backend-specific autocommands
   api.nvim_create_autocmd("FileType", {
-    pattern = { "go", "python", "java", "rust", "typescript", "javascript" },
+    pattern = { "go", "python", "rust", "typescript", "javascript" },
     callback = function()
       -- Enable additional features for backend languages
       vim.opt_local.number = true
@@ -531,10 +428,6 @@ function M.setup(opts)
         vim.opt_local.shiftwidth = 4
         vim.opt_local.expandtab = false
       elseif ft == "python" then
-        vim.opt_local.tabstop = 4
-        vim.opt_local.shiftwidth = 4
-        vim.opt_local.expandtab = true
-      elseif ft == "java" then
         vim.opt_local.tabstop = 4
         vim.opt_local.shiftwidth = 4
         vim.opt_local.expandtab = true
