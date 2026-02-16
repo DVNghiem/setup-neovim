@@ -194,8 +194,6 @@ local function setup_global_settings()
   vim.o.backup = false
   vim.o.writebackup = false
   vim.o.swapfile = false
-  vim.o.undofile = true
-  vim.o.undodir = vim.fn.expand("~/.config/nvim/undo")
   
   -- Performance optimizations for large files
   vim.o.synmaxcol = 300  -- Limit syntax highlighting for long lines
