@@ -417,7 +417,6 @@ function M.setup(opts)
       vim.opt_local.number = true
       vim.opt_local.relativenumber = true
       vim.opt_local.signcolumn = "yes:2"  -- More space for backend diagnostics
-      vim.opt_local.colorcolumn = "80,120"  -- Backend code guidelines
       
       -- Language-specific settings
       local ft = vim.bo.filetype
