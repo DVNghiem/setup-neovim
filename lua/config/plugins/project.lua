@@ -9,6 +9,9 @@ return {
 			scope_chdir = "global",
 		},
 		event = "VeryLazy",
+		config = function()
+			-- ponytail: empty config — opts auto-passed to setup() by lazy.nvim
+		end,
 	},
 }
 
