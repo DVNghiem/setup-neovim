@@ -167,11 +167,8 @@ return {
                 end, {"i", "s"})
             }),
 
-            sources = cmp.config.sources({{
-                name = "copilot",
-                priority = 1000,
-                max_item_count = 3
-            }, {
+            sources = cmp.config.sources({
+                {
                 name = "nvim_lsp",
                 priority = 750
             }, {
@@ -190,7 +187,6 @@ return {
                 format = function(entry, vim_item)
                     vim_item.kind = kind_icons[vim_item.kind] or "?"
                     vim_item.menu = ({
-                        copilot = "Copilot",
                         nvim_lsp = "LSP",
                         luasnip = "Snippet",
                         buffer = "Buffer",

@@ -1,3 +1,6 @@
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+
 vim.deprecate = function() end
 vim.opt.modifiable = true
 vim.api.nvim_create_autocmd({"BufEnter"}, {

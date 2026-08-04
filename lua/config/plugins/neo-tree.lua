@@ -40,10 +40,10 @@ return {
 
   config = function()
     require("neo-tree").setup({
-      close_if_last_window = false,
-      popup_border_style = "rounded",
-      enable_git_status = true,
-      enable_diagnostics = true,
+    close_if_last_window = false,
+    popup_border_style = "rounded",
+    enable_git_status = false,
+    enable_diagnostics = false,
       open_files_do_not_replace_types = { "terminal", "trouble", "qf", "edgy" },
 
       default_component_configs = {

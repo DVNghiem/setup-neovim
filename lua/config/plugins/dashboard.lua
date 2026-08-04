@@ -3,8 +3,6 @@ return {
   lazy = false,
   dependencies = {
     "nvim-tree/nvim-web-devicons",
-    "folke/persistence.nvim",
-    "nvim-telescope/telescope.nvim",
   },
   opts = function()
     local logo = [[
@@ -30,7 +28,7 @@ return {
         header = vim.split(logo, "\n"),
         center = {
           {
-            action = "Telescope find_files",
+            action = "FzfLua files",
             desc = "Find File",
             icon = "󰱼 ",
             key = "f",
@@ -42,25 +40,19 @@ return {
             key = "n",
           },
           {
-            action = "Telescope oldfiles",
+            action = "FzfLua oldfiles",
             desc = "File Recent",
             icon = "󰋚 ",
             key = "r",
           },
           {
-            action = "Telescope live_grep",
+            action = "FzfLua live_grep",
             desc = "Find content",
             icon = "󱡴 ",
             key = "g",
           },
           {
-            action = function() require("persistence").load() end,
-            desc = "Restore Session",
-            icon = "󰁯 ",
-            key = "s",
-          },
-          {
-            action = "Telescope projects",
+            action = "FzfLua files",
             desc = "Projects",
             icon = "󰉖 ",
             key = "p",

@@ -145,33 +145,6 @@ vim.keymap.set('n', '<leader>z', ':ZenMode<CR>', { noremap = true, silent = true
 vim.api.nvim_set_keymap('v', '<Tab>', '>gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<S-Tab>', '<gv', { noremap = true })
 
--- Smooth UI and transparency controls
-vim.keymap.set("n", "<leader>ut", function()
-  require("transparent").toggle()
-  print("Transparency toggled")
-end, { desc = "Toggle transparency", silent = true })
-
-vim.keymap.set("n", "<leader>uT", function()
-  require("transparent").clear_prefix("BufferLine")
-  require("transparent").clear_prefix("NeoTree")
-  print("UI transparency cleared")
-end, { desc = "Clear UI transparency", silent = true })
-
--- Enhanced smooth scrolling keymaps (already handled by neoscroll)
--- vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
--- vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
-
--- Title bar toggles (requires barbecue/incline plugins if installed)
-vim.keymap.set("n", "<leader>ub", function()
-  local ok, barbecue = pcall(require, "barbecue.ui")
-  if ok then barbecue.toggle() end
-end, { desc = "Toggle breadcrumb bar", silent = true })
-
-vim.keymap.set("n", "<leader>ui", function()
-  local ok, incline = pcall(require, "incline")
-  if ok then incline.toggle() end
-end, { desc = "Toggle file info bar", silent = true })
-
 vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
 vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>",     { desc = "Next buffer" })
 
@@ -206,20 +179,7 @@ vim.keymap.set("n", "<leader>bo", function()
   vim.cmd("%bd|e#|bd#")
 end, { desc = "Close all other buffers" })
 
--- PICK BUFFER like BUFFERLINE
-vim.keymap.set("n", "gb", "<cmd>Telescope buffers<cr>", { desc = "Pick buffer (Telescope)" })
-
--- Smooth interface controls
-vim.keymap.set("n", "<leader>uw", function()
-  vim.o.winblend = vim.o.winblend == 0 and 15 or 0
-  vim.o.pumblend = vim.o.pumblend == 0 and 15 or 0
-  print("Window transparency: " .. (vim.o.winblend == 0 and "OFF" or "ON"))
-end, { desc = "Toggle window transparency", silent = true })
-
-vim.keymap.set("n", "<leader>us", function()
-  vim.o.smoothscroll = not vim.o.smoothscroll
-  print("Smooth scrolling: " .. (vim.o.smoothscroll and "ON" or "OFF"))
-end, { desc = "Toggle smooth scrolling", silent = true })
+vim.keymap.set("n", "gb", "<cmd>FzfLua buffers<cr>", { desc = "Pick buffer" })
 
 vim.keymap.set("n", "<leader>ul", function()
   vim.o.cursorline = not vim.o.cursorline
@@ -294,28 +254,16 @@ keymap.set("n", "<leader>tg", "<cmd>lua _lazygit_toggle()<CR>", { desc = "LazyGi
 keymap.set("n", "<leader>tp", "<cmd>lua _python_toggle()<CR>", { desc = "Python terminal" })
 keymap.set("n", "<leader>tn", "<cmd>lua _node_toggle()<CR>", { desc = "Node terminal" })
 
--- Enhanced Telescope for Ultimate IDE
-keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
-keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Find text" })
-keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find buffers" })
-keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Find help" })
-keymap.set("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", { desc = "Find recent files" })
-keymap.set("n", "<leader>fc", "<cmd>Telescope colorscheme<cr>", { desc = "Find colorscheme" })
-keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Find keymaps" })
-keymap.set("n", "<leader>fs", "<cmd>Telescope symbols<cr>", { desc = "Find symbols" })
-keymap.set("n", "<leader>fp", "<cmd>Telescope project<cr>", { desc = "Find projects" })
-keymap.set("n", "<leader>fd", "<cmd>Telescope file_browser<cr>", { desc = "File browser" })
-keymap.set("n", "<leader>fw", "<cmd>Telescope grep_string<cr>", { desc = "Find word under cursor" })
-keymap.set("n", "<leader>ft", "<cmd>Telescope treesitter<cr>", { desc = "Find treesitter symbols" })
-keymap.set("n", "<leader>fm", "<cmd>Telescope marks<cr>", { desc = "Find marks" })
-keymap.set("n", "<leader>fj", "<cmd>Telescope jumplist<cr>", { desc = "Find jumplist" })
-keymap.set("n", "<leader>fl", "<cmd>Telescope loclist<cr>", { desc = "Find location list" })
-keymap.set("n", "<leader>fq", "<cmd>Telescope quickfix<cr>", { desc = "Find quickfix" })
-keymap.set("n", "<leader>fe", "<cmd>Telescope diagnostics<cr>", { desc = "Find diagnostics" })
+keymap.set("n", "<leader>ff", "<cmd>FzfLua files<cr>", { desc = "Find files" })
+keymap.set("n", "<leader>fg", "<cmd>FzfLua live_grep<cr>", { desc = "Find text" })
+keymap.set("n", "<leader>fb", "<cmd>FzfLua buffers<cr>", { desc = "Find buffers" })
+keymap.set("n", "<leader>fr", "<cmd>FzfLua oldfiles<cr>", { desc = "Find recent files" })
+keymap.set("n", "<leader>fw", "<cmd>FzfLua grep_cword<cr>", { desc = "Find word under cursor" })
+keymap.set("n", "<leader>fs", "<cmd>FzfLua lsp_document_symbols<cr>", { desc = "LSP document symbols" })
 
 -- Quick access shortcuts
-keymap.set("n", "<C-p>", "<cmd>Telescope find_files<cr>", { desc = "Find files" })
-keymap.set("n", "<C-f>", "<cmd>Telescope live_grep<cr>", { desc = "Find text" })
+keymap.set("n", "<C-p>", "<cmd>FzfLua files<cr>", { desc = "Find files" })
+keymap.set("n", "<C-f>", "<cmd>FzfLua live_grep<cr>", { desc = "Find text" })
 
 -- Workspace management
 keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { desc = "Add workspace folder" })
