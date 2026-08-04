@@ -1,67 +1,56 @@
 return {
-  "catppuccin/nvim",
-  name = "catppuccin",
-  priority = 1000, 
-  lazy = false,  
-  
-  config = function()
-    require("catppuccin").setup({
-      -- flavor: latte, frappe, macchiato, mocha
-      flavour = "mocha", 
-      
-      transparent_background = false,
-      
-      show_end_of_buffer = false,
-      
-      term_colors = true,
-      
-      dim_inactive = {
-        enabled = false,
-        shade = "dark",
-        percentage = 0.15,
-      },
+  "folke/tokyonight.nvim",
+  priority = 1000,
+  lazy = false,
 
-      no_italic = false,
-      no_bold = false,
-      no_underline = false,
+  config = function()
+    require("tokyonight").setup({
+      style = "night",
+      transparent = false,
+      terminal_colors = true,
 
       styles = {
-        comments = { "italic" },
-        conditionals = { "italic" },
-        loops = {},
-        functions = { "bold" },
-        keywords = { "italic" },
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = { "bold", "italic" },
-        properties = {},
-        types = { "bold" },
-        operators = {},
+        comments = { italic = true },
+        keywords = { italic = true },
+        functions = { bold = true },
+        booleans = { bold = true, italic = true },
+        types = { bold = true },
       },
-      
-      color_overrides = {},
-      custom_highlights = {},
-      
+
+      on_colors = function(colors) end,
+      on_highlights = function(highlights, colors)
+        -- Bold, high-contrast keywords for easy detection
+        highlights.Keyword = { fg = colors.magenta, bold = true }
+        highlights.Conditional = { fg = colors.magenta, bold = true }
+        highlights.Loop = { fg = colors.magenta, bold = true }
+        highlights.Operator = { fg = colors.pink, bold = true }
+
+        -- Bold functions and types for clarity
+        highlights.Function = { fg = colors.blue, bold = true }
+        highlights.Type = { fg = colors.teal, bold = true }
+        highlights.TypeDef = { fg = colors.teal, bold = true }
+
+        -- High-contrast strings and numbers
+        highlights.String = { fg = colors.green }
+        highlights.Number = { fg = colors.peach }
+
+        -- Bold comments for quick identification
+        highlights.Comment = { fg = colors.comments, italic = true }
+        highlights.Todo = { fg = colors.yellow, bold = true }
+
+        -- Eye comfort: softer but visible background highlights
+        highlights.LineNr = { fg = colors.dark3 }
+        highlights.CursorLineNr = { fg = colors.fg, bold = true }
+      end,
+
       integrations = {
-        -- Core integrations
-        cmp = true,                    -- nvim-cmp
-        gitsigns = true,               -- gitsigns
-        nvimtree = true,               -- nvim-tree
-        treesitter = true,             -- treesitter
-        notify = true,                 -- notify
-        mini = {
-          enabled = true,
-          indentscope_color = "",
-        },
-        
-        -- Telescope - fuzzy finder
-        telescope = {
-          enabled = true,
-          style = "nvchad",            -- nvchad style đẹp hơn
-        },
-        
-        -- Lualine - statusline
+        cmp = true,
+        gitsigns = true,
+        nvimtree = true,
+        treesitter = true,
+        notify = true,
+        mini = { enabled = true },
+        telescope = { enabled = true, style = "nvchad" },
         native_lsp = {
           enabled = true,
           virtual_text = {
@@ -76,85 +65,44 @@ return {
             warnings = { "underline" },
             information = { "underline" },
           },
-          inlay_hints = {
-            background = true,
-          },
         },
-        
-        -- Dashboard/Alpha
         dashboard = true,
-        
-        -- Indent guides
         indent_blankline = {
           enabled = true,
-          scope_color = "lavender",   
           colored_indent_levels = true,
         },
-        
-        -- Markdown
         markdown = true,
-        
-        -- Neogit
         neogit = true,
-        
-        -- Semantic highlighting
         semantic_tokens = true,
-        
-        -- Hop (navigation)
         hop = true,
-
         bufferline = true,
-        
-        -- Which-key
         which_key = true,
-        
-        -- Barbecue (breadcrumbs)
         barbecue = {
           dim_dirname = true,
           bold_basename = true,
           dim_context = false,
           alt_background = false,
         },
-        
-        -- Flash (jump)
         flash = true,
-        
-        -- Noice
         noice = true,
-        
-        -- Mason
         mason = true,
-        
-        -- Aerial
         aerial = true,
-        
-        -- DAP UI
         dap = true,
         dap_ui = true,
-        
-        -- Navic
-        navic = {
-          enabled = true,
-          custom_bg = "NONE",
-        },
-        
-        -- Overseer
+        navic = { enabled = true, custom_bg = "NONE" },
         overseer = true,
       },
     })
-    
-    vim.cmd.colorscheme("catppuccin")
-    
-    local colors = require("catppuccin.palettes").get_palette("mocha")
-    
-    vim.api.nvim_set_hl(0, "CursorLine", { bg = colors.surface0 })
-    
-    vim.api.nvim_set_hl(0, "FloatBorder", { fg = colors.blue, bg = colors.none })
-    
-    vim.api.nvim_set_hl(0, "MatchParen", { 
-      fg = colors.peach, 
-      bg = colors.surface1,
-      bold = true 
+
+    vim.cmd.colorscheme("tokyonight")
+
+    -- Custom highlights for Tokyo Night Moon palette
+    vim.api.nvim_set_hl(0, "CursorLine", { bg = "#292e42" })
+    vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#7aa2f7", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "MatchParen", {
+      fg = "#ff9e64",
+      bg = "#3b4261",
+      bold = true,
     })
   end,
 }
