@@ -6,7 +6,7 @@ return {
   config = function()
     require("tokyonight").setup({
       style = "night",
-      transparent = false,
+      transparent = true,
       terminal_colors = true,
 
       styles = {
@@ -95,14 +95,5 @@ return {
     })
 
     vim.cmd.colorscheme("tokyonight")
-
-    -- Custom highlights for Tokyo Night Moon palette
-    vim.api.nvim_set_hl(0, "CursorLine", { bg = "#292e42" })
-    vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#7aa2f7", bg = "NONE" })
-    vim.api.nvim_set_hl(0, "MatchParen", {
-      fg = "#ff9e64",
-      bg = "#3b4261",
-      bold = true,
-    })
   end,
 }
