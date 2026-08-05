@@ -186,23 +186,6 @@ vim.keymap.set("n", "<leader>ul", function()
   print("Cursor line: " .. (vim.o.cursorline and "ON" or "OFF"))
 end, { desc = "Toggle cursor line", silent = true })
 
--- Smooth buffer border styling
-vim.keymap.set("n", "<leader>bs", function()
-  local bufferline = require("bufferline")
-  local current_style = bufferline.get_config().options.separator_style
-  local styles = { "slope", "slant", "padded_slant", "thick", "thin" }
-  local current_index = 1
-  for i, style in ipairs(styles) do
-    if style == current_style then
-      current_index = i
-      break
-    end
-  end
-  local next_style = styles[(current_index % #styles) + 1]
-  bufferline.setup({ options = { separator_style = next_style } })
-  print("Buffer style: " .. next_style)
-end, { desc = "Cycle buffer border styles", silent = true })
-
 -- Ultimate IDE Feature Keymaps
 keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (Trouble)" })
 keymap.set("n", "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer Diagnostics (Trouble)" })
