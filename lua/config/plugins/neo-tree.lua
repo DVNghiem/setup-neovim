@@ -36,6 +36,18 @@ return {
         require("neo-tree")
       end
     end
+    vim.api.nvim_create_autocmd("ColorScheme", {
+      pattern = "*",
+      callback = function()
+        vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+      end,
+    })
+
+    -- Also apply immediately in case the colorscheme is already loaded
+    vim.api.nvim_set_hl(0, "NeoTreeNormal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "none" })
+
   end,
 
   config = function()
@@ -87,6 +99,7 @@ return {
       window = {
         position = "left",
         width = 36,
+        float = { blend = 15 },
         mapping_options = { noremap = true, nowait = true },
         mappings = {
           ["l"] = "open",
