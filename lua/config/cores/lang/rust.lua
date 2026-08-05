@@ -6,10 +6,6 @@ vim.lsp.config('rust_analyzer', {
 	cmd = {
 		"rust-analyzer",
 	},
-	-- Set memory limit via environment
-	cmd_env = {
-		["RA_LRU_CAP"] = "64",  -- Limit LRU cache entries to reduce RAM
-	},
 	settings = {
 		["rust-analyzer"] = {
 			diagnostics = {
