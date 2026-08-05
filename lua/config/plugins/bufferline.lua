@@ -1,5 +1,12 @@
 -- ponytail: minimal viable cokeline — expand sidebar only when needed
-local get_hex = require("cokeline.hlgroups").get_hl_attr
+-- get_hex uses vim.api instead of cokeline.hlgroups (avoids parse-time require before plugin loads)
+local function get_hex(group, attr)
+  local hl = vim.api.nvim_get_hl_by_name(group, true)
+  if not hl then return nil end
+  local val = attr == "fg" and hl.foreground or hl.background
+  if not val then return nil end
+  return string.format("#%06x", val)
+end
 
 return {
   {
@@ -62,11 +69,7 @@ return {
             return buffer.is_modified and " ●" or ""
           end,
           fg = function()
-            local ok, fg = pcall(get_hex, "DiagnosticOk", "fg")
-            if not ok then
-              fg = get_hex("Normal", "fg")
-            end
-            return fg
+            return get_hex("DiagnosticOk", "fg") or get_hex("Normal", "fg")
           end,
           bold = true,
         },
